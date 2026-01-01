@@ -19,6 +19,6 @@ export const useReaderStore = create<ReaderState>((set) => ({
   layoutMode: 'side-by-side',
   setLayoutMode: (mode) => set({ layoutMode: mode }),
 
-  activeLanguage: 'english',
+  activeLanguage: 'en',
   setActiveLanguage: (lang) => set({ activeLanguage: lang }),
 }))

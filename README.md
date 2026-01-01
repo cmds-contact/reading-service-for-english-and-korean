@@ -25,6 +25,9 @@ npm install
 
 # Run development server
 npm run dev
+
+# Build for production
+npm run build
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
@@ -42,29 +45,76 @@ src/
 ├── lib/
 │   ├── content.ts            # 콘텐츠 로딩
 │   └── markdown.ts           # 마크다운 파싱
-└── stores/
-    └── readerStore.ts        # Zustand 스토어
+├── stores/
+│   └── readerStore.ts        # Zustand 스토어
+└── types/
+    └── content.ts            # 타입 정의
 
-contents/                      # 마크다운 콘텐츠 파일
-├── {slug}.md                  # 영어 원문
-└── {slug}_kr.md               # 한글 번역
+contents/                      # 콘텐츠 폴더
+├── {slug}/
+│   ├── meta.yaml             # 메타데이터
+│   ├── en.md                 # 영어 원문
+│   └── ko.md                 # 한국어 번역
+
+docs/                          # 프로젝트 문서
+└── DATA_STRUCTURE_PROPOSAL.md
 ```
 
 ## Content Format
 
-콘텐츠는 YAML frontmatter가 있는 마크다운 파일:
+### 폴더 구조
+
+각 콘텐츠는 `contents/{slug}/` 폴더에 3개 파일로 구성:
+
+```
+contents/my-article/
+├── meta.yaml    # 메타데이터
+├── en.md        # 영어 원문
+└── ko.md        # 한국어 번역
+```
+
+### meta.yaml
+
+```yaml
+id: my-article
+created: 2024-12-31
+updated: 2024-12-31
+
+source:
+  url: https://example.com/article
+  company: Company Name
+  published: 2024-12-31
+
+category: Category
+tags:
+  - tag1
+  - tag2
+
+languages:
+  en:
+    title: "English Title"
+    type: original
+  ko:
+    title: "한국어 제목"
+    type: translation
+    translator: human  # human | ai | hybrid
+```
+
+### en.md / ko.md
+
+순수 마크다운 (frontmatter 없음):
 
 ```markdown
----
-title: Article Title
-date: 2024-12-28
-source: https://example.com
-company: Company Name
-category: Category
----
+# Article Title
 
-Content here...
+Content goes here...
 ```
+
+## Documentation
+
+- [CHANGELOG.md](./CHANGELOG.md) - 버전별 변경사항
+- [ROADMAP.md](./ROADMAP.md) - 개발 로드맵
+- [docs/DATA_STRUCTURE_PROPOSAL.md](./docs/DATA_STRUCTURE_PROPOSAL.md) - 데이터 구조 설계
 
 ## License
 

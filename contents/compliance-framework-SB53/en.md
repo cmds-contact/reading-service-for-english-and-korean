@@ -1,11 +1,3 @@
----
-title: "Sharing our compliance framework for California's Transparency in Frontier AI Act"
-date: 2025-12-20
-source: https://www.anthropic.com/news/compliance-framework-SB53
-company: Anthropic
-category: Policy
----
-
 # Sharing our compliance framework for California's Transparency in Frontier AI Act
 
 On January 1, California's Transparency in Frontier AI Act ([SB 53](https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB53)) will go into effect. It establishes the nation's first frontier AI safety and transparency requirements for catastrophic risks.
@@ -29,9 +21,13 @@ The implementation of SB 53 is an important moment. By formalizing achievable tr
 Earlier this year, we proposed a [framework](https://www.anthropic.com/news/the-need-for-transparency-in-frontier-ai) for federal legislation. It emphasizes public visibility into safety practices, without trying to lock in specific technical approaches that may not make sense over time. The core tenets of our framework include:
 
 - **Requiring a public secure development framework:** Covered developers should publish a framework laying out how they assess and mitigate serious risks, including chemical, biological, radiological, and nuclear harms, as well as harms from misaligned model autonomy.
+
 - **Publishing system cards at deployment:** Documentation summarizing testing, evaluation procedures, results, and mitigations should be publicly disclosed when models are deployed and updated if models are substantially modified.
+
 - **Protecting whistleblowers**: It should be an explicit violation of law for a lab to lie about compliance with its framework or punish employees who raise concerns about violations.
+
 - **Flexible transparency standards:** A workable AI transparency framework should have a minimum set of standards so that it can enhance security and public safety while accommodating the evolving nature of AI development. Standards should be flexible, lightweight requirements that can adapt as consensus best practices emerge.
+
 - **Limit application to the largest model developers**: To avoid burdening the startup ecosystem and smaller developers with models at low risk for causing catastrophic harm, requirements should apply only to established frontier developers building the most capable models.
 
 As AI systems grow more powerful, the public deserves visibility into how they're being developed and what safeguards are in place. We look forward to working with Congress and the administration to develop a national transparency framework that ensures safety while preserving America's AI leadership.

@@ -1,0 +1,23 @@
+id: compliance-framework-SB53
+created: 2025-12-20
+updated: 2025-12-31
+
+source:
+  url: https://www.anthropic.com/news/compliance-framework-SB53
+  company: Anthropic
+  published: 2025-12-20
+
+category: Policy
+tags:
+  - AI Safety
+  - Regulation
+  - California
+
+languages:
+  en:
+    title: "Sharing our compliance framework for California's Transparency in Frontier AI Act"
+    type: original
+  ko:
+    title: "캘리포니아 프론티어 AI 투명성법 준수 프레임워크 공개"
+    type: translation
+    translator: human

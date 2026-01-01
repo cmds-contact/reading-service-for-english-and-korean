@@ -22,7 +22,7 @@ export function ContentPane({ paragraphs, language, className }: ContentPaneProp
     <div className={cn('flex flex-col', className)}>
       <div className="sticky top-0 z-10 bg-white dark:bg-slate-900 py-2 px-4 border-b border-slate-200 dark:border-slate-700">
         <span className="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
-          {language === 'english' ? 'English' : '한국어'}
+          {language === 'en' ? 'English' : '한국어'}
         </span>
       </div>
 

@@ -29,22 +29,22 @@ export function ParallelReader({ content }: ParallelReaderProps) {
         )}
       >
         <ContentPane
-          paragraphs={content.english.paragraphs}
-          language="english"
+          paragraphs={content.en.paragraphs}
+          language="en"
           className={cn(
             layoutMode === 'side-by-side' && 'w-1/2 min-w-0 overflow-y-auto border border-slate-200 dark:border-slate-700 rounded-lg',
             layoutMode === 'top-bottom' && 'flex-1 min-h-0 overflow-y-auto border border-slate-200 dark:border-slate-700 rounded-lg',
-            layoutMode === 'toggle' && activeLanguage !== 'english' && 'hidden'
+            layoutMode === 'toggle' && activeLanguage !== 'en' && 'hidden'
           )}
         />
 
         <ContentPane
-          paragraphs={content.korean.paragraphs}
-          language="korean"
+          paragraphs={content.ko.paragraphs}
+          language="ko"
           className={cn(
             layoutMode === 'side-by-side' && 'w-1/2 min-w-0 overflow-y-auto border border-slate-200 dark:border-slate-700 rounded-lg',
             layoutMode === 'top-bottom' && 'flex-1 min-h-0 overflow-y-auto border border-slate-200 dark:border-slate-700 rounded-lg',
-            layoutMode === 'toggle' && activeLanguage !== 'korean' && 'hidden'
+            layoutMode === 'toggle' && activeLanguage !== 'ko' && 'hidden'
           )}
         />
       </main>

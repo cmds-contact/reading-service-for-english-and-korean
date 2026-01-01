@@ -4,9 +4,9 @@ import { Header } from '@/components/layout/Header'
 import { ParallelReader } from '@/components/reader/ParallelReader'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
@@ -15,17 +15,18 @@ export async function generateStaticParams() {
 }
 
 export default async function ReadPage({ params }: PageProps) {
+  const { slug } = await params
   const slugs = getAllContentSlugs()
 
-  if (!slugs.includes(params.slug)) {
+  if (!slugs.includes(slug)) {
     notFound()
   }
 
-  const content = await getContentPair(params.slug)
+  const content = await getContentPair(slug)
 
   return (
     <>
-      <Header title={content.english.meta.title} showLayoutToggle />
+      <Header title={content.meta.languages.en?.title} showLayoutToggle />
       <ParallelReader content={content} />
     </>
   )

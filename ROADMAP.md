@@ -1,6 +1,6 @@
 # Roadmap
 
-## Current Status: v0.1.1 (2024-12-30)
+## Current Status: v0.2.0 (2024-12-31)
 
 ### Completed
 - [x] 병렬 리더 UI
@@ -8,49 +8,53 @@
 - [x] 다크모드
 - [x] 문단 하이라이트 동기화
 - [x] 불렛포인트/번호 리스트 표시 수정
+- [x] **데이터 구조 설계 및 구현 (v0.2.0)**
+  - 폴더 기반 구조 채택 (`contents/{slug}/meta.yaml + en.md + ko.md`)
+  - meta.yaml로 메타데이터 중앙 관리
+  - 언어 코드 ISO 639-1 적용 (en, ko)
+  - 파일명에서 날짜 제거 (메타데이터로 관리)
 
 ### In Progress
 - [ ] 문단 분할 로직 개선 (패턴 기반 자동 분할)
 
 ---
 
-## Next: 데이터 구조 설계 (v0.2.0)
-
-### 요구사항
-- **로컬 저장**: 옵시디언에서 콘텐츠 편집 → 로컬 파일 시스템 기반
-- **다국어 지원**: 한국어 외 다른 언어 번역본도 추가 가능
-- **노트 유형**: 원문, 번역본, Summary 노트 등 다양한 유형 지원
-
-### 제안: 폴더/파일 구조
+## 현재 데이터 구조 (v0.2.0)
 
 ```
 contents/
-├── {article-slug}/
-│   ├── meta.yaml           # 메타데이터 (title, date, source, tags)
-│   ├── original.md         # 원문 (영어 등)
-│   ├── ko.md               # 한국어 번역
-│   ├── ja.md               # 일본어 번역 (선택)
-│   ├── zh.md               # 중국어 번역 (선택)
-│   └── summary.md          # 요약 노트 (선택)
+├── {slug}/
+│   ├── meta.yaml    # 공통 메타데이터
+│   ├── en.md        # 영어 원문
+│   └── ko.md        # 한국어 번역
 ```
 
-또는 현재 방식 확장:
-```
-contents/
-├── {slug}.md               # 원문
-├── {slug}_ko.md            # 한국어 번역
-├── {slug}_ja.md            # 일본어 번역
-├── {slug}_summary.md       # 요약 노트
+**meta.yaml 스키마:**
+```yaml
+id: string
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+source:
+  url: string
+  company: string
+  published: YYYY-MM-DD
+category: string
+tags: string[]
+languages:
+  en:
+    title: string
+    type: original
+  ko:
+    title: string
+    type: translation
+    translator: human | ai | hybrid
 ```
 
-### 검토 필요
-- [ ] 옵시디언 폴더 구조와의 호환성
-- [ ] frontmatter에 언어/유형 명시 방식
-- [ ] 다국어 UI 지원 (리더에서 언어 선택)
+자세한 내용: `docs/DATA_STRUCTURE_PROPOSAL.md`
 
 ---
 
-## 배포 방식 설계 (v0.3.0)
+## Next: 배포 방식 설계 (v0.3.0)
 
 ### 현재 워크플로우
 1. 옵시디언에서 마크다운 편집
@@ -92,6 +96,7 @@ contents/
 - 즐겨찾기
 - URL에서 콘텐츠 가져오기
 - 번역 API 연동
+- 다국어 확장 (ja, zh 등)
 
 ---
 
@@ -102,3 +107,5 @@ contents/
 | 2024-12-28 | Next.js 14 + Tailwind | SSG 지원, 빠른 개발 |
 | 2024-12-28 | Zustand | 가벼운 상태 관리 |
 | 2024-12-30 | 로컬 파일 기반 콘텐츠 | 옵시디언 편집 워크플로우 |
+| 2024-12-31 | 폴더 기반 데이터 구조 | 확장성, 메타데이터 중앙화 |
+| 2024-12-31 | ISO 639-1 언어 코드 | 국제 표준, 확장 용이 |

@@ -1,21 +1,11 @@
-import matter from 'gray-matter'
 import { remark } from 'remark'
 import html from 'remark-html'
 import gfm from 'remark-gfm'
-import { ContentMeta, ParsedParagraph } from '@/types/content'
+import { ParsedParagraph } from '@/types/content'
 
-export function parseFrontmatter(content: string): { meta: ContentMeta; body: string } {
-  const { data, content: body } = matter(content)
-
-  // gray-matter converts dates to Date objects, convert back to string
-  const meta = { ...data } as ContentMeta
-  if (data.date instanceof Date) {
-    meta.date = data.date.toISOString().split('T')[0]
-  }
-
-  return { meta, body }
-}
-
+/**
+ * 마크다운을 문단 단위로 분리합니다
+ */
 export function splitIntoParagraphs(markdown: string): string[] {
   return markdown
     .split(/\n\n+/)
@@ -23,11 +13,17 @@ export function splitIntoParagraphs(markdown: string): string[] {
     .filter((p) => p.length > 0)
 }
 
+/**
+ * 문단을 HTML로 변환합니다
+ */
 export async function paragraphToHtml(markdown: string): Promise<string> {
   const result = await remark().use(gfm).use(html, { sanitize: false }).process(markdown)
   return result.toString()
 }
 
+/**
+ * 문단 타입을 감지합니다
+ */
 export function detectParagraphType(markdown: string): ParsedParagraph['type'] {
   if (markdown.startsWith('#')) return 'heading'
   if (markdown.startsWith('-') || markdown.startsWith('*') || /^\d+\./.test(markdown))
@@ -36,17 +32,19 @@ export function detectParagraphType(markdown: string): ParsedParagraph['type'] {
   return 'paragraph'
 }
 
+/**
+ * 헤딩 레벨을 반환합니다
+ */
 export function getHeadingLevel(markdown: string): number | undefined {
   const match = markdown.match(/^(#+)/)
   return match ? match[1].length : undefined
 }
 
-export async function parseMarkdownContent(content: string): Promise<{
-  meta: ContentMeta
-  paragraphs: ParsedParagraph[]
-}> {
-  const { meta, body } = parseFrontmatter(content)
-  const rawParagraphs = splitIntoParagraphs(body)
+/**
+ * 마크다운 본문을 파싱합니다 (frontmatter 없음)
+ */
+export async function parseMarkdownBody(content: string): Promise<ParsedParagraph[]> {
+  const rawParagraphs = splitIntoParagraphs(content)
 
   const paragraphs = await Promise.all(
     rawParagraphs.map(async (raw, index) => ({
@@ -58,5 +56,5 @@ export async function parseMarkdownContent(content: string): Promise<{
     }))
   )
 
-  return { meta, paragraphs }
+  return paragraphs
 }

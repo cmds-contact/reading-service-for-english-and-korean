@@ -21,17 +21,17 @@ export default async function HomePage() {
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div className="flex-1">
                   <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                    {item.englishMeta.title}
+                    {item.meta.languages.en?.title}
                   </h2>
                   <p className="text-slate-600 dark:text-slate-400">
-                    {item.koreanMeta.title}
+                    {item.meta.languages.ko?.title}
                   </p>
                 </div>
                 <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{item.englishMeta.date}</span>
-                  {item.englishMeta.company && (
+                  <span>{item.meta.created}</span>
+                  {item.meta.source?.company && (
                     <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded">
-                      {item.englishMeta.company}
+                      {item.meta.source.company}
                     </span>
                   )}
                 </div>
@@ -42,7 +42,7 @@ export default async function HomePage() {
 
         {contents.length === 0 && (
           <p className="text-center text-slate-500 dark:text-slate-400 py-12">
-            No articles found. Add markdown files to the contents folder.
+            No articles found. Add content folders to the contents directory.
           </p>
         )}
       </main>
