@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react'
+import { ChevronDown, ChevronRight, ChevronLeft, Menu, X, PanelLeftClose, PanelLeft } from 'lucide-react'
 import { CLAUDE_DOCS_CATEGORIES, Category, Subsection } from '@/lib/categories'
 import { ContentListItem } from '@/types/content'
 import { cn } from '@/lib/utils'
@@ -154,6 +154,7 @@ function SidebarItem({ slug, title, currentSlug }: SidebarItemProps) {
 
 export function DocsSidebar({ currentSlug, contents }: DocsSidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(false)
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(() => {
     // 현재 문서가 속한 카테고리를 기본으로 펼침
     const expanded = new Set<string>()
@@ -218,8 +219,27 @@ export function DocsSidebar({ currentSlug, contents }: DocsSidebarProps) {
       </button>
 
       {/* 데스크톱 사이드바 */}
-      <aside className="hidden lg:block w-64 flex-shrink-0 bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
-        {sidebarContent}
+      <aside
+        className={cn(
+          'hidden lg:flex flex-col flex-shrink-0 bg-stone-50 dark:bg-stone-900 border-r border-stone-200 dark:border-stone-800 transition-all duration-300',
+          isCollapsed ? 'w-12' : 'w-64'
+        )}
+      >
+        {/* 토글 버튼 */}
+        <div className={cn('flex items-center p-2', isCollapsed ? 'justify-center' : 'justify-end')}>
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="p-2 rounded-md hover:bg-stone-200 dark:hover:bg-stone-800 text-stone-500 dark:text-stone-400 transition-colors"
+            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {isCollapsed ? (
+              <PanelLeft className="w-4 h-4" />
+            ) : (
+              <PanelLeftClose className="w-4 h-4" />
+            )}
+          </button>
+        </div>
+        {!isCollapsed && sidebarContent}
       </aside>
 
       {/* 모바일 오버레이 사이드바 */}
