@@ -7,12 +7,17 @@ export default async function HomePage() {
   const contents = await getAllContents()
   const channels = getAllChannels()
 
-  // 채널별 콘텐츠 수 계산
+  // 채널별 콘텐츠 수 계산 (claude-docs, claude-blog만 표시)
   const docsCount = contents.filter((c) => c.channel === 'claude-docs').length
   const blogCount = contents.filter((c) => c.channel === 'claude-blog').length
-  const otherCount = contents.filter(
-    (c) => c.channel !== 'claude-docs' && c.channel !== 'claude-blog'
-  ).length
+
+  // Google 등 기타 콘텐츠 필터링
+  const filteredContents = contents.filter(
+    (c) => c.channel === 'claude-docs' || c.channel === 'claude-blog'
+  )
+  const filteredChannels = channels.filter(
+    (c) => c === 'claude-docs' || c === 'claude-blog'
+  )
 
   return (
     <>
@@ -24,11 +29,11 @@ export default async function HomePage() {
         </p>
 
         {/* 카테고리 카드 */}
-        <CategoryCards docsCount={docsCount} blogCount={blogCount} otherCount={otherCount} />
+        <CategoryCards docsCount={docsCount} blogCount={blogCount} />
 
         {/* 최근 문서 목록 */}
-        <h2 className="text-xl font-semibold mb-4">All Articles</h2>
-        <ArticleList contents={contents} channels={channels} />
+        <h2 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4">All Articles</h2>
+        <ArticleList contents={filteredContents} channels={filteredChannels} />
       </main>
     </>
   )
