@@ -1,0 +1,16 @@
+id: skills
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/skills
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Agent Skills"
+    type: original
+  ko:
+    title: "Agent Skill"
+    type: translation
+    translator: ai

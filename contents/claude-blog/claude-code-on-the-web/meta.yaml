@@ -1,0 +1,22 @@
+id: claude-code-on-the-web
+created: "2026-01-02"
+channel: Claude Blog
+
+source:
+  url: https://claude.com/blog/claude-code-on-the-web
+  published: "2025-10-20"
+
+tags:
+  - Claude Code
+  - Web
+  - GitHub
+  - Developer Tools
+
+languages:
+  en:
+    title: "Claude Code on the web"
+    type: original
+  ko:
+    title: "웹에서 사용하는 Claude Code"
+    type: translation
+    translator: ai

@@ -1,0 +1,16 @@
+id: cli-reference
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/cli-reference
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "CLI reference"
+    type: original
+  ko:
+    title: "CLI 참조"
+    type: translation
+    translator: ai

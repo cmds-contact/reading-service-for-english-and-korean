@@ -1,0 +1,16 @@
+id: plugin-marketplaces
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/plugin-marketplaces
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Create and distribute a plugin marketplace"
+    type: original
+  ko:
+    title: "플러그인 마켓플레이스 생성 및 배포"
+    type: translation
+    translator: ai

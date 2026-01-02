@@ -1,0 +1,643 @@
+{
+  "title": "Claude Code GitLab CI/CD",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Claude Code GitLab CI/CD"
+    },
+    {
+      "type": "p",
+      "text": "Learn about integrating Claude Code into your development workflow with GitLab CI/CD"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code for GitLab CI/CD is currently in beta. Features and functionality may evolve as we refine the experience.This integration is maintained by GitLab. For support, see the following [GitLab issue](https://gitlab.com/gitlab-org/gitlab/-/issues/573776)."
+    },
+    {
+      "type": "blockquote",
+      "text": "This integration is built on top of the [Claude Code CLI and SDK](https://docs.claude.com/en/docs/agent-sdk), enabling programmatic use of Claude in your CI/CD jobs and custom automation workflows."
+    },
+    {
+      "type": "h2",
+      "text": "Why use Claude Code with GitLab?"
+    },
+    {
+      "type": "li",
+      "text": "**Instant MR creation**: Describe what you need, and Claude proposes a complete MR with changes and explanation"
+    },
+    {
+      "type": "li",
+      "text": "**Automated implementation**: Turn issues into working code with a single command or mention"
+    },
+    {
+      "type": "li",
+      "text": "**Project-aware**: Claude follows your `CLAUDE.md` guidelines and existing code patterns"
+    },
+    {
+      "type": "li",
+      "text": "**Simple setup**: Add one job to `.gitlab-ci.yml` and a masked CI/CD variable"
+    },
+    {
+      "type": "li",
+      "text": "**Enterprise-ready**: Choose Claude API, AWS Bedrock, or Google Vertex AI to meet data residency and procurement needs"
+    },
+    {
+      "type": "li",
+      "text": "**Secure by default**: Runs in your GitLab runners with your branch protection and approvals"
+    },
+    {
+      "type": "h2",
+      "text": "How it works"
+    },
+    {
+      "type": "li",
+      "text": "**Event-driven orchestration**: GitLab listens for your chosen triggers (for example, a comment that mentions `@claude` in an issue, MR, or review thread). The job collects context from the thread and repository, builds prompts from that input, and runs Claude Code."
+    },
+    {
+      "type": "li",
+      "text": "**Provider abstraction**: Use the provider that fits your environment:\n\nClaude API (SaaS)\nAWS Bedrock (IAM-based access, cross-region options)\nGoogle Vertex AI (GCP-native, Workload Identity Federation)"
+    },
+    {
+      "type": "li",
+      "text": "Claude API (SaaS)"
+    },
+    {
+      "type": "li",
+      "text": "AWS Bedrock (IAM-based access, cross-region options)"
+    },
+    {
+      "type": "li",
+      "text": "Google Vertex AI (GCP-native, Workload Identity Federation)"
+    },
+    {
+      "type": "li",
+      "text": "**Sandboxed execution**: Each interaction runs in a container with strict network and filesystem rules. Claude Code enforces workspace-scoped permissions to constrain writes. Every change flows through an MR so reviewers see the diff and approvals still apply."
+    },
+    {
+      "type": "h2",
+      "text": "What can Claude do?"
+    },
+    {
+      "type": "li",
+      "text": "Create and update MRs from issue descriptions or comments"
+    },
+    {
+      "type": "li",
+      "text": "Analyze performance regressions and propose optimizations"
+    },
+    {
+      "type": "li",
+      "text": "Implement features directly in a branch, then open an MR"
+    },
+    {
+      "type": "li",
+      "text": "Fix bugs and regressions identified by tests or comments"
+    },
+    {
+      "type": "li",
+      "text": "Respond to follow-up comments to iterate on requested changes"
+    },
+    {
+      "type": "h2",
+      "text": "Setup"
+    },
+    {
+      "type": "h3",
+      "text": "Quick setup"
+    },
+    {
+      "type": "li",
+      "text": "**Add a masked CI/CD variable**\n\nGo to **Settings** → **CI/CD** → **Variables**\nAdd `ANTHROPIC_API_KEY` (masked, protected as needed)"
+    },
+    {
+      "type": "li",
+      "text": "Go to **Settings** → **CI/CD** → **Variables**"
+    },
+    {
+      "type": "li",
+      "text": "Add `ANTHROPIC_API_KEY` (masked, protected as needed)"
+    },
+    {
+      "type": "li",
+      "text": "Add a Claude job to `.gitlab-ci.yml`"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "stages:\n  - ai\n\nclaude:\n  stage: ai\n  image: node:24-alpine3.21\n  # Adjust rules to fit how you want to trigger the job:\n  # - manual runs\n  # - merge request events\n  # - web/API triggers when a comment contains '@claude'\n  rules:\n    - if: '$CI_PIPELINE_SOURCE == \"web\"'\n    - if: '$CI_PIPELINE_SOURCE == \"merge_request_event\"'\n  variables:\n    GIT_STRATEGY: fetch\n  before_script:\n    - apk update\n    - apk add --no-cache git curl bash\n    - npm install -g @anthropic-ai/claude-code\n  script:\n    # Optional: start a GitLab MCP server if your setup provides one\n    - /bin/gitlab-mcp-server || true\n    # Use AI_FLOW_* variables when invoking via web/API triggers with context payloads\n    - echo \"$AI_FLOW_INPUT for $AI_FLOW_CONTEXT on $AI_FLOW_EVENT\"\n    - >\n      claude\n      -p \"${AI_FLOW_INPUT:-'Review this MR and implement the requested changes'}\"\n      --permission-mode acceptEdits\n      --allowedTools \"Bash(*) Read(*) Edit(*) Write(*) mcp__gitlab\"\n      --debug"
+    },
+    {
+      "type": "blockquote",
+      "text": "To run on AWS Bedrock or Google Vertex AI instead of the Claude API, see the [Using with AWS Bedrock & Google Vertex AI](#using-with-aws-bedrock--google-vertex-ai) section below for authentication and environment setup."
+    },
+    {
+      "type": "h3",
+      "text": "Manual setup (recommended for production)"
+    },
+    {
+      "type": "li",
+      "text": "**Configure provider access**:\n\n**Claude API**: Create and store `ANTHROPIC_API_KEY` as a masked CI/CD variable\n**AWS Bedrock**: **Configure GitLab** → **AWS OIDC** and create an IAM role for Bedrock\n**Google Vertex AI**: **Configure Workload Identity Federation for GitLab** → **GCP**"
+    },
+    {
+      "type": "li",
+      "text": "**Claude API**: Create and store `ANTHROPIC_API_KEY` as a masked CI/CD variable"
+    },
+    {
+      "type": "li",
+      "text": "**AWS Bedrock**: **Configure GitLab** → **AWS OIDC** and create an IAM role for Bedrock"
+    },
+    {
+      "type": "li",
+      "text": "**Google Vertex AI**: **Configure Workload Identity Federation for GitLab** → **GCP**"
+    },
+    {
+      "type": "li",
+      "text": "**Add project credentials for GitLab API operations**:\n\nUse `CI_JOB_TOKEN` by default, or create a Project Access Token with `api` scope\nStore as `GITLAB_ACCESS_TOKEN` (masked) if using a PAT"
+    },
+    {
+      "type": "li",
+      "text": "Use `CI_JOB_TOKEN` by default, or create a Project Access Token with `api` scope"
+    },
+    {
+      "type": "li",
+      "text": "Store as `GITLAB_ACCESS_TOKEN` (masked) if using a PAT"
+    },
+    {
+      "type": "li",
+      "text": "Add the Claude job to `.gitlab-ci.yml` (see examples below)"
+    },
+    {
+      "type": "li",
+      "text": "**(Optional) Enable mention-driven triggers**:\n\nAdd a project webhook for “Comments (notes)” to your event listener (if you use one)\nHave the listener call the pipeline trigger API with variables like `AI_FLOW_INPUT` and `AI_FLOW_CONTEXT` when a comment contains `@claude`"
+    },
+    {
+      "type": "li",
+      "text": "Add a project webhook for “Comments (notes)” to your event listener (if you use one)"
+    },
+    {
+      "type": "li",
+      "text": "Have the listener call the pipeline trigger API with variables like `AI_FLOW_INPUT` and `AI_FLOW_CONTEXT` when a comment contains `@claude`"
+    },
+    {
+      "type": "h2",
+      "text": "Example use cases"
+    },
+    {
+      "type": "h3",
+      "text": "Turn issues into MRs"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "@claude implement this feature based on the issue description"
+    },
+    {
+      "type": "h3",
+      "text": "Get implementation help"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "@claude suggest a concrete approach to cache the results of this API call"
+    },
+    {
+      "type": "h3",
+      "text": "Fix bugs quickly"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "@claude fix the TypeError in the user dashboard component"
+    },
+    {
+      "type": "h2",
+      "text": "Using with AWS Bedrock & Google Vertex AI"
+    },
+    {
+      "type": "li",
+      "text": "AWS Bedrock"
+    },
+    {
+      "type": "li",
+      "text": "Google Vertex AI"
+    },
+    {
+      "type": "h3",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "li",
+      "text": "An AWS account with Amazon Bedrock access to the desired Claude models"
+    },
+    {
+      "type": "li",
+      "text": "GitLab configured as an OIDC identity provider in AWS IAM"
+    },
+    {
+      "type": "li",
+      "text": "An IAM role with Bedrock permissions and a trust policy restricted to your GitLab project/refs"
+    },
+    {
+      "type": "li",
+      "text": "GitLab CI/CD variables for role assumption:\n\n`AWS_ROLE_TO_ASSUME` (role ARN)\n`AWS_REGION` (Bedrock region)"
+    },
+    {
+      "type": "li",
+      "text": "`AWS_ROLE_TO_ASSUME` (role ARN)"
+    },
+    {
+      "type": "li",
+      "text": "`AWS_REGION` (Bedrock region)"
+    },
+    {
+      "type": "h3",
+      "text": "Setup instructions"
+    },
+    {
+      "type": "li",
+      "text": "Enable Amazon Bedrock and request access to your target Claude models"
+    },
+    {
+      "type": "li",
+      "text": "Create an IAM OIDC provider for GitLab if not already present"
+    },
+    {
+      "type": "li",
+      "text": "Create an IAM role trusted by the GitLab OIDC provider, restricted to your project and protected refs"
+    },
+    {
+      "type": "li",
+      "text": "Attach least-privilege permissions for Bedrock invoke APIs"
+    },
+    {
+      "type": "li",
+      "text": "`AWS_ROLE_TO_ASSUME`"
+    },
+    {
+      "type": "li",
+      "text": "`AWS_REGION`"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# For AWS Bedrock:\n- AWS_ROLE_TO_ASSUME\n- AWS_REGION"
+    },
+    {
+      "type": "li",
+      "text": "A Google Cloud project with:\n\nVertex AI API enabled\nWorkload Identity Federation configured to trust GitLab OIDC"
+    },
+    {
+      "type": "li",
+      "text": "Vertex AI API enabled"
+    },
+    {
+      "type": "li",
+      "text": "Workload Identity Federation configured to trust GitLab OIDC"
+    },
+    {
+      "type": "li",
+      "text": "A dedicated service account with only the required Vertex AI roles"
+    },
+    {
+      "type": "li",
+      "text": "GitLab CI/CD variables for WIF:\n\n`GCP_WORKLOAD_IDENTITY_PROVIDER` (full resource name)\n`GCP_SERVICE_ACCOUNT` (service account email)"
+    },
+    {
+      "type": "li",
+      "text": "`GCP_WORKLOAD_IDENTITY_PROVIDER` (full resource name)"
+    },
+    {
+      "type": "li",
+      "text": "`GCP_SERVICE_ACCOUNT` (service account email)"
+    },
+    {
+      "type": "li",
+      "text": "Enable IAM Credentials API, STS API, and Vertex AI API"
+    },
+    {
+      "type": "li",
+      "text": "Create a Workload Identity Pool and provider for GitLab OIDC"
+    },
+    {
+      "type": "li",
+      "text": "Create a dedicated service account with Vertex AI roles"
+    },
+    {
+      "type": "li",
+      "text": "Grant the WIF principal permission to impersonate the service account"
+    },
+    {
+      "type": "li",
+      "text": "`GCP_WORKLOAD_IDENTITY_PROVIDER`"
+    },
+    {
+      "type": "li",
+      "text": "`GCP_SERVICE_ACCOUNT`"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# For Google Vertex AI:\n- GCP_WORKLOAD_IDENTITY_PROVIDER\n- GCP_SERVICE_ACCOUNT\n- CLOUD_ML_REGION (for example, us-east5)"
+    },
+    {
+      "type": "h2",
+      "text": "Configuration examples"
+    },
+    {
+      "type": "h3",
+      "text": "Basic .gitlab-ci.yml (Claude API)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "stages:\n  - ai\n\nclaude:\n  stage: ai\n  image: node:24-alpine3.21\n  rules:\n    - if: '$CI_PIPELINE_SOURCE == \"web\"'\n    - if: '$CI_PIPELINE_SOURCE == \"merge_request_event\"'\n  variables:\n    GIT_STRATEGY: fetch\n  before_script:\n    - apk update\n    - apk add --no-cache git curl bash\n    - npm install -g @anthropic-ai/claude-code\n  script:\n    - /bin/gitlab-mcp-server || true\n    - >\n      claude\n      -p \"${AI_FLOW_INPUT:-'Summarize recent changes and suggest improvements'}\"\n      --permission-mode acceptEdits\n      --allowedTools \"Bash(*) Read(*) Edit(*) Write(*) mcp__gitlab\"\n      --debug\n  # Claude Code will use ANTHROPIC_API_KEY from CI/CD variables"
+    },
+    {
+      "type": "h3",
+      "text": "AWS Bedrock job example (OIDC)"
+    },
+    {
+      "type": "li",
+      "text": "Amazon Bedrock enabled with access to your chosen Claude model(s)"
+    },
+    {
+      "type": "li",
+      "text": "GitLab OIDC configured in AWS with a role that trusts your GitLab project and refs"
+    },
+    {
+      "type": "li",
+      "text": "IAM role with Bedrock permissions (least privilege recommended)"
+    },
+    {
+      "type": "li",
+      "text": "`AWS_ROLE_TO_ASSUME`: ARN of the IAM role for Bedrock access"
+    },
+    {
+      "type": "li",
+      "text": "`AWS_REGION`: Bedrock region (for example, `us-west-2`)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude-bedrock:\n  stage: ai\n  image: node:24-alpine3.21\n  rules:\n    - if: '$CI_PIPELINE_SOURCE == \"web\"'\n  before_script:\n    - apk add --no-cache bash curl jq git python3 py3-pip\n    - pip install --no-cache-dir awscli\n    - npm install -g @anthropic-ai/claude-code\n    # Exchange GitLab OIDC token for AWS credentials\n    - export AWS_WEB_IDENTITY_TOKEN_FILE=\"${CI_JOB_JWT_FILE:-/tmp/oidc_token}\"\n    - if [ -n \"${CI_JOB_JWT_V2}\" ]; then printf \"%s\" \"$CI_JOB_JWT_V2\" > \"$AWS_WEB_IDENTITY_TOKEN_FILE\"; fi\n    - >\n      aws sts assume-role-with-web-identity\n      --role-arn \"$AWS_ROLE_TO_ASSUME\"\n      --role-session-name \"gitlab-claude-$(date +%s)\"\n      --web-identity-token \"file://$AWS_WEB_IDENTITY_TOKEN_FILE\"\n      --duration-seconds 3600 > /tmp/aws_creds.json\n    - export AWS_ACCESS_KEY_ID=\"$(jq -r .Credentials.AccessKeyId /tmp/aws_creds.json)\"\n    - export AWS_SECRET_ACCESS_KEY=\"$(jq -r .Credentials.SecretAccessKey /tmp/aws_creds.json)\"\n    - export AWS_SESSION_TOKEN=\"$(jq -r .Credentials.SessionToken /tmp/aws_creds.json)\"\n  script:\n    - /bin/gitlab-mcp-server || true\n    - >\n      claude\n      -p \"${AI_FLOW_INPUT:-'Implement the requested changes and open an MR'}\"\n      --permission-mode acceptEdits\n      --allowedTools \"Bash(*) Read(*) Edit(*) Write(*) mcp__gitlab\"\n      --debug\n  variables:\n    AWS_REGION: \"us-west-2\""
+    },
+    {
+      "type": "blockquote",
+      "text": "Model IDs for Bedrock include region-specific prefixes and version suffixes (for example, `us.anthropic.claude-sonnet-4-5-20250929-v1:0`). Pass the desired model via your job configuration or prompt if your workflow supports it."
+    },
+    {
+      "type": "h3",
+      "text": "Google Vertex AI job example (Workload Identity Federation)"
+    },
+    {
+      "type": "li",
+      "text": "Vertex AI API enabled in your GCP project"
+    },
+    {
+      "type": "li",
+      "text": "A service account with Vertex AI permissions"
+    },
+    {
+      "type": "li",
+      "text": "`GCP_WORKLOAD_IDENTITY_PROVIDER`: Full provider resource name"
+    },
+    {
+      "type": "li",
+      "text": "`GCP_SERVICE_ACCOUNT`: Service account email"
+    },
+    {
+      "type": "li",
+      "text": "`CLOUD_ML_REGION`: Vertex region (for example, `us-east5`)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude-vertex:\n  stage: ai\n  image: gcr.io/google.com/cloudsdktool/google-cloud-cli:slim\n  rules:\n    - if: '$CI_PIPELINE_SOURCE == \"web\"'\n  before_script:\n    - apt-get update && apt-get install -y git nodejs npm && apt-get clean\n    - npm install -g @anthropic-ai/claude-code\n    # Authenticate to Google Cloud via WIF (no downloaded keys)\n    - >\n      gcloud auth login --cred-file=<(cat <<EOF\n      {\n        \"type\": \"external_account\",\n        \"audience\": \"${GCP_WORKLOAD_IDENTITY_PROVIDER}\",\n        \"subject_token_type\": \"urn:ietf:params:oauth:token-type:jwt\",\n        \"service_account_impersonation_url\": \"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${GCP_SERVICE_ACCOUNT}:generateAccessToken\",\n        \"token_url\": \"https://sts.googleapis.com/v1/token\"\n      }\n      EOF\n      )\n    - gcloud config set project \"$(gcloud projects list --format='value(projectId)' --filter=\"name:${CI_PROJECT_NAMESPACE}\" | head -n1)\" || true\n  script:\n    - /bin/gitlab-mcp-server || true\n    - >\n      CLOUD_ML_REGION=\"${CLOUD_ML_REGION:-us-east5}\"\n      claude\n      -p \"${AI_FLOW_INPUT:-'Review and update code as requested'}\"\n      --permission-mode acceptEdits\n      --allowedTools \"Bash(*) Read(*) Edit(*) Write(*) mcp__gitlab\"\n      --debug\n  variables:\n    CLOUD_ML_REGION: \"us-east5\""
+    },
+    {
+      "type": "blockquote",
+      "text": "With Workload Identity Federation, you do not need to store service account keys. Use repository-specific trust conditions and least-privilege service accounts."
+    },
+    {
+      "type": "h2",
+      "text": "Best practices"
+    },
+    {
+      "type": "h3",
+      "text": "CLAUDE.md configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Security considerations"
+    },
+    {
+      "type": "li",
+      "text": "Add `ANTHROPIC_API_KEY` as a masked variable (and protect it if needed)"
+    },
+    {
+      "type": "li",
+      "text": "Use provider-specific OIDC where possible (no long-lived keys)"
+    },
+    {
+      "type": "li",
+      "text": "Limit job permissions and network egress"
+    },
+    {
+      "type": "li",
+      "text": "Review Claude’s MRs like any other contributor"
+    },
+    {
+      "type": "h3",
+      "text": "Optimizing performance"
+    },
+    {
+      "type": "li",
+      "text": "Keep `CLAUDE.md` focused and concise"
+    },
+    {
+      "type": "li",
+      "text": "Provide clear issue/MR descriptions to reduce iterations"
+    },
+    {
+      "type": "li",
+      "text": "Configure sensible job timeouts to avoid runaway runs"
+    },
+    {
+      "type": "li",
+      "text": "Cache npm and package installs in runners where possible"
+    },
+    {
+      "type": "h3",
+      "text": "CI costs"
+    },
+    {
+      "type": "li",
+      "text": "**GitLab Runner time**:\n\nClaude runs on your GitLab runners and consumes compute minutes\nSee your GitLab plan’s runner billing for details"
+    },
+    {
+      "type": "li",
+      "text": "Claude runs on your GitLab runners and consumes compute minutes"
+    },
+    {
+      "type": "li",
+      "text": "See your GitLab plan’s runner billing for details"
+    },
+    {
+      "type": "li",
+      "text": "**API costs**:\n\nEach Claude interaction consumes tokens based on prompt and response size\nToken usage varies by task complexity and codebase size\nSee [Anthropic pricing](https://docs.claude.com/en/docs/about-claude/pricing) for details"
+    },
+    {
+      "type": "li",
+      "text": "Each Claude interaction consumes tokens based on prompt and response size"
+    },
+    {
+      "type": "li",
+      "text": "Token usage varies by task complexity and codebase size"
+    },
+    {
+      "type": "li",
+      "text": "See [Anthropic pricing](https://docs.claude.com/en/docs/about-claude/pricing) for details"
+    },
+    {
+      "type": "li",
+      "text": "**Cost optimization tips**:\n\nUse specific `@claude` commands to reduce unnecessary turns\nSet appropriate `max_turns` and job timeout values\nLimit concurrency to control parallel runs"
+    },
+    {
+      "type": "li",
+      "text": "Use specific `@claude` commands to reduce unnecessary turns"
+    },
+    {
+      "type": "li",
+      "text": "Set appropriate `max_turns` and job timeout values"
+    },
+    {
+      "type": "li",
+      "text": "Limit concurrency to control parallel runs"
+    },
+    {
+      "type": "h2",
+      "text": "Security and governance"
+    },
+    {
+      "type": "li",
+      "text": "Each job runs in an isolated container with restricted network access"
+    },
+    {
+      "type": "li",
+      "text": "Claude’s changes flow through MRs so reviewers see every diff"
+    },
+    {
+      "type": "li",
+      "text": "Branch protection and approval rules apply to AI-generated code"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code uses workspace-scoped permissions to constrain writes"
+    },
+    {
+      "type": "li",
+      "text": "Costs remain under your control because you bring your own provider credentials"
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "h3",
+      "text": "Claude not responding to @claude commands"
+    },
+    {
+      "type": "li",
+      "text": "Verify your pipeline is being triggered (manually, MR event, or via a note event listener/webhook)"
+    },
+    {
+      "type": "li",
+      "text": "Ensure CI/CD variables (`ANTHROPIC_API_KEY` or cloud provider settings) are present and unmasked"
+    },
+    {
+      "type": "li",
+      "text": "Check that the comment contains `@claude` (not `/claude`) and that your mention trigger is configured"
+    },
+    {
+      "type": "h3",
+      "text": "Job can’t write comments or open MRs"
+    },
+    {
+      "type": "li",
+      "text": "Ensure `CI_JOB_TOKEN` has sufficient permissions for the project, or use a Project Access Token with `api` scope"
+    },
+    {
+      "type": "li",
+      "text": "Check the `mcp__gitlab` tool is enabled in `--allowedTools`"
+    },
+    {
+      "type": "li",
+      "text": "Confirm the job runs in the context of the MR or has enough context via `AI_FLOW_*` variables"
+    },
+    {
+      "type": "h3",
+      "text": "Authentication errors"
+    },
+    {
+      "type": "li",
+      "text": "**For Claude API**: Confirm `ANTHROPIC_API_KEY` is valid and unexpired"
+    },
+    {
+      "type": "li",
+      "text": "**For Bedrock/Vertex**: Verify OIDC/WIF configuration, role impersonation, and secret names; confirm region and model availability"
+    },
+    {
+      "type": "h2",
+      "text": "Advanced configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Common parameters and variables"
+    },
+    {
+      "type": "li",
+      "text": "`prompt` / `prompt_file`: Provide instructions inline (`-p`) or via a file"
+    },
+    {
+      "type": "li",
+      "text": "`max_turns`: Limit the number of back-and-forth iterations"
+    },
+    {
+      "type": "li",
+      "text": "`timeout_minutes`: Limit total execution time"
+    },
+    {
+      "type": "li",
+      "text": "`ANTHROPIC_API_KEY`: Required for the Claude API (not used for Bedrock/Vertex)"
+    },
+    {
+      "type": "li",
+      "text": "Provider-specific environment: `AWS_REGION`, project/region vars for Vertex"
+    },
+    {
+      "type": "blockquote",
+      "text": "Exact flags and parameters may vary by version of `@anthropic-ai/claude-code`. Run `claude --help` in your job to see supported options."
+    },
+    {
+      "type": "h3",
+      "text": "Customizing Claude’s behavior"
+    },
+    {
+      "type": "li",
+      "text": "**CLAUDE.md**: Define coding standards, security requirements, and project conventions. Claude reads this during runs and follows your rules."
+    },
+    {
+      "type": "li",
+      "text": "**Custom prompts**: Pass task-specific instructions via `prompt`/`prompt_file` in the job. Use different prompts for different jobs (for example, review, implement, refactor)."
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

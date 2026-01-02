@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "description": "학습된 문제 패턴과 해결책 데이터베이스",
+  "lastUpdated": "2025-01-02",
+  "issues": [
+    {
+      "id": "rich-text-container",
+      "type": "CONTENT_CONTAINER_CHANGE",
+      "pattern": "본문이 .rich-text 클래스 내에 위치",
+      "addedDate": "2025-01-02",
+      "status": "resolved",
+      "affectedPages": [
+        "building-ai-agents-in-financial-services"
+      ],
+      "fix": {
+        "file": "scrape-claude-blog.js",
+        "action": "selector_priority",
+        "description": ".rich-text 선택자를 article보다 먼저 검사"
+      }
+    }
+  ],
+  "siteStructureHistory": [
+    {
+      "date": "2025-01-02",
+      "change": "일부 페이지에서 .rich-text 컨테이너 사용 발견",
+      "affectedPages": ["building-ai-agents-in-financial-services"],
+      "fix": "Added .rich-text selector priority in scraper"
+    }
+  ],
+  "knownPatterns": {
+    "youtube": {
+      "supportedFormats": [
+        "youtube.com/embed/{videoId}",
+        "youtube.com/watch?v={videoId}",
+        "youtu.be/{videoId}",
+        "youtube-nocookie.com/embed/{videoId}"
+      ],
+      "unsupportedFormats": []
+    },
+    "vimeo": {
+      "supportedFormats": [
+        "vimeo.com/video/{videoId}",
+        "player.vimeo.com/video/{videoId}"
+      ]
+    },
+    "images": {
+      "excludedPatterns": [
+        "placeholder",
+        "icon",
+        "logo",
+        "avatar"
+      ]
+    }
+  }
+}

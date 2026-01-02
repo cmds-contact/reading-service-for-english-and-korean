@@ -1,0 +1,16 @@
+id: microsoft-foundry
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/microsoft-foundry
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Claude Code on Microsoft Foundry"
+    type: original
+  ko:
+    title: "Microsoft Foundry에서 Claude Code 사용하기"
+    type: translation
+    translator: ai

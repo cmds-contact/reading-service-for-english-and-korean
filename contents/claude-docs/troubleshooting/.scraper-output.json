@@ -1,0 +1,384 @@
+{
+  "title": "Troubleshooting",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "p",
+      "text": "Discover solutions to common issues with Claude Code installation and usage."
+    },
+    {
+      "type": "h2",
+      "text": "Common installation issues"
+    },
+    {
+      "type": "h3",
+      "text": "Windows installation issues: errors in WSL"
+    },
+    {
+      "type": "li",
+      "text": "Run `npm config set os linux` before installation"
+    },
+    {
+      "type": "li",
+      "text": "Install with `npm install -g @anthropic-ai/claude-code --force --no-os-check` (Do NOT use `sudo`)"
+    },
+    {
+      "type": "li",
+      "text": "Running `which npm` and `which node` - if they point to Windows paths (starting with `/mnt/c/`), Windows versions are being used"
+    },
+    {
+      "type": "li",
+      "text": "Experiencing broken functionality after switching Node versions with nvm in WSL"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Load nvm if it exists\nexport NVM_DIR=\"$HOME/.nvm\"\n[ -s \"$NVM_DIR/nvm.sh\" ] && \\. \"$NVM_DIR/nvm.sh\"\n[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\""
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "source ~/.nvm/nvm.sh"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export PATH=\"$HOME/.nvm/versions/node/$(node -v)/bin:$PATH\""
+    },
+    {
+      "type": "blockquote",
+      "text": "Avoid disabling Windows PATH importing (`appendWindowsPath = false`) as this breaks the ability to call Windows executables from WSL. Similarly, avoid uninstalling Node.js from Windows if you use it for Windows development."
+    },
+    {
+      "type": "h3",
+      "text": "Linux and Mac installation issues: permission or command not found errors"
+    },
+    {
+      "type": "h4",
+      "text": "Recommended solution: Native Claude Code installation"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Install stable version (default)\ncurl -fsSL https://claude.ai/install.sh | bash\n\n# Install latest version\ncurl -fsSL https://claude.ai/install.sh | bash -s latest\n\n# Install specific version number\ncurl -fsSL https://claude.ai/install.sh | bash -s 1.0.58"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Install stable version (default)\nirm https://claude.ai/install.ps1 | iex\n\n# Install latest version\n& ([scriptblock]::Create((irm https://claude.ai/install.ps1))) latest\n\n# Install specific version number\n& ([scriptblock]::Create((irm https://claude.ai/install.ps1))) 1.0.58"
+    },
+    {
+      "type": "blockquote",
+      "text": "Make sure that you have the installation directory in your system PATH."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude doctor # Check installation health"
+    },
+    {
+      "type": "h2",
+      "text": "Permissions and authentication"
+    },
+    {
+      "type": "h3",
+      "text": "Repeated permission prompts"
+    },
+    {
+      "type": "h3",
+      "text": "Authentication issues"
+    },
+    {
+      "type": "li",
+      "text": "Run `/logout` to sign out completely"
+    },
+    {
+      "type": "li",
+      "text": "Close Claude Code"
+    },
+    {
+      "type": "li",
+      "text": "Restart with `claude` and complete the authentication process again"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "rm -rf ~/.config/claude-code/auth.json\nclaude"
+    },
+    {
+      "type": "h2",
+      "text": "Configuration file locations"
+    },
+    {
+      "type": "li",
+      "text": "macOS: `/Library/Application Support/ClaudeCode/`"
+    },
+    {
+      "type": "li",
+      "text": "Linux/WSL: `/etc/claude-code/`"
+    },
+    {
+      "type": "li",
+      "text": "Windows: `C:\\ProgramData\\ClaudeCode\\`"
+    },
+    {
+      "type": "h3",
+      "text": "Resetting configuration"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Reset all user settings and state\nrm ~/.claude.json\nrm -rf ~/.claude/\n\n# Reset project-specific settings\nrm -rf .claude/\nrm .mcp.json"
+    },
+    {
+      "type": "blockquote",
+      "text": "This will remove all your settings, allowed tools, MCP server configurations, and session history."
+    },
+    {
+      "type": "h2",
+      "text": "Performance and stability"
+    },
+    {
+      "type": "h3",
+      "text": "High CPU or memory usage"
+    },
+    {
+      "type": "li",
+      "text": "Use `/compact` regularly to reduce context size"
+    },
+    {
+      "type": "li",
+      "text": "Close and restart Claude Code between major tasks"
+    },
+    {
+      "type": "li",
+      "text": "Consider adding large build directories to your `.gitignore` file"
+    },
+    {
+      "type": "h3",
+      "text": "Command hangs or freezes"
+    },
+    {
+      "type": "li",
+      "text": "Press Ctrl+C to attempt to cancel the current operation"
+    },
+    {
+      "type": "li",
+      "text": "If unresponsive, you may need to close the terminal and restart"
+    },
+    {
+      "type": "h3",
+      "text": "Search and discovery issues"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# macOS (Homebrew)  \nbrew install ripgrep\n\n# Windows (winget)\nwinget install BurntSushi.ripgrep.MSVC\n\n# Ubuntu/Debian\nsudo apt install ripgrep\n\n# Alpine Linux\napk add ripgrep\n\n# Arch Linux\npacman -S ripgrep"
+    },
+    {
+      "type": "h3",
+      "text": "Slow or incomplete search results on WSL"
+    },
+    {
+      "type": "blockquote",
+      "text": "`/doctor` will show Search as OK in this case."
+    },
+    {
+      "type": "li",
+      "text": "**Submit more specific searches**: Reduce the number of files searched by specifying directories or file types: “Search for JWT validation logic in the auth-service package” or “Find use of md5 hash in JS files”."
+    },
+    {
+      "type": "li",
+      "text": "**Move project to Linux filesystem**: If possible, ensure your project is located on the Linux filesystem (`/home/`) rather than the Windows filesystem (`/mnt/c/`)."
+    },
+    {
+      "type": "li",
+      "text": "**Use native Windows instead**: Consider running Claude Code natively on Windows instead of through WSL, for better file system performance."
+    },
+    {
+      "type": "h2",
+      "text": "IDE integration issues"
+    },
+    {
+      "type": "h3",
+      "text": "JetBrains IDE not detected on WSL2"
+    },
+    {
+      "type": "h4",
+      "text": "WSL2 networking modes"
+    },
+    {
+      "type": "li",
+      "text": "Find your WSL2 IP address:\nCopyAsk AIwsl hostname -I\n# Example output: 172.21.123.456"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "wsl hostname -I\n# Example output: 172.21.123.456"
+    },
+    {
+      "type": "li",
+      "text": "Open PowerShell as Administrator and create a firewall rule:\nCopyAsk AINew-NetFirewallRule -DisplayName \"Allow WSL2 Internal Traffic\" -Direction Inbound -Protocol TCP -Action Allow -RemoteAddress 172.21.0.0/16 -LocalAddress 172.21.0.0/16\n\n(Adjust the IP range based on your WSL2 subnet from step 1)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "New-NetFirewallRule -DisplayName \"Allow WSL2 Internal Traffic\" -Direction Inbound -Protocol TCP -Action Allow -RemoteAddress 172.21.0.0/16 -LocalAddress 172.21.0.0/16"
+    },
+    {
+      "type": "li",
+      "text": "Restart both your IDE and Claude Code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "[wsl2]\nnetworkingMode=mirrored"
+    },
+    {
+      "type": "blockquote",
+      "text": "These networking issues only affect WSL2. WSL1 uses the host’s network directly and doesn’t require these configurations."
+    },
+    {
+      "type": "h3",
+      "text": "Reporting Windows IDE integration issues (both native and WSL)"
+    },
+    {
+      "type": "li",
+      "text": "Environment type: native Windows (Git Bash) or WSL1/WSL2"
+    },
+    {
+      "type": "li",
+      "text": "WSL networking mode (if applicable): NAT or mirrored"
+    },
+    {
+      "type": "li",
+      "text": "IDE name and version"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code extension/plugin version"
+    },
+    {
+      "type": "li",
+      "text": "Shell type: Bash, Zsh, PowerShell, etc."
+    },
+    {
+      "type": "h3",
+      "text": "Escape key not working in JetBrains (IntelliJ, PyCharm, etc.) terminals"
+    },
+    {
+      "type": "li",
+      "text": "Go to Settings → Tools → Terminal"
+    },
+    {
+      "type": "li",
+      "text": "Either:\n\nUncheck “Move focus to the editor with Escape”, or\nClick “Configure terminal keybindings” and delete the “Switch focus to Editor” shortcut"
+    },
+    {
+      "type": "li",
+      "text": "Uncheck “Move focus to the editor with Escape”, or"
+    },
+    {
+      "type": "li",
+      "text": "Click “Configure terminal keybindings” and delete the “Switch focus to Editor” shortcut"
+    },
+    {
+      "type": "li",
+      "text": "Apply the changes"
+    },
+    {
+      "type": "h2",
+      "text": "Markdown formatting issues"
+    },
+    {
+      "type": "h3",
+      "text": "Missing language tags in code blocks"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "```\nfunction example() {\n  return \"hello\";\n}\n```"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "```javascript\nfunction example() {\n  return \"hello\";\n}\n```"
+    },
+    {
+      "type": "li",
+      "text": "**Ask Claude to add language tags**: Request “Add appropriate language tags to all code blocks in this markdown file.”"
+    },
+    {
+      "type": "li",
+      "text": "**Use post-processing hooks**: Set up automatic formatting hooks to detect and add missing language tags. See the [markdown formatting hook example](/docs/en/hooks-guide#markdown-formatting-hook) for implementation details."
+    },
+    {
+      "type": "li",
+      "text": "**Manual verification**: After generating markdown files, review them for proper code block formatting and request corrections if needed."
+    },
+    {
+      "type": "h3",
+      "text": "Inconsistent spacing and formatting"
+    },
+    {
+      "type": "li",
+      "text": "**Request formatting corrections**: Ask Claude to “Fix spacing and formatting issues in this markdown file.”"
+    },
+    {
+      "type": "li",
+      "text": "**Use formatting tools**: Set up hooks to run markdown formatters like `prettier` or custom formatting scripts on generated markdown files."
+    },
+    {
+      "type": "li",
+      "text": "**Specify formatting preferences**: Include formatting requirements in your prompts or project [memory](/docs/en/memory) files."
+    },
+    {
+      "type": "h3",
+      "text": "Best practices for markdown generation"
+    },
+    {
+      "type": "li",
+      "text": "**Be explicit in requests**: Ask for “properly formatted markdown with language-tagged code blocks”"
+    },
+    {
+      "type": "li",
+      "text": "**Use project conventions**: Document your preferred markdown style in `CLAUDE.md`"
+    },
+    {
+      "type": "li",
+      "text": "**Set up validation hooks**: Use post-processing hooks to automatically verify and fix common formatting issues"
+    },
+    {
+      "type": "h2",
+      "text": "Getting more help"
+    },
+    {
+      "type": "li",
+      "text": "Use the `/bug` command within Claude Code to report problems directly to Anthropic"
+    },
+    {
+      "type": "li",
+      "text": "Check the [GitHub repository](https://github.com/anthropics/claude-code) for known issues"
+    },
+    {
+      "type": "li",
+      "text": "Run `/doctor` to check the health of your Claude Code installation"
+    },
+    {
+      "type": "li",
+      "text": "Ask Claude directly about its capabilities and features - Claude has built-in access to its documentation"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

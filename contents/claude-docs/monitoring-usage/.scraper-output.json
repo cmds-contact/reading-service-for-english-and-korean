@@ -1,0 +1,505 @@
+{
+  "title": "Monitoring",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Monitoring"
+    },
+    {
+      "type": "p",
+      "text": "Learn how to enable and configure OpenTelemetry for Claude Code."
+    },
+    {
+      "type": "h2",
+      "text": "Quick start"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# 1. Enable telemetry\nexport CLAUDE_CODE_ENABLE_TELEMETRY=1\n\n# 2. Choose exporters (both are optional - configure only what you need)\nexport OTEL_METRICS_EXPORTER=otlp       # Options: otlp, prometheus, console\nexport OTEL_LOGS_EXPORTER=otlp          # Options: otlp, console\n\n# 3. Configure OTLP endpoint (for OTLP exporter)\nexport OTEL_EXPORTER_OTLP_PROTOCOL=grpc\nexport OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317\n\n# 4. Set authentication (if required)\nexport OTEL_EXPORTER_OTLP_HEADERS=\"Authorization=Bearer your-token\"\n\n# 5. For debugging: reduce export intervals\nexport OTEL_METRIC_EXPORT_INTERVAL=10000  # 10 seconds (default: 60000ms)\nexport OTEL_LOGS_EXPORT_INTERVAL=5000     # 5 seconds (default: 5000ms)\n\n# 6. Run Claude Code\nclaude"
+    },
+    {
+      "type": "blockquote",
+      "text": "The default export intervals are 60 seconds for metrics and 5 seconds for logs. During setup, you may want to use shorter intervals for debugging purposes. Remember to reset these for production use."
+    },
+    {
+      "type": "h2",
+      "text": "Administrator configuration"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"env\": {\n    \"CLAUDE_CODE_ENABLE_TELEMETRY\": \"1\",\n    \"OTEL_METRICS_EXPORTER\": \"otlp\",\n    \"OTEL_LOGS_EXPORTER\": \"otlp\",\n    \"OTEL_EXPORTER_OTLP_PROTOCOL\": \"grpc\",\n    \"OTEL_EXPORTER_OTLP_ENDPOINT\": \"http://collector.company.com:4317\",\n    \"OTEL_EXPORTER_OTLP_HEADERS\": \"Authorization=Bearer company-token\"\n  }\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "Managed settings can be distributed via MDM (Mobile Device Management) or other device management solutions. Environment variables defined in the managed settings file have high precedence and cannot be overridden by users."
+    },
+    {
+      "type": "h2",
+      "text": "Configuration details"
+    },
+    {
+      "type": "h3",
+      "text": "Common configuration variables"
+    },
+    {
+      "type": "h3",
+      "text": "Metrics cardinality control"
+    },
+    {
+      "type": "h3",
+      "text": "Dynamic headers"
+    },
+    {
+      "type": "h4",
+      "text": "Settings configuration"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"otelHeadersHelper\": \"/bin/generate_opentelemetry_headers.sh\"\n}"
+    },
+    {
+      "type": "h4",
+      "text": "Script requirements"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\n# Example: Multiple headers\necho \"{\\\"Authorization\\\": \\\"Bearer $(get-token.sh)\\\", \\\"X-API-Key\\\": \\\"$(get-api-key.sh)\\\"}\""
+    },
+    {
+      "type": "h4",
+      "text": "Refresh behavior"
+    },
+    {
+      "type": "h3",
+      "text": "Multi-team organization support"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Add custom attributes for team identification\nexport OTEL_RESOURCE_ATTRIBUTES=\"department=engineering,team.id=platform,cost_center=eng-123\""
+    },
+    {
+      "type": "li",
+      "text": "Filter metrics by team or department"
+    },
+    {
+      "type": "li",
+      "text": "Track costs per cost center"
+    },
+    {
+      "type": "li",
+      "text": "Create team-specific dashboards"
+    },
+    {
+      "type": "li",
+      "text": "Set up alerts for specific teams"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Important formatting requirements for OTEL_RESOURCE_ATTRIBUTES:**The `OTEL_RESOURCE_ATTRIBUTES` environment variable follows the [W3C Baggage specification](https://www.w3.org/TR/baggage/), which has strict formatting requirements:\n**No spaces allowed**: Values cannot contain spaces. For example, `user.organizationName=My Company` is invalid\n**Format**: Must be comma-separated key=value pairs: `key1=value1,key2=value2`\n**Allowed characters**: Only US-ASCII characters excluding control characters, whitespace, double quotes, commas, semicolons, and backslashes\n**Special characters**: Characters outside the allowed range must be percent-encoded\n**Examples:**CopyAsk AI# ❌ Invalid - contains spaces\nexport OTEL_RESOURCE_ATTRIBUTES=\"org.name=John's Organization\"\n\n# ✅ Valid - use underscores or camelCase instead\nexport OTEL_RESOURCE_ATTRIBUTES=\"org.name=Johns_Organization\"\nexport OTEL_RESOURCE_ATTRIBUTES=\"org.name=JohnsOrganization\"\n\n# ✅ Valid - percent-encode special characters if needed\nexport OTEL_RESOURCE_ATTRIBUTES=\"org.name=John%27s%20Organization\"\nNote: wrapping values in quotes doesn’t escape spaces. For example, `org.name=\"My Company\"` results in the literal value `\"My Company\"` (with quotes included), not `My Company`."
+    },
+    {
+      "type": "li",
+      "text": "**No spaces allowed**: Values cannot contain spaces. For example, `user.organizationName=My Company` is invalid"
+    },
+    {
+      "type": "li",
+      "text": "**Format**: Must be comma-separated key=value pairs: `key1=value1,key2=value2`"
+    },
+    {
+      "type": "li",
+      "text": "**Allowed characters**: Only US-ASCII characters excluding control characters, whitespace, double quotes, commas, semicolons, and backslashes"
+    },
+    {
+      "type": "li",
+      "text": "**Special characters**: Characters outside the allowed range must be percent-encoded"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# ❌ Invalid - contains spaces\nexport OTEL_RESOURCE_ATTRIBUTES=\"org.name=John's Organization\"\n\n# ✅ Valid - use underscores or camelCase instead\nexport OTEL_RESOURCE_ATTRIBUTES=\"org.name=Johns_Organization\"\nexport OTEL_RESOURCE_ATTRIBUTES=\"org.name=JohnsOrganization\"\n\n# ✅ Valid - percent-encode special characters if needed\nexport OTEL_RESOURCE_ATTRIBUTES=\"org.name=John%27s%20Organization\""
+    },
+    {
+      "type": "h3",
+      "text": "Example configurations"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Console debugging (1-second intervals)\nexport CLAUDE_CODE_ENABLE_TELEMETRY=1\nexport OTEL_METRICS_EXPORTER=console\nexport OTEL_METRIC_EXPORT_INTERVAL=1000\n\n# OTLP/gRPC\nexport CLAUDE_CODE_ENABLE_TELEMETRY=1\nexport OTEL_METRICS_EXPORTER=otlp\nexport OTEL_EXPORTER_OTLP_PROTOCOL=grpc\nexport OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317\n\n# Prometheus\nexport CLAUDE_CODE_ENABLE_TELEMETRY=1\nexport OTEL_METRICS_EXPORTER=prometheus\n\n# Multiple exporters\nexport CLAUDE_CODE_ENABLE_TELEMETRY=1\nexport OTEL_METRICS_EXPORTER=console,otlp\nexport OTEL_EXPORTER_OTLP_PROTOCOL=http/json\n\n# Different endpoints/backends for metrics and logs\nexport CLAUDE_CODE_ENABLE_TELEMETRY=1\nexport OTEL_METRICS_EXPORTER=otlp\nexport OTEL_LOGS_EXPORTER=otlp\nexport OTEL_EXPORTER_OTLP_METRICS_PROTOCOL=http/protobuf\nexport OTEL_EXPORTER_OTLP_METRICS_ENDPOINT=http://metrics.company.com:4318\nexport OTEL_EXPORTER_OTLP_LOGS_PROTOCOL=grpc\nexport OTEL_EXPORTER_OTLP_LOGS_ENDPOINT=http://logs.company.com:4317\n\n# Metrics only (no events/logs)\nexport CLAUDE_CODE_ENABLE_TELEMETRY=1\nexport OTEL_METRICS_EXPORTER=otlp\nexport OTEL_EXPORTER_OTLP_PROTOCOL=grpc\nexport OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317\n\n# Events/logs only (no metrics)\nexport CLAUDE_CODE_ENABLE_TELEMETRY=1\nexport OTEL_LOGS_EXPORTER=otlp\nexport OTEL_EXPORTER_OTLP_PROTOCOL=grpc\nexport OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317"
+    },
+    {
+      "type": "h2",
+      "text": "Available metrics and events"
+    },
+    {
+      "type": "h3",
+      "text": "Standard attributes"
+    },
+    {
+      "type": "h3",
+      "text": "Metrics"
+    },
+    {
+      "type": "h3",
+      "text": "Metric details"
+    },
+    {
+      "type": "h4",
+      "text": "Session counter"
+    },
+    {
+      "type": "li",
+      "text": "All [standard attributes](#standard-attributes)"
+    },
+    {
+      "type": "h4",
+      "text": "Lines of code counter"
+    },
+    {
+      "type": "li",
+      "text": "`type`: (`\"added\"`, `\"removed\"`)"
+    },
+    {
+      "type": "h4",
+      "text": "Pull request counter"
+    },
+    {
+      "type": "h4",
+      "text": "Commit counter"
+    },
+    {
+      "type": "h4",
+      "text": "Cost counter"
+    },
+    {
+      "type": "li",
+      "text": "`model`: Model identifier (for example, “claude-sonnet-4-5-20250929”)"
+    },
+    {
+      "type": "h4",
+      "text": "Token counter"
+    },
+    {
+      "type": "li",
+      "text": "`type`: (`\"input\"`, `\"output\"`, `\"cacheRead\"`, `\"cacheCreation\"`)"
+    },
+    {
+      "type": "h4",
+      "text": "Code edit tool decision counter"
+    },
+    {
+      "type": "li",
+      "text": "`tool`: Tool name (`\"Edit\"`, `\"Write\"`, `\"NotebookEdit\"`)"
+    },
+    {
+      "type": "li",
+      "text": "`decision`: User decision (`\"accept\"`, `\"reject\"`)"
+    },
+    {
+      "type": "li",
+      "text": "`language`: Programming language of the edited file (for example, `\"TypeScript\"`, `\"Python\"`, `\"JavaScript\"`, `\"Markdown\"`). Returns `\"unknown\"` for unrecognized file extensions."
+    },
+    {
+      "type": "h4",
+      "text": "Active time counter"
+    },
+    {
+      "type": "h3",
+      "text": "Events"
+    },
+    {
+      "type": "h4",
+      "text": "User prompt event"
+    },
+    {
+      "type": "li",
+      "text": "`event.name`: `\"user_prompt\"`"
+    },
+    {
+      "type": "li",
+      "text": "`event.timestamp`: ISO 8601 timestamp"
+    },
+    {
+      "type": "li",
+      "text": "`prompt_length`: Length of the prompt"
+    },
+    {
+      "type": "li",
+      "text": "`prompt`: Prompt content (redacted by default, enable with `OTEL_LOG_USER_PROMPTS=1`)"
+    },
+    {
+      "type": "h4",
+      "text": "Tool result event"
+    },
+    {
+      "type": "li",
+      "text": "`event.name`: `\"tool_result\"`"
+    },
+    {
+      "type": "li",
+      "text": "`tool_name`: Name of the tool"
+    },
+    {
+      "type": "li",
+      "text": "`success`: `\"true\"` or `\"false\"`"
+    },
+    {
+      "type": "li",
+      "text": "`duration_ms`: Execution time in milliseconds"
+    },
+    {
+      "type": "li",
+      "text": "`error`: Error message (if failed)"
+    },
+    {
+      "type": "li",
+      "text": "`decision`: Either `\"accept\"` or `\"reject\"`"
+    },
+    {
+      "type": "li",
+      "text": "`source`: Decision source - `\"config\"`, `\"user_permanent\"`, `\"user_temporary\"`, `\"user_abort\"`, or `\"user_reject\"`"
+    },
+    {
+      "type": "li",
+      "text": "`tool_parameters`: JSON string containing tool-specific parameters (when available)\n\nFor Bash tool: includes `bash_command`, `full_command`, `timeout`, `description`, `sandbox`"
+    },
+    {
+      "type": "li",
+      "text": "For Bash tool: includes `bash_command`, `full_command`, `timeout`, `description`, `sandbox`"
+    },
+    {
+      "type": "h4",
+      "text": "API request event"
+    },
+    {
+      "type": "li",
+      "text": "`event.name`: `\"api_request\"`"
+    },
+    {
+      "type": "li",
+      "text": "`model`: Model used (for example, “claude-sonnet-4-5-20250929”)"
+    },
+    {
+      "type": "li",
+      "text": "`cost_usd`: Estimated cost in USD"
+    },
+    {
+      "type": "li",
+      "text": "`duration_ms`: Request duration in milliseconds"
+    },
+    {
+      "type": "li",
+      "text": "`input_tokens`: Number of input tokens"
+    },
+    {
+      "type": "li",
+      "text": "`output_tokens`: Number of output tokens"
+    },
+    {
+      "type": "li",
+      "text": "`cache_read_tokens`: Number of tokens read from cache"
+    },
+    {
+      "type": "li",
+      "text": "`cache_creation_tokens`: Number of tokens used for cache creation"
+    },
+    {
+      "type": "h4",
+      "text": "API error event"
+    },
+    {
+      "type": "li",
+      "text": "`event.name`: `\"api_error\"`"
+    },
+    {
+      "type": "li",
+      "text": "`error`: Error message"
+    },
+    {
+      "type": "li",
+      "text": "`status_code`: HTTP status code (if applicable)"
+    },
+    {
+      "type": "li",
+      "text": "`attempt`: Attempt number (for retried requests)"
+    },
+    {
+      "type": "h4",
+      "text": "Tool decision event"
+    },
+    {
+      "type": "li",
+      "text": "`event.name`: `\"tool_decision\"`"
+    },
+    {
+      "type": "li",
+      "text": "`tool_name`: Name of the tool (for example, “Read”, “Edit”, “Write”, “NotebookEdit”)"
+    },
+    {
+      "type": "h2",
+      "text": "Interpreting metrics and events data"
+    },
+    {
+      "type": "h3",
+      "text": "Usage monitoring"
+    },
+    {
+      "type": "h3",
+      "text": "Cost monitoring"
+    },
+    {
+      "type": "li",
+      "text": "Tracking usage trends across teams or individuals"
+    },
+    {
+      "type": "li",
+      "text": "Identifying high-usage sessions for optimization"
+    },
+    {
+      "type": "blockquote",
+      "text": "Cost metrics are approximations. For official billing data, refer to your API provider (Claude Console, AWS Bedrock, or Google Cloud Vertex)."
+    },
+    {
+      "type": "h3",
+      "text": "Alerting and segmentation"
+    },
+    {
+      "type": "li",
+      "text": "Cost spikes"
+    },
+    {
+      "type": "li",
+      "text": "Unusual token consumption"
+    },
+    {
+      "type": "li",
+      "text": "High session volume from specific users"
+    },
+    {
+      "type": "h3",
+      "text": "Event analysis"
+    },
+    {
+      "type": "li",
+      "text": "Most frequently used tools"
+    },
+    {
+      "type": "li",
+      "text": "Tool success rates"
+    },
+    {
+      "type": "li",
+      "text": "Average tool execution times"
+    },
+    {
+      "type": "li",
+      "text": "Error patterns by tool type"
+    },
+    {
+      "type": "h2",
+      "text": "Backend considerations"
+    },
+    {
+      "type": "h3",
+      "text": "For metrics"
+    },
+    {
+      "type": "li",
+      "text": "**Time series databases (for example, Prometheus)**: Rate calculations, aggregated metrics"
+    },
+    {
+      "type": "li",
+      "text": "**Columnar stores (for example, ClickHouse)**: Complex queries, unique user analysis"
+    },
+    {
+      "type": "li",
+      "text": "**Full-featured observability platforms (for example, Honeycomb, Datadog)**: Advanced querying, visualization, alerting"
+    },
+    {
+      "type": "h3",
+      "text": "For events/logs"
+    },
+    {
+      "type": "li",
+      "text": "**Log aggregation systems (for example, Elasticsearch, Loki)**: Full-text search, log analysis"
+    },
+    {
+      "type": "li",
+      "text": "**Columnar stores (for example, ClickHouse)**: Structured event analysis"
+    },
+    {
+      "type": "li",
+      "text": "**Full-featured observability platforms (for example, Honeycomb, Datadog)**: Correlation between metrics and events"
+    },
+    {
+      "type": "h2",
+      "text": "Service information"
+    },
+    {
+      "type": "li",
+      "text": "`service.name`: `claude-code`"
+    },
+    {
+      "type": "li",
+      "text": "`service.version`: Current Claude Code version"
+    },
+    {
+      "type": "li",
+      "text": "`os.type`: Operating system type (for example, `linux`, `darwin`, `windows`)"
+    },
+    {
+      "type": "li",
+      "text": "`os.version`: Operating system version string"
+    },
+    {
+      "type": "li",
+      "text": "`host.arch`: Host architecture (for example, `amd64`, `arm64`)"
+    },
+    {
+      "type": "li",
+      "text": "`wsl.version`: WSL version number (only present when running on Windows Subsystem for Linux)"
+    },
+    {
+      "type": "li",
+      "text": "Meter Name: `com.anthropic.claude_code`"
+    },
+    {
+      "type": "h2",
+      "text": "ROI measurement resources"
+    },
+    {
+      "type": "h2",
+      "text": "Security/privacy considerations"
+    },
+    {
+      "type": "li",
+      "text": "Telemetry is opt-in and requires explicit configuration"
+    },
+    {
+      "type": "li",
+      "text": "Sensitive information like API keys or file contents are never included in metrics or events"
+    },
+    {
+      "type": "li",
+      "text": "User prompt content is redacted by default - only prompt length is recorded. To enable user prompt logging, set `OTEL_LOG_USER_PROMPTS=1`"
+    },
+    {
+      "type": "h2",
+      "text": "Monitoring Claude Code on Amazon Bedrock"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

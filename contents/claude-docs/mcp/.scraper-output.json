@@ -1,0 +1,977 @@
+{
+  "title": "Connect Claude Code to tools via MCP",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Connect Claude Code to tools via MCP"
+    },
+    {
+      "type": "p",
+      "text": "Learn how to connect Claude Code to your tools with the Model Context Protocol."
+    },
+    {
+      "type": "h2",
+      "text": "What you can do with MCP"
+    },
+    {
+      "type": "li",
+      "text": "**Implement features from issue trackers**: “Add the feature described in JIRA issue ENG-4521 and create a PR on GitHub.”"
+    },
+    {
+      "type": "li",
+      "text": "**Analyze monitoring data**: “Check Sentry and Statsig to check the usage of the feature described in ENG-4521.”"
+    },
+    {
+      "type": "li",
+      "text": "**Query databases**: “Find emails of 10 random users who used feature ENG-4521, based on our PostgreSQL database.”"
+    },
+    {
+      "type": "li",
+      "text": "**Integrate designs**: “Update our standard email template based on the new Figma designs that were posted in Slack”"
+    },
+    {
+      "type": "li",
+      "text": "**Automate workflows**: “Create Gmail drafts inviting these 10 users to a feedback session about the new feature.”"
+    },
+    {
+      "type": "h2",
+      "text": "Popular MCP servers"
+    },
+    {
+      "type": "blockquote",
+      "text": "Use third party MCP servers at your own risk - Anthropic has not verified\nthe correctness or security of all these servers.\nMake sure you trust MCP servers you are installing.\nBe especially careful when using MCP servers that could fetch untrusted\ncontent, as these can expose you to prompt injection risk."
+    },
+    {
+      "type": "blockquote",
+      "text": "**Need a specific integration?** [Find hundreds more MCP servers on GitHub](https://github.com/modelcontextprotocol/servers), or build your own using the [MCP SDK](https://modelcontextprotocol.io/quickstart/server)."
+    },
+    {
+      "type": "h2",
+      "text": "Installing MCP servers"
+    },
+    {
+      "type": "h3",
+      "text": "Option 1: Add a remote HTTP server"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Basic syntax\nclaude mcp add --transport http <name> <url>\n\n# Real example: Connect to Notion\nclaude mcp add --transport http notion https://mcp.notion.com/mcp\n\n# Example with Bearer token\nclaude mcp add --transport http secure-api https://api.example.com/mcp \\\n  --header \"Authorization: Bearer your-token\""
+    },
+    {
+      "type": "h3",
+      "text": "Option 2: Add a remote SSE server"
+    },
+    {
+      "type": "blockquote",
+      "text": "The SSE (Server-Sent Events) transport is deprecated. Use HTTP servers instead, where available."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Basic syntax\nclaude mcp add --transport sse <name> <url>\n\n# Real example: Connect to Asana\nclaude mcp add --transport sse asana https://mcp.asana.com/sse\n\n# Example with authentication header\nclaude mcp add --transport sse private-api https://api.company.com/sse \\\n  --header \"X-API-Key: your-key-here\""
+    },
+    {
+      "type": "h3",
+      "text": "Option 3: Add a local stdio server"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Basic syntax\nclaude mcp add --transport stdio <name> <command> [args...]\n\n# Real example: Add Airtable server\nclaude mcp add --transport stdio airtable --env AIRTABLE_API_KEY=YOUR_KEY \\\n  -- npx -y airtable-mcp-server"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Understanding the ”—” parameter:**\nThe `--` (double dash) separates Claude’s own CLI flags from the command and arguments that get passed to the MCP server. Everything before `--` are options for Claude (like `--env`, `--scope`), and everything after `--` is the actual command to run the MCP server.For example:\n`claude mcp add --transport stdio myserver -- npx server` → runs `npx server`\n`claude mcp add --transport stdio myserver --env KEY=value -- python server.py --port 8080` → runs `python server.py --port 8080` with `KEY=value` in environment\nThis prevents conflicts between Claude’s flags and the server’s flags."
+    },
+    {
+      "type": "li",
+      "text": "`claude mcp add --transport stdio myserver -- npx server` → runs `npx server`"
+    },
+    {
+      "type": "li",
+      "text": "`claude mcp add --transport stdio myserver --env KEY=value -- python server.py --port 8080` → runs `python server.py --port 8080` with `KEY=value` in environment"
+    },
+    {
+      "type": "h3",
+      "text": "Managing your servers"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# List all configured servers\nclaude mcp list\n\n# Get details for a specific server\nclaude mcp get github\n\n# Remove a server\nclaude mcp remove github\n\n# (within Claude Code) Check server status\n/mcp"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nUse the `--scope` flag to specify where the configuration is stored:\n\n`local` (default): Available only to you in the current project (was called `project` in older versions)\n`project`: Shared with everyone in the project via `.mcp.json` file\n`user`: Available to you across all projects (was called `global` in older versions)\n\n\nSet environment variables with `--env` flags (for example, `--env KEY=value`)\nConfigure MCP server startup timeout using the MCP_TIMEOUT environment variable (for example, `MCP_TIMEOUT=10000 claude` sets a 10-second timeout)\nClaude Code will display a warning when MCP tool output exceeds 10,000 tokens. To increase this limit, set the `MAX_MCP_OUTPUT_TOKENS` environment variable (for example, `MAX_MCP_OUTPUT_TOKENS=50000`)\nUse `/mcp` to authenticate with remote servers that require OAuth 2.0 authentication"
+    },
+    {
+      "type": "li",
+      "text": "Use the `--scope` flag to specify where the configuration is stored:\n\n`local` (default): Available only to you in the current project (was called `project` in older versions)\n`project`: Shared with everyone in the project via `.mcp.json` file\n`user`: Available to you across all projects (was called `global` in older versions)"
+    },
+    {
+      "type": "li",
+      "text": "`local` (default): Available only to you in the current project (was called `project` in older versions)"
+    },
+    {
+      "type": "li",
+      "text": "`project`: Shared with everyone in the project via `.mcp.json` file"
+    },
+    {
+      "type": "li",
+      "text": "`user`: Available to you across all projects (was called `global` in older versions)"
+    },
+    {
+      "type": "li",
+      "text": "Set environment variables with `--env` flags (for example, `--env KEY=value`)"
+    },
+    {
+      "type": "li",
+      "text": "Configure MCP server startup timeout using the MCP_TIMEOUT environment variable (for example, `MCP_TIMEOUT=10000 claude` sets a 10-second timeout)"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code will display a warning when MCP tool output exceeds 10,000 tokens. To increase this limit, set the `MAX_MCP_OUTPUT_TOKENS` environment variable (for example, `MAX_MCP_OUTPUT_TOKENS=50000`)"
+    },
+    {
+      "type": "li",
+      "text": "Use `/mcp` to authenticate with remote servers that require OAuth 2.0 authentication"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Windows Users**: On native Windows (not WSL), local MCP servers that use `npx` require the `cmd /c` wrapper to ensure proper execution.CopyAsk AI# This creates command=\"cmd\" which Windows can execute\nclaude mcp add --transport stdio my-server -- cmd /c npx -y @some/package\nWithout the `cmd /c` wrapper, you’ll encounter “Connection closed” errors because Windows cannot directly execute `npx`. (See the note above for an explanation of the `--` parameter.)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# This creates command=\"cmd\" which Windows can execute\nclaude mcp add --transport stdio my-server -- cmd /c npx -y @some/package"
+    },
+    {
+      "type": "h3",
+      "text": "Plugin-provided MCP servers"
+    },
+    {
+      "type": "li",
+      "text": "Plugins define MCP servers in `.mcp.json` at the plugin root or inline in `plugin.json`"
+    },
+    {
+      "type": "li",
+      "text": "When a plugin is enabled, its MCP servers start automatically"
+    },
+    {
+      "type": "li",
+      "text": "Plugin MCP tools appear alongside manually configured MCP tools"
+    },
+    {
+      "type": "li",
+      "text": "Plugin servers are managed through plugin installation (not `/mcp` commands)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"database-tools\": {\n    \"command\": \"${CLAUDE_PLUGIN_ROOT}/servers/db-server\",\n    \"args\": [\"--config\", \"${CLAUDE_PLUGIN_ROOT}/config.json\"],\n    \"env\": {\n      \"DB_URL\": \"${DB_URL}\"\n    }\n  }\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"my-plugin\",\n  \"mcpServers\": {\n    \"plugin-api\": {\n      \"command\": \"${CLAUDE_PLUGIN_ROOT}/servers/api-server\",\n      \"args\": [\"--port\", \"8080\"]\n    }\n  }\n}"
+    },
+    {
+      "type": "li",
+      "text": "**Automatic lifecycle**: Servers start when plugin enables, but you must restart Claude Code to apply MCP server changes (enabling or disabling)"
+    },
+    {
+      "type": "li",
+      "text": "**Environment variables**: Use `${CLAUDE_PLUGIN_ROOT}` for plugin-relative paths"
+    },
+    {
+      "type": "li",
+      "text": "**User environment access**: Access to same environment variables as manually configured servers"
+    },
+    {
+      "type": "li",
+      "text": "**Multiple transport types**: Support stdio, SSE, and HTTP transports (transport support may vary by server)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Within Claude Code, see all MCP servers including plugin ones\n/mcp"
+    },
+    {
+      "type": "li",
+      "text": "**Bundled distribution**: Tools and servers packaged together"
+    },
+    {
+      "type": "li",
+      "text": "**Automatic setup**: No manual MCP configuration needed"
+    },
+    {
+      "type": "li",
+      "text": "**Team consistency**: Everyone gets the same tools when plugin is installed"
+    },
+    {
+      "type": "h2",
+      "text": "MCP installation scopes"
+    },
+    {
+      "type": "h3",
+      "text": "Local scope"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Add a local-scoped server (default)\nclaude mcp add --transport http stripe https://mcp.stripe.com\n\n# Explicitly specify local scope\nclaude mcp add --transport http stripe --scope local https://mcp.stripe.com"
+    },
+    {
+      "type": "h3",
+      "text": "Project scope"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Add a project-scoped server\nclaude mcp add --transport http paypal --scope project https://mcp.paypal.com/mcp"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"mcpServers\": {\n    \"shared-server\": {\n      \"command\": \"/path/to/server\",\n      \"args\": [],\n      \"env\": {}\n    }\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "User scope"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Add a user server\nclaude mcp add --transport http hubspot --scope user https://mcp.hubspot.com/anthropic"
+    },
+    {
+      "type": "h3",
+      "text": "Choosing the right scope"
+    },
+    {
+      "type": "li",
+      "text": "**Local scope**: Personal servers, experimental configurations, or sensitive credentials specific to one project"
+    },
+    {
+      "type": "li",
+      "text": "**Project scope**: Team-shared servers, project-specific tools, or services required for collaboration"
+    },
+    {
+      "type": "li",
+      "text": "**User scope**: Personal utilities needed across multiple projects, development tools, or frequently used services"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Where are MCP servers stored?**\n**User and local scope**: `~/.claude.json` (in the `mcpServers` field or under project paths)\n**Project scope**: `.mcp.json` in your project root (checked into source control)\n**Enterprise managed**: `managed-mcp.json` in system directories (see [Enterprise MCP configuration](#enterprise-mcp-configuration))"
+    },
+    {
+      "type": "li",
+      "text": "**User and local scope**: `~/.claude.json` (in the `mcpServers` field or under project paths)"
+    },
+    {
+      "type": "li",
+      "text": "**Project scope**: `.mcp.json` in your project root (checked into source control)"
+    },
+    {
+      "type": "li",
+      "text": "**Enterprise managed**: `managed-mcp.json` in system directories (see [Enterprise MCP configuration](#enterprise-mcp-configuration))"
+    },
+    {
+      "type": "h3",
+      "text": "Scope hierarchy and precedence"
+    },
+    {
+      "type": "h3",
+      "text": "Environment variable expansion in .mcp.json"
+    },
+    {
+      "type": "li",
+      "text": "`${VAR}` - Expands to the value of environment variable `VAR`"
+    },
+    {
+      "type": "li",
+      "text": "`${VAR:-default}` - Expands to `VAR` if set, otherwise uses `default`"
+    },
+    {
+      "type": "li",
+      "text": "`command` - The server executable path"
+    },
+    {
+      "type": "li",
+      "text": "`args` - Command-line arguments"
+    },
+    {
+      "type": "li",
+      "text": "`env` - Environment variables passed to the server"
+    },
+    {
+      "type": "li",
+      "text": "`url` - For HTTP server types"
+    },
+    {
+      "type": "li",
+      "text": "`headers` - For HTTP server authentication"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"mcpServers\": {\n    \"api-server\": {\n      \"type\": \"http\",\n      \"url\": \"${API_BASE_URL:-https://api.example.com}/mcp\",\n      \"headers\": {\n        \"Authorization\": \"Bearer ${API_KEY}\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Practical examples"
+    },
+    {
+      "type": "h3",
+      "text": "Example: Monitor errors with Sentry"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# 1. Add the Sentry MCP server\nclaude mcp add --transport http sentry https://mcp.sentry.dev/mcp\n\n# 2. Use /mcp to authenticate with your Sentry account\n> /mcp\n\n# 3. Debug production issues\n> \"What are the most common errors in the last 24 hours?\"\n> \"Show me the stack trace for error ID abc123\"\n> \"Which deployment introduced these new errors?\""
+    },
+    {
+      "type": "h3",
+      "text": "Example: Connect to GitHub for code reviews"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# 1. Add the GitHub MCP server\nclaude mcp add --transport http github https://api.githubcopilot.com/mcp/\n\n# 2. In Claude Code, authenticate if needed\n> /mcp\n# Select \"Authenticate\" for GitHub\n\n# 3. Now you can ask Claude to work with GitHub\n> \"Review PR #456 and suggest improvements\"\n> \"Create a new issue for the bug we just found\"\n> \"Show me all open PRs assigned to me\""
+    },
+    {
+      "type": "h3",
+      "text": "Example: Query your PostgreSQL database"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# 1. Add the database server with your connection string\nclaude mcp add --transport stdio db -- npx -y @bytebase/dbhub \\\n  --dsn \"postgresql://readonly:pass@prod.db.com:5432/analytics\"\n\n# 2. Query your database naturally\n> \"What's our total revenue this month?\"\n> \"Show me the schema for the orders table\"\n> \"Find customers who haven't made a purchase in 90 days\""
+    },
+    {
+      "type": "h2",
+      "text": "Authenticate with remote MCP servers"
+    },
+    {
+      "type": "p",
+      "text": "Add the server that requires authentication"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude mcp add --transport http sentry https://mcp.sentry.dev/mcp"
+    },
+    {
+      "type": "p",
+      "text": "Use the /mcp command within Claude Code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /mcp"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nAuthentication tokens are stored securely and refreshed automatically\nUse “Clear authentication” in the `/mcp` menu to revoke access\nIf your browser doesn’t open automatically, copy the provided URL\nOAuth authentication works with HTTP servers"
+    },
+    {
+      "type": "li",
+      "text": "Authentication tokens are stored securely and refreshed automatically"
+    },
+    {
+      "type": "li",
+      "text": "Use “Clear authentication” in the `/mcp` menu to revoke access"
+    },
+    {
+      "type": "li",
+      "text": "If your browser doesn’t open automatically, copy the provided URL"
+    },
+    {
+      "type": "li",
+      "text": "OAuth authentication works with HTTP servers"
+    },
+    {
+      "type": "h2",
+      "text": "Add MCP servers from JSON configuration"
+    },
+    {
+      "type": "p",
+      "text": "Add an MCP server from JSON"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Basic syntax\nclaude mcp add-json <name> '<json>'\n\n# Example: Adding an HTTP server with JSON configuration\nclaude mcp add-json weather-api '{\"type\":\"http\",\"url\":\"https://api.weather.com/mcp\",\"headers\":{\"Authorization\":\"Bearer token\"}}'\n\n# Example: Adding a stdio server with JSON configuration\nclaude mcp add-json local-weather '{\"type\":\"stdio\",\"command\":\"/path/to/weather-cli\",\"args\":[\"--api-key\",\"abc123\"],\"env\":{\"CACHE_DIR\":\"/tmp\"}}'"
+    },
+    {
+      "type": "p",
+      "text": "Verify the server was added"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude mcp get weather-api"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nMake sure the JSON is properly escaped in your shell\nThe JSON must conform to the MCP server configuration schema\nYou can use `--scope user` to add the server to your user configuration instead of the project-specific one"
+    },
+    {
+      "type": "li",
+      "text": "Make sure the JSON is properly escaped in your shell"
+    },
+    {
+      "type": "li",
+      "text": "The JSON must conform to the MCP server configuration schema"
+    },
+    {
+      "type": "li",
+      "text": "You can use `--scope user` to add the server to your user configuration instead of the project-specific one"
+    },
+    {
+      "type": "h2",
+      "text": "Import MCP servers from Claude Desktop"
+    },
+    {
+      "type": "p",
+      "text": "Import servers from Claude Desktop"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Basic syntax \nclaude mcp add-from-claude-desktop"
+    },
+    {
+      "type": "p",
+      "text": "Select which servers to import"
+    },
+    {
+      "type": "p",
+      "text": "Verify the servers were imported"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude mcp list"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nThis feature only works on macOS and Windows Subsystem for Linux (WSL)\nIt reads the Claude Desktop configuration file from its standard location on those platforms\nUse the `--scope user` flag to add servers to your user configuration\nImported servers will have the same names as in Claude Desktop\nIf servers with the same names already exist, they will get a numerical suffix (for example, `server_1`)"
+    },
+    {
+      "type": "li",
+      "text": "This feature only works on macOS and Windows Subsystem for Linux (WSL)"
+    },
+    {
+      "type": "li",
+      "text": "It reads the Claude Desktop configuration file from its standard location on those platforms"
+    },
+    {
+      "type": "li",
+      "text": "Use the `--scope user` flag to add servers to your user configuration"
+    },
+    {
+      "type": "li",
+      "text": "Imported servers will have the same names as in Claude Desktop"
+    },
+    {
+      "type": "li",
+      "text": "If servers with the same names already exist, they will get a numerical suffix (for example, `server_1`)"
+    },
+    {
+      "type": "h2",
+      "text": "Use Claude Code as an MCP server"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Start Claude as a stdio MCP server\nclaude mcp serve"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"mcpServers\": {\n    \"claude-code\": {\n      \"type\": \"stdio\",\n      \"command\": \"claude\",\n      \"args\": [\"mcp\", \"serve\"],\n      \"env\": {}\n    }\n  }\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Configuring the executable path**: The `command` field must reference the Claude Code executable. If the `claude` command is not in your system’s PATH, you’ll need to specify the full path to the executable.To find the full path:CopyAsk AIwhich claude\nThen use the full path in your configuration:CopyAsk AI{\n  \"mcpServers\": {\n    \"claude-code\": {\n      \"type\": \"stdio\",\n      \"command\": \"/full/path/to/claude\",\n      \"args\": [\"mcp\", \"serve\"],\n      \"env\": {}\n    }\n  }\n}\nWithout the correct executable path, you’ll encounter errors like `spawn claude ENOENT`."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "which claude"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"mcpServers\": {\n    \"claude-code\": {\n      \"type\": \"stdio\",\n      \"command\": \"/full/path/to/claude\",\n      \"args\": [\"mcp\", \"serve\"],\n      \"env\": {}\n    }\n  }\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nThe server provides access to Claude’s tools like View, Edit, LS, etc.\nIn Claude Desktop, try asking Claude to read files in a directory, make edits, and more.\nNote that this MCP server is only exposing Claude Code’s tools to your MCP client, so your own client is responsible for implementing user confirmation for individual tool calls."
+    },
+    {
+      "type": "li",
+      "text": "The server provides access to Claude’s tools like View, Edit, LS, etc."
+    },
+    {
+      "type": "li",
+      "text": "In Claude Desktop, try asking Claude to read files in a directory, make edits, and more."
+    },
+    {
+      "type": "li",
+      "text": "Note that this MCP server is only exposing Claude Code’s tools to your MCP client, so your own client is responsible for implementing user confirmation for individual tool calls."
+    },
+    {
+      "type": "h2",
+      "text": "MCP output limits and warnings"
+    },
+    {
+      "type": "li",
+      "text": "**Output warning threshold**: Claude Code displays a warning when any MCP tool output exceeds 10,000 tokens"
+    },
+    {
+      "type": "li",
+      "text": "**Configurable limit**: You can adjust the maximum allowed MCP output tokens using the `MAX_MCP_OUTPUT_TOKENS` environment variable"
+    },
+    {
+      "type": "li",
+      "text": "**Default limit**: The default maximum is 25,000 tokens"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Set a higher limit for MCP tool outputs\nexport MAX_MCP_OUTPUT_TOKENS=50000\nclaude"
+    },
+    {
+      "type": "li",
+      "text": "Query large datasets or databases"
+    },
+    {
+      "type": "li",
+      "text": "Generate detailed reports or documentation"
+    },
+    {
+      "type": "li",
+      "text": "Process extensive log files or debugging information"
+    },
+    {
+      "type": "blockquote",
+      "text": "If you frequently encounter output warnings with specific MCP servers, consider increasing the limit or configuring the server to paginate or filter its responses."
+    },
+    {
+      "type": "h2",
+      "text": "Use MCP resources"
+    },
+    {
+      "type": "h3",
+      "text": "Reference MCP resources"
+    },
+    {
+      "type": "p",
+      "text": "List available resources"
+    },
+    {
+      "type": "p",
+      "text": "Reference a specific resource"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Can you analyze @github:issue://123 and suggest a fix?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Please review the API documentation at @docs:file://api/authentication"
+    },
+    {
+      "type": "p",
+      "text": "Multiple resource references"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Compare @postgres:schema://users with @docs:file://database/user-model"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nResources are automatically fetched and included as attachments when referenced\nResource paths are fuzzy-searchable in the @ mention autocomplete\nClaude Code automatically provides tools to list and read MCP resources when servers support them\nResources can contain any type of content that the MCP server provides (text, JSON, structured data, etc.)"
+    },
+    {
+      "type": "li",
+      "text": "Resources are automatically fetched and included as attachments when referenced"
+    },
+    {
+      "type": "li",
+      "text": "Resource paths are fuzzy-searchable in the @ mention autocomplete"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code automatically provides tools to list and read MCP resources when servers support them"
+    },
+    {
+      "type": "li",
+      "text": "Resources can contain any type of content that the MCP server provides (text, JSON, structured data, etc.)"
+    },
+    {
+      "type": "h2",
+      "text": "Use MCP prompts as slash commands"
+    },
+    {
+      "type": "h3",
+      "text": "Execute MCP prompts"
+    },
+    {
+      "type": "p",
+      "text": "Discover available prompts"
+    },
+    {
+      "type": "p",
+      "text": "Execute a prompt without arguments"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /mcp__github__list_prs"
+    },
+    {
+      "type": "p",
+      "text": "Execute a prompt with arguments"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /mcp__github__pr_review 456"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /mcp__jira__create_issue \"Bug in login flow\" high"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nMCP prompts are dynamically discovered from connected servers\nArguments are parsed based on the prompt’s defined parameters\nPrompt results are injected directly into the conversation\nServer and prompt names are normalized (spaces become underscores)"
+    },
+    {
+      "type": "li",
+      "text": "MCP prompts are dynamically discovered from connected servers"
+    },
+    {
+      "type": "li",
+      "text": "Arguments are parsed based on the prompt’s defined parameters"
+    },
+    {
+      "type": "li",
+      "text": "Prompt results are injected directly into the conversation"
+    },
+    {
+      "type": "li",
+      "text": "Server and prompt names are normalized (spaces become underscores)"
+    },
+    {
+      "type": "h2",
+      "text": "Enterprise MCP configuration"
+    },
+    {
+      "type": "li",
+      "text": "Exclusive control with `managed-mcp.json`: Deploy a fixed set of MCP servers that users cannot modify or extend"
+    },
+    {
+      "type": "li",
+      "text": "**Policy-based control with allowlists/denylists**: Allow users to add their own servers, but restrict which ones are permitted"
+    },
+    {
+      "type": "li",
+      "text": "**Control which MCP servers employees can access**: Deploy a standardized set of approved MCP servers across the organization"
+    },
+    {
+      "type": "li",
+      "text": "**Prevent unauthorized MCP servers**: Restrict users from adding unapproved MCP servers"
+    },
+    {
+      "type": "li",
+      "text": "**Disable MCP entirely**: Remove MCP functionality completely if needed"
+    },
+    {
+      "type": "h3",
+      "text": "Option 1: Exclusive control with managed-mcp.json"
+    },
+    {
+      "type": "li",
+      "text": "macOS: `/Library/Application Support/ClaudeCode/managed-mcp.json`"
+    },
+    {
+      "type": "li",
+      "text": "Linux and WSL: `/etc/claude-code/managed-mcp.json`"
+    },
+    {
+      "type": "li",
+      "text": "Windows: `C:\\Program Files\\ClaudeCode\\managed-mcp.json`"
+    },
+    {
+      "type": "blockquote",
+      "text": "These are system-wide paths (not user home directories like `~/Library/...`) that require administrator privileges. They are designed to be deployed by IT administrators."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"mcpServers\": {\n    \"github\": {\n      \"type\": \"http\",\n      \"url\": \"https://api.githubcopilot.com/mcp/\"\n    },\n    \"sentry\": {\n      \"type\": \"http\",\n      \"url\": \"https://mcp.sentry.dev/mcp\"\n    },\n    \"company-internal\": {\n      \"type\": \"stdio\",\n      \"command\": \"/usr/local/bin/company-mcp-server\",\n      \"args\": [\"--config\", \"/etc/company/mcp-config.json\"],\n      \"env\": {\n        \"COMPANY_API_URL\": \"https://internal.company.com\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Option 2: Policy-based control with allowlists and denylists"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Choosing between options**: Use Option 1 (`managed-mcp.json`) when you want to deploy a fixed set of servers with no user customization. Use Option 2 (allowlists/denylists) when you want to allow users to add their own servers within policy constraints."
+    },
+    {
+      "type": "h4",
+      "text": "Restriction options"
+    },
+    {
+      "type": "li",
+      "text": "**By server name** (`serverName`): Matches the configured name of the server"
+    },
+    {
+      "type": "li",
+      "text": "**By command** (`serverCommand`): Matches the exact command and arguments used to start stdio servers"
+    },
+    {
+      "type": "li",
+      "text": "**By URL pattern** (`serverUrl`): Matches remote server URLs with wildcard support"
+    },
+    {
+      "type": "h4",
+      "text": "Example configuration"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"allowedMcpServers\": [\n    // Allow by server name\n    { \"serverName\": \"github\" },\n    { \"serverName\": \"sentry\" },\n\n    // Allow by exact command (for stdio servers)\n    { \"serverCommand\": [\"npx\", \"-y\", \"@modelcontextprotocol/server-filesystem\"] },\n    { \"serverCommand\": [\"python\", \"/usr/local/bin/approved-server.py\"] },\n\n    // Allow by URL pattern (for remote servers)\n    { \"serverUrl\": \"https://mcp.company.com/*\" },\n    { \"serverUrl\": \"https://*.internal.corp/*\" }\n  ],\n  \"deniedMcpServers\": [\n    // Block by server name\n    { \"serverName\": \"dangerous-server\" },\n\n    // Block by exact command (for stdio servers)\n    { \"serverCommand\": [\"npx\", \"-y\", \"unapproved-package\"] },\n\n    // Block by URL pattern (for remote servers)\n    { \"serverUrl\": \"https://*.untrusted.com/*\" }\n  ]\n}"
+    },
+    {
+      "type": "h4",
+      "text": "How command-based restrictions work"
+    },
+    {
+      "type": "li",
+      "text": "Command arrays must match **exactly** - both the command and all arguments in the correct order"
+    },
+    {
+      "type": "li",
+      "text": "Example: `[\"npx\", \"-y\", \"server\"]` will NOT match `[\"npx\", \"server\"]` or `[\"npx\", \"-y\", \"server\", \"--flag\"]`"
+    },
+    {
+      "type": "li",
+      "text": "When the allowlist contains **any** `serverCommand` entries, stdio servers **must** match one of those commands"
+    },
+    {
+      "type": "li",
+      "text": "Stdio servers cannot pass by name alone when command restrictions are present"
+    },
+    {
+      "type": "li",
+      "text": "This ensures administrators can enforce which commands are allowed to run"
+    },
+    {
+      "type": "li",
+      "text": "Remote servers (HTTP, SSE, WebSocket) use URL-based matching when `serverUrl` entries exist in the allowlist"
+    },
+    {
+      "type": "li",
+      "text": "If no URL entries exist, remote servers fall back to name-based matching"
+    },
+    {
+      "type": "li",
+      "text": "Command restrictions do not apply to remote servers"
+    },
+    {
+      "type": "h4",
+      "text": "How URL-based restrictions work"
+    },
+    {
+      "type": "li",
+      "text": "`https://mcp.company.com/*` - Allow all paths on a specific domain"
+    },
+    {
+      "type": "li",
+      "text": "`https://*.example.com/*` - Allow any subdomain of example.com"
+    },
+    {
+      "type": "li",
+      "text": "`http://localhost:*/*` - Allow any port on localhost"
+    },
+    {
+      "type": "li",
+      "text": "When the allowlist contains **any** `serverUrl` entries, remote servers **must** match one of those URL patterns"
+    },
+    {
+      "type": "li",
+      "text": "Remote servers cannot pass by name alone when URL restrictions are present"
+    },
+    {
+      "type": "li",
+      "text": "This ensures administrators can enforce which remote endpoints are allowed"
+    },
+    {
+      "type": "p",
+      "text": "Example: URL-only allowlist"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"allowedMcpServers\": [\n    { \"serverUrl\": \"https://mcp.company.com/*\" },\n    { \"serverUrl\": \"https://*.internal.corp/*\" }\n  ]\n}"
+    },
+    {
+      "type": "li",
+      "text": "HTTP server at `https://mcp.company.com/api`: ✅ Allowed (matches URL pattern)"
+    },
+    {
+      "type": "li",
+      "text": "HTTP server at `https://api.internal.corp/mcp`: ✅ Allowed (matches wildcard subdomain)"
+    },
+    {
+      "type": "li",
+      "text": "HTTP server at `https://external.com/mcp`: ❌ Blocked (doesn’t match any URL pattern)"
+    },
+    {
+      "type": "li",
+      "text": "Stdio server with any command: ❌ Blocked (no name or command entries to match)"
+    },
+    {
+      "type": "p",
+      "text": "Example: Command-only allowlist"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"allowedMcpServers\": [\n    { \"serverCommand\": [\"npx\", \"-y\", \"approved-package\"] }\n  ]\n}"
+    },
+    {
+      "type": "li",
+      "text": "Stdio server with `[\"npx\", \"-y\", \"approved-package\"]`: ✅ Allowed (matches command)"
+    },
+    {
+      "type": "li",
+      "text": "Stdio server with `[\"node\", \"server.js\"]`: ❌ Blocked (doesn’t match command)"
+    },
+    {
+      "type": "li",
+      "text": "HTTP server named “my-api”: ❌ Blocked (no name entries to match)"
+    },
+    {
+      "type": "p",
+      "text": "Example: Mixed name and command allowlist"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"allowedMcpServers\": [\n    { \"serverName\": \"github\" },\n    { \"serverCommand\": [\"npx\", \"-y\", \"approved-package\"] }\n  ]\n}"
+    },
+    {
+      "type": "li",
+      "text": "Stdio server named “local-tool” with `[\"npx\", \"-y\", \"approved-package\"]`: ✅ Allowed (matches command)"
+    },
+    {
+      "type": "li",
+      "text": "Stdio server named “local-tool” with `[\"node\", \"server.js\"]`: ❌ Blocked (command entries exist but doesn’t match)"
+    },
+    {
+      "type": "li",
+      "text": "Stdio server named “github” with `[\"node\", \"server.js\"]`: ❌ Blocked (stdio servers must match commands when command entries exist)"
+    },
+    {
+      "type": "li",
+      "text": "HTTP server named “github”: ✅ Allowed (matches name)"
+    },
+    {
+      "type": "li",
+      "text": "HTTP server named “other-api”: ❌ Blocked (name doesn’t match)"
+    },
+    {
+      "type": "p",
+      "text": "Example: Name-only allowlist"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"allowedMcpServers\": [\n    { \"serverName\": \"github\" },\n    { \"serverName\": \"internal-tool\" }\n  ]\n}"
+    },
+    {
+      "type": "li",
+      "text": "Stdio server named “github” with any command: ✅ Allowed (no command restrictions)"
+    },
+    {
+      "type": "li",
+      "text": "Stdio server named “internal-tool” with any command: ✅ Allowed (no command restrictions)"
+    },
+    {
+      "type": "li",
+      "text": "Any server named “other”: ❌ Blocked (name doesn’t match)"
+    },
+    {
+      "type": "h4",
+      "text": "Allowlist behavior (allowedMcpServers)"
+    },
+    {
+      "type": "li",
+      "text": "`undefined` (default): No restrictions - users can configure any MCP server"
+    },
+    {
+      "type": "li",
+      "text": "Empty array `[]`: Complete lockdown - users cannot configure any MCP servers"
+    },
+    {
+      "type": "li",
+      "text": "List of entries: Users can only configure servers that match by name, command, or URL pattern"
+    },
+    {
+      "type": "h4",
+      "text": "Denylist behavior (deniedMcpServers)"
+    },
+    {
+      "type": "li",
+      "text": "`undefined` (default): No servers are blocked"
+    },
+    {
+      "type": "li",
+      "text": "Empty array `[]`: No servers are blocked"
+    },
+    {
+      "type": "li",
+      "text": "List of entries: Specified servers are explicitly blocked across all scopes"
+    },
+    {
+      "type": "h4",
+      "text": "Important notes"
+    },
+    {
+      "type": "li",
+      "text": "**Option 1 and Option 2 can be combined**: If `managed-mcp.json` exists, it has exclusive control and users cannot add servers. Allowlists/denylists still apply to the enterprise servers themselves."
+    },
+    {
+      "type": "li",
+      "text": "**Denylist takes absolute precedence**: If a server matches a denylist entry (by name, command, or URL), it will be blocked even if it’s on the allowlist"
+    },
+    {
+      "type": "li",
+      "text": "Name-based, command-based, and URL-based restrictions work together: a server passes if it matches **either** a name entry, a command entry, or a URL pattern (unless blocked by denylist)"
+    },
+    {
+      "type": "blockquote",
+      "text": "When using `managed-mcp.json`: Users cannot add MCP servers through `claude mcp add` or configuration files. The `allowedMcpServers` and `deniedMcpServers` settings still apply to filter which enterprise servers are actually loaded."
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

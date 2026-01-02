@@ -1,0 +1,16 @@
+id: gitlab-ci-cd
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/gitlab-ci-cd
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Claude Code GitLab CI/CD"
+    type: original
+  ko:
+    title: "Claude Code GitLab CI/CD"
+    type: translation
+    translator: ai

@@ -1,0 +1,428 @@
+{
+  "title": "Discover and install prebuilt plugins through marketplaces",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Discover and install prebuilt plugins through marketplaces"
+    },
+    {
+      "type": "p",
+      "text": "Find and install plugins from marketplaces to extend Claude Code with new commands, agents, and capabilities."
+    },
+    {
+      "type": "h2",
+      "text": "How marketplaces work"
+    },
+    {
+      "type": "p",
+      "text": "Add the marketplace"
+    },
+    {
+      "type": "p",
+      "text": "Install individual plugins"
+    },
+    {
+      "type": "h2",
+      "text": "Official Anthropic marketplace"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin install plugin-name@claude-plugins-official"
+    },
+    {
+      "type": "blockquote",
+      "text": "The official marketplace is maintained by Anthropic. To distribute your own plugins, [create your own marketplace](/docs/en/plugin-marketplaces) and share it with users."
+    },
+    {
+      "type": "h3",
+      "text": "Code intelligence"
+    },
+    {
+      "type": "blockquote",
+      "text": "If you see `Executable not found in $PATH` in the `/plugin` Errors tab after installing a plugin, install the required binary from the table above."
+    },
+    {
+      "type": "h3",
+      "text": "External integrations"
+    },
+    {
+      "type": "li",
+      "text": "**Source control**: `github`, `gitlab`"
+    },
+    {
+      "type": "li",
+      "text": "**Project management**: `atlassian` (Jira/Confluence), `asana`, `linear`, `notion`"
+    },
+    {
+      "type": "li",
+      "text": "**Design**: `figma`"
+    },
+    {
+      "type": "li",
+      "text": "**Infrastructure**: `vercel`, `firebase`, `supabase`"
+    },
+    {
+      "type": "li",
+      "text": "**Communication**: `slack`"
+    },
+    {
+      "type": "li",
+      "text": "**Monitoring**: `sentry`"
+    },
+    {
+      "type": "h3",
+      "text": "Development workflows"
+    },
+    {
+      "type": "li",
+      "text": "**commit-commands**: Git commit workflows including commit, push, and PR creation"
+    },
+    {
+      "type": "li",
+      "text": "**pr-review-toolkit**: Specialized agents for reviewing pull requests"
+    },
+    {
+      "type": "li",
+      "text": "**agent-sdk-dev**: Tools for building with the Claude Agent SDK"
+    },
+    {
+      "type": "li",
+      "text": "**plugin-dev**: Toolkit for creating your own plugins"
+    },
+    {
+      "type": "h3",
+      "text": "Output styles"
+    },
+    {
+      "type": "li",
+      "text": "**explanatory-output-style**: Educational insights about implementation choices"
+    },
+    {
+      "type": "li",
+      "text": "**learning-output-style**: Interactive learning mode for skill building"
+    },
+    {
+      "type": "h2",
+      "text": "Try it: add the demo marketplace"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add anthropics/claude-code"
+    },
+    {
+      "type": "p",
+      "text": "Browse available plugins"
+    },
+    {
+      "type": "li",
+      "text": "**Discover**: browse available plugins from all your marketplaces"
+    },
+    {
+      "type": "li",
+      "text": "**Installed**: view and manage your installed plugins"
+    },
+    {
+      "type": "li",
+      "text": "**Marketplaces**: add, remove, or update your added marketplaces"
+    },
+    {
+      "type": "li",
+      "text": "**Errors**: view any plugin loading errors"
+    },
+    {
+      "type": "p",
+      "text": "Install a plugin"
+    },
+    {
+      "type": "li",
+      "text": "**User scope**: install for yourself across all projects"
+    },
+    {
+      "type": "li",
+      "text": "**Project scope**: install for all collaborators on this repository"
+    },
+    {
+      "type": "li",
+      "text": "**Local scope**: install for yourself in this repository only"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin install commit-commands@anthropics-claude-code"
+    },
+    {
+      "type": "p",
+      "text": "Use your new plugin"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/commit-commands:commit"
+    },
+    {
+      "type": "h2",
+      "text": "Add marketplaces"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Shortcuts**: You can use `/plugin market` instead of `/plugin marketplace`, and `rm` instead of `remove`."
+    },
+    {
+      "type": "li",
+      "text": "**GitHub repositories**: `owner/repo` format (for example, `anthropics/claude-code`)"
+    },
+    {
+      "type": "li",
+      "text": "**Git URLs**: any git repository URL (GitLab, Bitbucket, self-hosted)"
+    },
+    {
+      "type": "li",
+      "text": "**Local paths**: directories or direct paths to `marketplace.json` files"
+    },
+    {
+      "type": "li",
+      "text": "**Remote URLs**: direct URLs to hosted `marketplace.json` files"
+    },
+    {
+      "type": "h3",
+      "text": "Add from GitHub"
+    },
+    {
+      "type": "h3",
+      "text": "Add from other Git hosts"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add https://gitlab.com/company/plugins.git"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add git@gitlab.com:company/plugins.git"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add https://gitlab.com/company/plugins.git#v1.0.0"
+    },
+    {
+      "type": "h3",
+      "text": "Add from local paths"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add ./my-marketplace"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add ./path/to/marketplace.json"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add https://example.com/marketplace.json"
+    },
+    {
+      "type": "h2",
+      "text": "Install plugins"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin install plugin-name@marketplace-name"
+    },
+    {
+      "type": "li",
+      "text": "**User scope** (default): install for yourself across all projects"
+    },
+    {
+      "type": "li",
+      "text": "**Project scope**: install for all collaborators on this repository (adds to `.claude/settings.json`)"
+    },
+    {
+      "type": "li",
+      "text": "**Local scope**: install for yourself in this repository only (not shared with collaborators)"
+    },
+    {
+      "type": "blockquote",
+      "text": "Make sure you trust a plugin before installing it. Anthropic does not control what MCP servers, files, or other software are included in plugins and cannot verify that they work as intended. Check each plugin’s homepage for more information."
+    },
+    {
+      "type": "h2",
+      "text": "Manage installed plugins"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin disable plugin-name@marketplace-name"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin enable plugin-name@marketplace-name"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin uninstall plugin-name@marketplace-name"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude plugin install formatter@your-org --scope project\nclaude plugin uninstall formatter@your-org --scope project"
+    },
+    {
+      "type": "h2",
+      "text": "Manage marketplaces"
+    },
+    {
+      "type": "h3",
+      "text": "Use the interactive interface"
+    },
+    {
+      "type": "li",
+      "text": "View all your added marketplaces with their sources and status"
+    },
+    {
+      "type": "li",
+      "text": "Add new marketplaces"
+    },
+    {
+      "type": "li",
+      "text": "Update marketplace listings to fetch the latest plugins"
+    },
+    {
+      "type": "li",
+      "text": "Remove marketplaces you no longer need"
+    },
+    {
+      "type": "h3",
+      "text": "Use CLI commands"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace list"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace update marketplace-name"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace remove marketplace-name"
+    },
+    {
+      "type": "blockquote",
+      "text": "Removing a marketplace will uninstall any plugins you installed from it."
+    },
+    {
+      "type": "h3",
+      "text": "Configure auto-updates"
+    },
+    {
+      "type": "li",
+      "text": "Run `/plugin` to open the plugin manager"
+    },
+    {
+      "type": "li",
+      "text": "Select **Marketplaces**"
+    },
+    {
+      "type": "li",
+      "text": "Choose a marketplace from the list"
+    },
+    {
+      "type": "li",
+      "text": "Select **Enable auto-update** or **Disable auto-update**"
+    },
+    {
+      "type": "h2",
+      "text": "Configure team marketplaces"
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "h3",
+      "text": "/plugin command not recognized"
+    },
+    {
+      "type": "li",
+      "text": "**Check your version**: Run `claude --version`. Plugins require version 1.0.33 or later."
+    },
+    {
+      "type": "li",
+      "text": "**Update Claude Code**:\n\n**Homebrew**: `brew upgrade claude-code`\n**npm**: `npm update -g @anthropic-ai/claude-code`\n**Native installer**: Re-run the install command from [Setup](/docs/en/setup)"
+    },
+    {
+      "type": "li",
+      "text": "**Homebrew**: `brew upgrade claude-code`"
+    },
+    {
+      "type": "li",
+      "text": "**npm**: `npm update -g @anthropic-ai/claude-code`"
+    },
+    {
+      "type": "li",
+      "text": "**Native installer**: Re-run the install command from [Setup](/docs/en/setup)"
+    },
+    {
+      "type": "li",
+      "text": "**Restart Claude Code**: After updating, restart your terminal and run `claude` again."
+    },
+    {
+      "type": "h3",
+      "text": "Common issues"
+    },
+    {
+      "type": "li",
+      "text": "**Marketplace not loading**: Verify the URL is accessible and that `.claude-plugin/marketplace.json` exists at the path"
+    },
+    {
+      "type": "li",
+      "text": "**Plugin installation failures**: Check that plugin source URLs are accessible and repositories are public (or you have access)"
+    },
+    {
+      "type": "li",
+      "text": "**Files not found after installation**: Plugins are copied to a cache, so paths referencing files outside the plugin directory won’t work"
+    },
+    {
+      "type": "li",
+      "text": "**Plugin Skills not appearing**: Clear the cache with `rm -rf ~/.claude/plugins/cache`, restart Claude Code, and reinstall the plugin. See [Plugin Skills not appearing](/docs/en/skills#plugin-skills-not-appearing-after-installation) for details."
+    },
+    {
+      "type": "h2",
+      "text": "Next steps"
+    },
+    {
+      "type": "li",
+      "text": "**Build your own plugins**: See [Plugins](/docs/en/plugins) to create custom commands, agents, and hooks"
+    },
+    {
+      "type": "li",
+      "text": "**Create a marketplace**: See [Create a plugin marketplace](/docs/en/plugin-marketplaces) to distribute plugins to your team or community"
+    },
+    {
+      "type": "li",
+      "text": "**Technical reference**: See [Plugins reference](/docs/en/plugins-reference) for complete specifications"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

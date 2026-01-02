@@ -1,0 +1,24 @@
+id: max-plan
+created: "2026-01-02"
+updated: "2026-01-02"
+channel: Claude Blog
+
+source:
+  url: https://claude.com/blog/max-plan
+  published: "2025-04-09"
+
+category: Product
+tags:
+  - Pricing
+  - Max Plan
+  - Claude
+  - Subscription
+
+languages:
+  en:
+    title: "Introducing the Max Plan"
+    type: original
+  ko:
+    title: "Max 플랜 소개"
+    type: translation
+    translator: ai

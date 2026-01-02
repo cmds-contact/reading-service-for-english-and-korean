@@ -1,0 +1,154 @@
+{
+  "title": "Analytics",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Analytics"
+    },
+    {
+      "type": "p",
+      "text": "View detailed usage insights and productivity metrics for your organization’s Claude Code deployment."
+    },
+    {
+      "type": "blockquote",
+      "text": "Analytics are currently available only for organizations using Claude Code with the Claude API through the Claude Console."
+    },
+    {
+      "type": "h2",
+      "text": "Access analytics"
+    },
+    {
+      "type": "h3",
+      "text": "Required roles"
+    },
+    {
+      "type": "li",
+      "text": "**Primary Owner**"
+    },
+    {
+      "type": "li",
+      "text": "**Owner**"
+    },
+    {
+      "type": "li",
+      "text": "**Billing**"
+    },
+    {
+      "type": "li",
+      "text": "**Admin**"
+    },
+    {
+      "type": "li",
+      "text": "**Developer**"
+    },
+    {
+      "type": "blockquote",
+      "text": "Users with **User**, **Claude Code User** or **Membership Admin** roles cannot access analytics."
+    },
+    {
+      "type": "h2",
+      "text": "Available metrics"
+    },
+    {
+      "type": "h3",
+      "text": "Lines of code accepted"
+    },
+    {
+      "type": "li",
+      "text": "Excludes rejected code suggestions"
+    },
+    {
+      "type": "li",
+      "text": "Doesn’t track subsequent deletions"
+    },
+    {
+      "type": "h3",
+      "text": "Suggestion accept rate"
+    },
+    {
+      "type": "li",
+      "text": "Edit"
+    },
+    {
+      "type": "li",
+      "text": "Write"
+    },
+    {
+      "type": "li",
+      "text": "NotebookEdit"
+    },
+    {
+      "type": "h3",
+      "text": "Activity"
+    },
+    {
+      "type": "h3",
+      "text": "Spend"
+    },
+    {
+      "type": "h3",
+      "text": "Team insights"
+    },
+    {
+      "type": "li",
+      "text": "API key users are displayed by **API key identifier**"
+    },
+    {
+      "type": "li",
+      "text": "OAuth users are displayed by **email address**"
+    },
+    {
+      "type": "h2",
+      "text": "Using analytics effectively"
+    },
+    {
+      "type": "h3",
+      "text": "Monitor adoption"
+    },
+    {
+      "type": "li",
+      "text": "Active users who can share best practices"
+    },
+    {
+      "type": "li",
+      "text": "Overall adoption trends across your organization"
+    },
+    {
+      "type": "h3",
+      "text": "Measure productivity"
+    },
+    {
+      "type": "li",
+      "text": "Understand developer satisfaction with Claude Code suggestions"
+    },
+    {
+      "type": "li",
+      "text": "Track code generation effectiveness"
+    },
+    {
+      "type": "li",
+      "text": "Identify opportunities for training or process improvements"
+    },
+    {
+      "type": "h2",
+      "text": "Related resources"
+    },
+    {
+      "type": "li",
+      "text": "[Monitoring usage with OpenTelemetry](/docs/en/monitoring-usage) for custom metrics and alerting"
+    },
+    {
+      "type": "li",
+      "text": "[Identity and access management](/docs/en/iam) for role configuration"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

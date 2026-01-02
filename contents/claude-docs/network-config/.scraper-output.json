@@ -1,0 +1,114 @@
+{
+  "title": "Enterprise network configuration",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Enterprise network configuration"
+    },
+    {
+      "type": "p",
+      "text": "Configure Claude Code for enterprise environments with proxy servers, custom Certificate Authorities (CA), and mutual Transport Layer Security (mTLS) authentication."
+    },
+    {
+      "type": "blockquote",
+      "text": "All environment variables shown on this page can also be configured in `settings.json`."
+    },
+    {
+      "type": "h2",
+      "text": "Proxy configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Environment variables"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# HTTPS proxy (recommended)\nexport HTTPS_PROXY=https://proxy.example.com:8080\n\n# HTTP proxy (if HTTPS not available)\nexport HTTP_PROXY=http://proxy.example.com:8080\n\n# Bypass proxy for specific requests - space-separated format\nexport NO_PROXY=\"localhost 192.168.1.1 example.com .example.com\"\n# Bypass proxy for specific requests - comma-separated format\nexport NO_PROXY=\"localhost,192.168.1.1,example.com,.example.com\"\n# Bypass proxy for all requests\nexport NO_PROXY=\"*\""
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code does not support SOCKS proxies."
+    },
+    {
+      "type": "h3",
+      "text": "Basic authentication"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export HTTPS_PROXY=http://username:password@proxy.example.com:8080"
+    },
+    {
+      "type": "blockquote",
+      "text": "Avoid hardcoding passwords in scripts. Use environment variables or secure credential storage instead."
+    },
+    {
+      "type": "blockquote",
+      "text": "For proxies requiring advanced authentication (NTLM, Kerberos, etc.), consider using an LLM Gateway service that supports your authentication method."
+    },
+    {
+      "type": "h2",
+      "text": "Custom CA certificates"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export NODE_EXTRA_CA_CERTS=/path/to/ca-cert.pem"
+    },
+    {
+      "type": "h2",
+      "text": "mTLS authentication"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Client certificate for authentication\nexport CLAUDE_CODE_CLIENT_CERT=/path/to/client-cert.pem\n\n# Client private key\nexport CLAUDE_CODE_CLIENT_KEY=/path/to/client-key.pem\n\n# Optional: Passphrase for encrypted private key\nexport CLAUDE_CODE_CLIENT_KEY_PASSPHRASE=\"your-passphrase\""
+    },
+    {
+      "type": "h2",
+      "text": "Network access requirements"
+    },
+    {
+      "type": "li",
+      "text": "`api.anthropic.com` - Claude API endpoints"
+    },
+    {
+      "type": "li",
+      "text": "`claude.ai` - WebFetch safeguards"
+    },
+    {
+      "type": "li",
+      "text": "`statsig.anthropic.com` - Telemetry and metrics"
+    },
+    {
+      "type": "li",
+      "text": "`sentry.io` - Error reporting"
+    },
+    {
+      "type": "h2",
+      "text": "Additional resources"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Code settings](/docs/en/settings)"
+    },
+    {
+      "type": "li",
+      "text": "[Environment variables reference](/docs/en/settings#environment-variables)"
+    },
+    {
+      "type": "li",
+      "text": "[Troubleshooting guide](/docs/en/troubleshooting)"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

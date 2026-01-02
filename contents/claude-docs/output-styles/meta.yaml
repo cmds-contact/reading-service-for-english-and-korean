@@ -1,0 +1,16 @@
+id: output-styles
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/output-styles
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Output styles"
+    type: original
+  ko:
+    title: "출력 스타일"
+    type: translation
+    translator: ai

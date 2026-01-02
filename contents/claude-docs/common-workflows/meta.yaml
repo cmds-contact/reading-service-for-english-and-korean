@@ -1,0 +1,16 @@
+id: common-workflows
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/common-workflows
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Common workflows"
+    type: original
+  ko:
+    title: "일반적인 워크플로우"
+    type: translation
+    translator: ai

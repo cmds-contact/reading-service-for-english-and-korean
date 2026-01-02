@@ -1,0 +1,172 @@
+{
+  "title": "Claude Code overview",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Claude Code overview"
+    },
+    {
+      "type": "p",
+      "text": "Learn about Claude Code, Anthropic’s agentic coding tool that lives in your terminal and helps you turn ideas into code faster than ever before."
+    },
+    {
+      "type": "h2",
+      "text": "Get started in 30 seconds"
+    },
+    {
+      "type": "li",
+      "text": "A [Claude.ai](https://claude.ai) (recommended) or [Claude Console](https://console.anthropic.com/) account"
+    },
+    {
+      "type": "li",
+      "text": "Native Install (Recommended)"
+    },
+    {
+      "type": "li",
+      "text": "Homebrew"
+    },
+    {
+      "type": "li",
+      "text": "NPM"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "curl -fsSL https://claude.ai/install.sh | bash"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "irm https://claude.ai/install.ps1 | iex"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "brew install --cask claude-code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "npm install -g @anthropic-ai/claude-code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cd your-project\nclaude"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code automatically keeps itself up to date. See [advanced setup](/docs/en/setup) for installation options, manual updates, or uninstallation instructions. Visit [troubleshooting](/docs/en/troubleshooting) if you hit issues."
+    },
+    {
+      "type": "h2",
+      "text": "What Claude Code does for you"
+    },
+    {
+      "type": "li",
+      "text": "**Build features from descriptions**: Tell Claude what you want to build in plain English. It will make a plan, write the code, and ensure it works."
+    },
+    {
+      "type": "li",
+      "text": "**Debug and fix issues**: Describe a bug or paste an error message. Claude Code will analyze your codebase, identify the problem, and implement a fix."
+    },
+    {
+      "type": "li",
+      "text": "**Navigate any codebase**: Ask anything about your team’s codebase, and get a thoughtful answer back. Claude Code maintains awareness of your entire project structure, can find up-to-date information from the web, and with [MCP](/docs/en/mcp) can pull from external data sources like Google Drive, Figma, and Slack."
+    },
+    {
+      "type": "li",
+      "text": "**Automate tedious tasks**: Fix fiddly lint issues, resolve merge conflicts, and write release notes. Do all this in a single command from your developer machines, or automatically in CI."
+    },
+    {
+      "type": "h2",
+      "text": "Why developers love Claude Code"
+    },
+    {
+      "type": "li",
+      "text": "**Works in your terminal**: Not another chat window. Not another IDE. Claude Code meets you where you already work, with the tools you already love."
+    },
+    {
+      "type": "li",
+      "text": "**Takes action**: Claude Code can directly edit files, run commands, and create commits. Need more? [MCP](/docs/en/mcp) lets Claude read your design docs in Google Drive, update your tickets in Jira, or use *your* custom developer tooling."
+    },
+    {
+      "type": "li",
+      "text": "**Unix philosophy**: Claude Code is composable and scriptable. `tail -f app.log | claude -p \"Slack me if you see any anomalies appear in this log stream\"` *works*. Your CI can run `claude -p \"If there are new text strings, translate them into French and raise a PR for @lang-fr-team to review\"`."
+    },
+    {
+      "type": "li",
+      "text": "**Enterprise-ready**: Use the Claude API, or host on AWS or GCP. Enterprise-grade [security](/docs/en/security), [privacy](/docs/en/data-usage), and [compliance](https://trust.anthropic.com/) is built-in."
+    },
+    {
+      "type": "h2",
+      "text": "Next steps"
+    },
+    {
+      "type": "h2",
+      "text": "Quickstart"
+    },
+    {
+      "type": "h2",
+      "text": "Common workflows"
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "h2",
+      "text": "IDE setup"
+    },
+    {
+      "type": "h2",
+      "text": "Additional resources"
+    },
+    {
+      "type": "h2",
+      "text": "About Claude Code"
+    },
+    {
+      "type": "h2",
+      "text": "Build with the Agent SDK"
+    },
+    {
+      "type": "h2",
+      "text": "Host on AWS or GCP"
+    },
+    {
+      "type": "h2",
+      "text": "Settings"
+    },
+    {
+      "type": "h2",
+      "text": "Commands"
+    },
+    {
+      "type": "h2",
+      "text": "Reference implementation"
+    },
+    {
+      "type": "h2",
+      "text": "Security"
+    },
+    {
+      "type": "h2",
+      "text": "Privacy and data usage"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

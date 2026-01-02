@@ -1,0 +1,185 @@
+{
+  "title": "Manage costs effectively",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Manage costs effectively"
+    },
+    {
+      "type": "p",
+      "text": "Learn how to track and optimize token usage and costs when using Claude Code."
+    },
+    {
+      "type": "h2",
+      "text": "Track your costs"
+    },
+    {
+      "type": "h3",
+      "text": "Using the /cost command"
+    },
+    {
+      "type": "blockquote",
+      "text": "The `/cost` command is not intended for Claude Max and Pro subscribers."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "Total cost:            $0.55\nTotal duration (API):  6m 19.7s\nTotal duration (wall): 6h 33m 10.2s\nTotal code changes:    0 lines added, 0 lines removed"
+    },
+    {
+      "type": "h3",
+      "text": "Additional tracking options"
+    },
+    {
+      "type": "blockquote",
+      "text": "When you first authenticate Claude Code with your Claude Console account, a workspace called “Claude Code” is automatically created for you. This workspace provides centralized cost tracking and management for all Claude Code usage in your organization. You cannot create API keys for this workspace - it is exclusively for Claude Code authentication and usage."
+    },
+    {
+      "type": "h2",
+      "text": "Managing costs for teams"
+    },
+    {
+      "type": "h3",
+      "text": "Rate limit recommendations"
+    },
+    {
+      "type": "blockquote",
+      "text": "If you anticipate scenarios with unusually high concurrent usage (such as live training sessions with large groups), you may need higher TPM allocations per user."
+    },
+    {
+      "type": "h2",
+      "text": "Reduce token usage"
+    },
+    {
+      "type": "li",
+      "text": "**Compact conversations:**\n\n\nClaude uses auto-compact by default when context exceeds 95% capacity\n\n\nToggle auto-compact: Run `/config` and navigate to “Auto-compact enabled”\n\n\nUse `/compact` manually when context gets large\n\n\nAdd custom instructions: `/compact Focus on code samples and API usage`\n\n\nCustomize compaction by adding to CLAUDE.md:\nCopyAsk AI# Summary instructions\n\nWhen you are using compact, please focus on test output and code changes"
+    },
+    {
+      "type": "li",
+      "text": "Claude uses auto-compact by default when context exceeds 95% capacity"
+    },
+    {
+      "type": "li",
+      "text": "Toggle auto-compact: Run `/config` and navigate to “Auto-compact enabled”"
+    },
+    {
+      "type": "li",
+      "text": "Use `/compact` manually when context gets large"
+    },
+    {
+      "type": "li",
+      "text": "Add custom instructions: `/compact Focus on code samples and API usage`"
+    },
+    {
+      "type": "li",
+      "text": "Customize compaction by adding to CLAUDE.md:\nCopyAsk AI# Summary instructions\n\nWhen you are using compact, please focus on test output and code changes"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Summary instructions\n\nWhen you are using compact, please focus on test output and code changes"
+    },
+    {
+      "type": "li",
+      "text": "**Write specific queries:** Avoid vague requests that trigger unnecessary scanning"
+    },
+    {
+      "type": "li",
+      "text": "**Break down complex tasks:** Split large tasks into focused interactions"
+    },
+    {
+      "type": "li",
+      "text": "**Clear history between tasks:** Use `/clear` to reset context"
+    },
+    {
+      "type": "li",
+      "text": "Size of codebase being analyzed"
+    },
+    {
+      "type": "li",
+      "text": "Complexity of queries"
+    },
+    {
+      "type": "li",
+      "text": "Number of files being searched or modified"
+    },
+    {
+      "type": "li",
+      "text": "Length of conversation history"
+    },
+    {
+      "type": "li",
+      "text": "Frequency of compacting conversations"
+    },
+    {
+      "type": "h2",
+      "text": "Background token usage"
+    },
+    {
+      "type": "li",
+      "text": "**Conversation summarization**: Background jobs that summarize previous conversations for the `claude --resume` feature"
+    },
+    {
+      "type": "li",
+      "text": "**Command processing**: Some commands like `/cost` may generate requests to check status"
+    },
+    {
+      "type": "h2",
+      "text": "Tracking version changes and updates"
+    },
+    {
+      "type": "h3",
+      "text": "Current version information"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude doctor"
+    },
+    {
+      "type": "h3",
+      "text": "Understanding changes in Claude Code behavior"
+    },
+    {
+      "type": "li",
+      "text": "**Version tracking**: Use `claude doctor` to see your current version"
+    },
+    {
+      "type": "li",
+      "text": "**Behavior changes**: Features like `/cost` may display information differently across versions"
+    },
+    {
+      "type": "li",
+      "text": "**Documentation access**: Claude always has access to the latest documentation, which can help explain current feature behavior"
+    },
+    {
+      "type": "h3",
+      "text": "When cost reporting changes"
+    },
+    {
+      "type": "li",
+      "text": "**Verify your version**: Run `claude doctor` to confirm your current version"
+    },
+    {
+      "type": "li",
+      "text": "**Consult documentation**: Ask Claude directly about current feature behavior, as it has access to up-to-date documentation"
+    },
+    {
+      "type": "li",
+      "text": "**Contact support**: For specific billing questions, contact Anthropic support through your Console account"
+    },
+    {
+      "type": "blockquote",
+      "text": "For team deployments, we recommend starting with a small pilot group to\nestablish usage patterns before wider rollout."
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

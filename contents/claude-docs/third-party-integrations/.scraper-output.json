@@ -1,0 +1,252 @@
+{
+  "title": "Enterprise deployment overview",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Enterprise deployment overview"
+    },
+    {
+      "type": "p",
+      "text": "Learn how Claude Code can integrate with various third-party services and infrastructure to meet enterprise deployment requirements."
+    },
+    {
+      "type": "h2",
+      "text": "Provider comparison"
+    },
+    {
+      "type": "h2",
+      "text": "Cloud providers"
+    },
+    {
+      "type": "h2",
+      "text": "Amazon Bedrock"
+    },
+    {
+      "type": "h2",
+      "text": "Google Vertex AI"
+    },
+    {
+      "type": "h2",
+      "text": "Microsoft Foundry"
+    },
+    {
+      "type": "h2",
+      "text": "Corporate infrastructure"
+    },
+    {
+      "type": "h2",
+      "text": "Enterprise Network"
+    },
+    {
+      "type": "h2",
+      "text": "LLM Gateway"
+    },
+    {
+      "type": "h2",
+      "text": "Configuration overview"
+    },
+    {
+      "type": "blockquote",
+      "text": "Understand the difference between:\n**Corporate proxy**: An HTTP/HTTPS proxy for routing traffic (set via `HTTPS_PROXY` or `HTTP_PROXY`)\n**LLM Gateway**: A service that handles authentication and provides provider-compatible endpoints (set via `ANTHROPIC_BASE_URL`, `ANTHROPIC_BEDROCK_BASE_URL`, or `ANTHROPIC_VERTEX_BASE_URL`)\nBoth configurations can be used in tandem."
+    },
+    {
+      "type": "li",
+      "text": "**Corporate proxy**: An HTTP/HTTPS proxy for routing traffic (set via `HTTPS_PROXY` or `HTTP_PROXY`)"
+    },
+    {
+      "type": "li",
+      "text": "**LLM Gateway**: A service that handles authentication and provides provider-compatible endpoints (set via `ANTHROPIC_BASE_URL`, `ANTHROPIC_BEDROCK_BASE_URL`, or `ANTHROPIC_VERTEX_BASE_URL`)"
+    },
+    {
+      "type": "h3",
+      "text": "Using Bedrock with corporate proxy"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Enable Bedrock\nexport CLAUDE_CODE_USE_BEDROCK=1\nexport AWS_REGION=us-east-1\n\n# Configure corporate proxy\nexport HTTPS_PROXY='https://proxy.example.com:8080'"
+    },
+    {
+      "type": "h3",
+      "text": "Using Bedrock with LLM Gateway"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Enable Bedrock\nexport CLAUDE_CODE_USE_BEDROCK=1\n\n# Configure LLM gateway\nexport ANTHROPIC_BEDROCK_BASE_URL='https://your-llm-gateway.com/bedrock'\nexport CLAUDE_CODE_SKIP_BEDROCK_AUTH=1  # If gateway handles AWS auth"
+    },
+    {
+      "type": "h3",
+      "text": "Using Foundry with corporate proxy"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Enable Microsoft Foundry\nexport CLAUDE_CODE_USE_FOUNDRY=1\nexport ANTHROPIC_FOUNDRY_RESOURCE=your-resource\nexport ANTHROPIC_FOUNDRY_API_KEY=your-api-key  # Or omit for Entra ID auth\n\n# Configure corporate proxy\nexport HTTPS_PROXY='https://proxy.example.com:8080'"
+    },
+    {
+      "type": "h3",
+      "text": "Using Foundry with LLM Gateway"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Enable Microsoft Foundry\nexport CLAUDE_CODE_USE_FOUNDRY=1\n\n# Configure LLM gateway\nexport ANTHROPIC_FOUNDRY_BASE_URL='https://your-llm-gateway.com'\nexport CLAUDE_CODE_SKIP_FOUNDRY_AUTH=1  # If gateway handles Azure auth"
+    },
+    {
+      "type": "h3",
+      "text": "Using Vertex AI with corporate proxy"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Enable Vertex\nexport CLAUDE_CODE_USE_VERTEX=1\nexport CLOUD_ML_REGION=us-east5\nexport ANTHROPIC_VERTEX_PROJECT_ID=your-project-id\n\n# Configure corporate proxy\nexport HTTPS_PROXY='https://proxy.example.com:8080'"
+    },
+    {
+      "type": "h3",
+      "text": "Using Vertex AI with LLM Gateway"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Enable Vertex\nexport CLAUDE_CODE_USE_VERTEX=1\n\n# Configure LLM gateway\nexport ANTHROPIC_VERTEX_BASE_URL='https://your-llm-gateway.com/vertex'\nexport CLAUDE_CODE_SKIP_VERTEX_AUTH=1  # If gateway handles GCP auth"
+    },
+    {
+      "type": "h3",
+      "text": "Authentication configuration"
+    },
+    {
+      "type": "h2",
+      "text": "Choosing the right deployment configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Direct provider access"
+    },
+    {
+      "type": "li",
+      "text": "Want the simplest setup"
+    },
+    {
+      "type": "li",
+      "text": "Have existing AWS or GCP infrastructure"
+    },
+    {
+      "type": "li",
+      "text": "Need provider-native monitoring and compliance"
+    },
+    {
+      "type": "h3",
+      "text": "Corporate proxy"
+    },
+    {
+      "type": "li",
+      "text": "Have existing corporate proxy requirements"
+    },
+    {
+      "type": "li",
+      "text": "Need traffic monitoring and compliance"
+    },
+    {
+      "type": "li",
+      "text": "Must route all traffic through specific network paths"
+    },
+    {
+      "type": "li",
+      "text": "Need usage tracking across teams"
+    },
+    {
+      "type": "li",
+      "text": "Want to dynamically switch between models"
+    },
+    {
+      "type": "li",
+      "text": "Require custom rate limiting or budgets"
+    },
+    {
+      "type": "li",
+      "text": "Need centralized authentication management"
+    },
+    {
+      "type": "h2",
+      "text": "Debugging"
+    },
+    {
+      "type": "li",
+      "text": "Use the `claude /status` [slash command](/docs/en/slash-commands). This command provides observability into any applied authentication, proxy, and URL settings."
+    },
+    {
+      "type": "li",
+      "text": "Set environment variable `export ANTHROPIC_LOG=debug` to log requests."
+    },
+    {
+      "type": "h2",
+      "text": "Best practices for organizations"
+    },
+    {
+      "type": "h3",
+      "text": "1. Invest in documentation and memory"
+    },
+    {
+      "type": "li",
+      "text": "**Organization-wide**: Deploy to system directories like `/Library/Application Support/ClaudeCode/CLAUDE.md` (macOS) for company-wide standards"
+    },
+    {
+      "type": "li",
+      "text": "**Repository-level**: Create `CLAUDE.md` files in repository roots containing project architecture, build commands, and contribution guidelines. Check these into source control so all users benefit\n[Learn more](/docs/en/memory)."
+    },
+    {
+      "type": "h3",
+      "text": "2. Simplify deployment"
+    },
+    {
+      "type": "h3",
+      "text": "3. Start with guided usage"
+    },
+    {
+      "type": "h3",
+      "text": "4. Configure security policies"
+    },
+    {
+      "type": "h3",
+      "text": "5. Leverage MCP for integrations"
+    },
+    {
+      "type": "h2",
+      "text": "Next steps"
+    },
+    {
+      "type": "li",
+      "text": "[Set up Amazon Bedrock](/docs/en/amazon-bedrock) for AWS-native deployment"
+    },
+    {
+      "type": "li",
+      "text": "[Configure Google Vertex AI](/docs/en/google-vertex-ai) for GCP deployment"
+    },
+    {
+      "type": "li",
+      "text": "[Set up Microsoft Foundry](/docs/en/microsoft-foundry) for Azure deployment"
+    },
+    {
+      "type": "li",
+      "text": "[Configure Enterprise Network](/docs/en/network-config) for network requirements"
+    },
+    {
+      "type": "li",
+      "text": "[Deploy LLM Gateway](/docs/en/llm-gateway) for enterprise management"
+    },
+    {
+      "type": "li",
+      "text": "[Settings](/docs/en/settings) for configuration options and environment variables"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

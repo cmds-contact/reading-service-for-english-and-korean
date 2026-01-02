@@ -1,0 +1,25 @@
+id: meta-prompting-veo
+created: "2025-12-08"
+updated: "2025-12-08"
+channel: Google
+
+source:
+  url: https://blog.google/products/gemini/meta-prompting-veo-gemini-tips/
+  published: "2025-12-08"
+
+category: AI
+tags:
+  - Veo
+  - Video Generation
+  - Meta Prompting
+  - Gemini
+  - Paper Art
+
+languages:
+  en:
+    title: 'A Googler explains how to "meta prompt" for incredible Veo videos'
+    type: original
+  ko:
+    title: '구글러가 설명하는 놀라운 Veo 비디오를 위한 "메타 프롬프트" 방법'
+    type: translation
+    translator: ai

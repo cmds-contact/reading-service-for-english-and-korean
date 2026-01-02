@@ -1,0 +1,591 @@
+{
+  "title": "Subagents",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Subagents"
+    },
+    {
+      "type": "p",
+      "text": "Create and use specialized AI subagents in Claude Code for task-specific workflows and improved context management."
+    },
+    {
+      "type": "h2",
+      "text": "What are subagents?"
+    },
+    {
+      "type": "li",
+      "text": "Has a specific purpose and expertise area"
+    },
+    {
+      "type": "li",
+      "text": "Uses its own context window separate from the main conversation"
+    },
+    {
+      "type": "li",
+      "text": "Can be configured with specific tools it’s allowed to use"
+    },
+    {
+      "type": "li",
+      "text": "Includes a custom system prompt that guides its behavior"
+    },
+    {
+      "type": "h2",
+      "text": "Key benefits"
+    },
+    {
+      "type": "h2",
+      "text": "Context preservation"
+    },
+    {
+      "type": "h2",
+      "text": "Specialized expertise"
+    },
+    {
+      "type": "h2",
+      "text": "Reusability"
+    },
+    {
+      "type": "h2",
+      "text": "Flexible permissions"
+    },
+    {
+      "type": "h2",
+      "text": "Quick start"
+    },
+    {
+      "type": "p",
+      "text": "Open the subagents interface"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/agents"
+    },
+    {
+      "type": "p",
+      "text": "Select 'Create New Agent'"
+    },
+    {
+      "type": "p",
+      "text": "Define the subagent"
+    },
+    {
+      "type": "li",
+      "text": "**Recommended**: generate with Claude first, then customize to make it yours"
+    },
+    {
+      "type": "li",
+      "text": "Describe your subagent in detail, including when Claude should use it"
+    },
+    {
+      "type": "li",
+      "text": "Select the tools you want to grant access to, or leave this blank to inherit all tools"
+    },
+    {
+      "type": "li",
+      "text": "The interface shows all available tools"
+    },
+    {
+      "type": "li",
+      "text": "If you’re generating with Claude, you can also edit the system prompt in your own editor by pressing `e`"
+    },
+    {
+      "type": "p",
+      "text": "Save and use"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Use the code-reviewer subagent to check my recent changes"
+    },
+    {
+      "type": "h2",
+      "text": "Subagent configuration"
+    },
+    {
+      "type": "h3",
+      "text": "File locations"
+    },
+    {
+      "type": "h3",
+      "text": "Plugin agents"
+    },
+    {
+      "type": "li",
+      "text": "Plugin agents appear in `/agents` alongside your custom agents"
+    },
+    {
+      "type": "li",
+      "text": "Can be invoked explicitly: “Use the code-reviewer agent from the security-plugin”"
+    },
+    {
+      "type": "li",
+      "text": "Can be invoked automatically by Claude when appropriate"
+    },
+    {
+      "type": "li",
+      "text": "Can be managed (viewed, inspected) through `/agents` interface"
+    },
+    {
+      "type": "h3",
+      "text": "CLI-based configuration"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --agents '{\n  \"code-reviewer\": {\n    \"description\": \"Expert code reviewer. Use proactively after code changes.\",\n    \"prompt\": \"You are a senior code reviewer. Focus on code quality, security, and best practices.\",\n    \"tools\": [\"Read\", \"Grep\", \"Glob\", \"Bash\"],\n    \"model\": \"sonnet\"\n  }\n}'"
+    },
+    {
+      "type": "li",
+      "text": "Quick testing of subagent configurations"
+    },
+    {
+      "type": "li",
+      "text": "Session-specific subagents that don’t need to be saved"
+    },
+    {
+      "type": "li",
+      "text": "Automation scripts that need custom subagents"
+    },
+    {
+      "type": "li",
+      "text": "Sharing subagent definitions in documentation or scripts"
+    },
+    {
+      "type": "h3",
+      "text": "File format"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\nname: your-sub-agent-name\ndescription: Description of when this subagent should be invoked\ntools: tool1, tool2, tool3  # Optional - inherits all tools if omitted\nmodel: sonnet  # Optional - specify model alias or 'inherit'\npermissionMode: default  # Optional - permission mode for the subagent\nskills: skill1, skill2  # Optional - skills to auto-load\n---\n\nYour subagent's system prompt goes here. This can be multiple paragraphs\nand should clearly define the subagent's role, capabilities, and approach\nto solving problems.\n\nInclude specific instructions, best practices, and any constraints\nthe subagent should follow."
+    },
+    {
+      "type": "h4",
+      "text": "Configuration fields"
+    },
+    {
+      "type": "h3",
+      "text": "Model selection"
+    },
+    {
+      "type": "li",
+      "text": "**Model alias**: Use one of the available aliases: `sonnet`, `opus`, or `haiku`"
+    },
+    {
+      "type": "li",
+      "text": "`'inherit'`: Use the same model as the main conversation (useful for consistency)"
+    },
+    {
+      "type": "li",
+      "text": "**Omitted**: If not specified, uses the default model configured for subagents (`sonnet`)"
+    },
+    {
+      "type": "blockquote",
+      "text": "Using `'inherit'` is particularly useful when you want your subagents to adapt to the model choice of the main conversation, ensuring consistent capabilities and response style throughout your session."
+    },
+    {
+      "type": "h3",
+      "text": "Available tools"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Recommended:** Use the `/agents` command to modify tool access - it provides an interactive interface that lists all available tools, including any connected MCP server tools, making it easier to select the ones you need."
+    },
+    {
+      "type": "li",
+      "text": "Omit the `tools` field to inherit all tools from the main thread (default), including MCP tools"
+    },
+    {
+      "type": "li",
+      "text": "**Specify individual tools** as a comma-separated list for more granular control (can be edited manually or via `/agents`)"
+    },
+    {
+      "type": "h2",
+      "text": "Managing subagents"
+    },
+    {
+      "type": "h3",
+      "text": "Using the /agents command (Recommended)"
+    },
+    {
+      "type": "li",
+      "text": "View all available subagents (built-in, user, and project)"
+    },
+    {
+      "type": "li",
+      "text": "Create new subagents with guided setup"
+    },
+    {
+      "type": "li",
+      "text": "Edit existing custom subagents, including their tool access"
+    },
+    {
+      "type": "li",
+      "text": "Delete custom subagents"
+    },
+    {
+      "type": "li",
+      "text": "See which subagents are active when duplicates exist"
+    },
+    {
+      "type": "li",
+      "text": "**Manage tool permissions** with a complete list of available tools"
+    },
+    {
+      "type": "h3",
+      "text": "Direct file management"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Create a project subagent\nmkdir -p .claude/agents\necho '---\nname: test-runner\ndescription: Use proactively to run tests and fix failures\n---\n\nYou are a test automation expert. When you see code changes, proactively run the appropriate tests. If tests fail, analyze the failures and fix them while preserving the original test intent.' > .claude/agents/test-runner.md\n\n# Create a user subagent\nmkdir -p ~/.claude/agents\n# ... create subagent file"
+    },
+    {
+      "type": "blockquote",
+      "text": "Subagents created by manually adding files will be loaded the next time you start a Claude Code session. To create and use a subagent immediately without restarting, use the `/agents` command instead."
+    },
+    {
+      "type": "h2",
+      "text": "Using subagents effectively"
+    },
+    {
+      "type": "h3",
+      "text": "Automatic delegation"
+    },
+    {
+      "type": "li",
+      "text": "The task description in your request"
+    },
+    {
+      "type": "li",
+      "text": "The `description` field in subagent configurations"
+    },
+    {
+      "type": "li",
+      "text": "Current context and available tools"
+    },
+    {
+      "type": "blockquote",
+      "text": "To encourage more proactive subagent use, include phrases like “use PROACTIVELY” or “MUST BE USED” in your `description` field."
+    },
+    {
+      "type": "h3",
+      "text": "Explicit invocation"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Use the test-runner subagent to fix failing tests\n> Have the code-reviewer subagent look at my recent changes\n> Ask the debugger subagent to investigate this error"
+    },
+    {
+      "type": "h2",
+      "text": "Built-in subagents"
+    },
+    {
+      "type": "h3",
+      "text": "General-purpose subagent"
+    },
+    {
+      "type": "li",
+      "text": "**Model**: Uses Sonnet for more capable reasoning"
+    },
+    {
+      "type": "li",
+      "text": "**Tools**: Has access to all tools"
+    },
+    {
+      "type": "li",
+      "text": "**Mode**: Can read and write files, execute commands, make changes"
+    },
+    {
+      "type": "li",
+      "text": "**Purpose**: Complex research tasks, multi-step operations, code modifications"
+    },
+    {
+      "type": "li",
+      "text": "The task requires both exploration and modification"
+    },
+    {
+      "type": "li",
+      "text": "Complex reasoning is needed to interpret search results"
+    },
+    {
+      "type": "li",
+      "text": "Multiple strategies may be needed if initial searches fail"
+    },
+    {
+      "type": "li",
+      "text": "The task has multiple steps that depend on each other"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "User: Find all the places where we handle authentication and update them to use the new token format\n\nClaude: [Invokes general-purpose subagent]\n[Agent searches for auth-related code across codebase]\n[Agent reads and analyzes multiple files]\n[Agent makes necessary edits]\n[Returns detailed writeup of changes made]"
+    },
+    {
+      "type": "h3",
+      "text": "Plan subagent"
+    },
+    {
+      "type": "li",
+      "text": "**Model**: Uses Sonnet for more capable analysis"
+    },
+    {
+      "type": "li",
+      "text": "**Tools**: Has access to Read, Glob, Grep, and Bash tools for codebase exploration"
+    },
+    {
+      "type": "li",
+      "text": "**Purpose**: Searches files, analyzes code structure, and gathers context"
+    },
+    {
+      "type": "li",
+      "text": "**Automatic invocation**: Claude automatically uses this agent when in plan mode and needs to research the codebase"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "User: [In plan mode] Help me refactor the authentication module\n\nClaude: Let me research your authentication implementation first...\n[Internally invokes Plan subagent to explore auth-related files]\n[Plan subagent searches codebase and returns findings]\nClaude: Based on my research, here's my proposed plan..."
+    },
+    {
+      "type": "blockquote",
+      "text": "The Plan subagent is only used in plan mode. In normal execution mode, Claude uses the general-purpose agent or other custom subagents you’ve created."
+    },
+    {
+      "type": "h3",
+      "text": "Explore subagent"
+    },
+    {
+      "type": "li",
+      "text": "**Model**: Uses Haiku for fast, low-latency searches"
+    },
+    {
+      "type": "li",
+      "text": "**Mode**: Strictly read-only - cannot create, modify, or delete files"
+    },
+    {
+      "type": "li",
+      "text": "**Tools available**:\n\nGlob - File pattern matching\nGrep - Content searching with regular expressions\nRead - Reading file contents\nBash - Read-only commands only (ls, git status, git log, git diff, find, cat, head, tail)"
+    },
+    {
+      "type": "li",
+      "text": "Glob - File pattern matching"
+    },
+    {
+      "type": "li",
+      "text": "Grep - Content searching with regular expressions"
+    },
+    {
+      "type": "li",
+      "text": "Read - Reading file contents"
+    },
+    {
+      "type": "li",
+      "text": "Bash - Read-only commands only (ls, git status, git log, git diff, find, cat, head, tail)"
+    },
+    {
+      "type": "li",
+      "text": "**Quick** - Fast searches with minimal exploration. Good for targeted lookups."
+    },
+    {
+      "type": "li",
+      "text": "**Medium** - Moderate exploration. Balances speed and thoroughness."
+    },
+    {
+      "type": "li",
+      "text": "**Very thorough** - Comprehensive analysis across multiple locations and naming conventions. Used when the target might be in unexpected places."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "User: Where are errors from the client handled?\n\nClaude: [Invokes Explore subagent with \"medium\" thoroughness]\n[Explore uses Grep to search for error handling patterns]\n[Explore uses Read to examine promising files]\n[Returns findings with absolute file paths]\nClaude: Client errors are handled in src/services/process.ts:712..."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "User: What's the codebase structure?\n\nClaude: [Invokes Explore subagent with \"quick\" thoroughness]\n[Explore uses Glob and ls to map directory structure]\n[Returns overview of key directories and their purposes]"
+    },
+    {
+      "type": "h2",
+      "text": "Example subagents"
+    },
+    {
+      "type": "h3",
+      "text": "Code reviewer"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\nname: code-reviewer\ndescription: Expert code review specialist. Proactively reviews code for quality, security, and maintainability. Use immediately after writing or modifying code.\ntools: Read, Grep, Glob, Bash\nmodel: inherit\n---\n\nYou are a senior code reviewer ensuring high standards of code quality and security.\n\nWhen invoked:\n1. Run git diff to see recent changes\n2. Focus on modified files\n3. Begin review immediately\n\nReview checklist:\n- Code is clear and readable\n- Functions and variables are well-named\n- No duplicated code\n- Proper error handling\n- No exposed secrets or API keys\n- Input validation implemented\n- Good test coverage\n- Performance considerations addressed\n\nProvide feedback organized by priority:\n- Critical issues (must fix)\n- Warnings (should fix)\n- Suggestions (consider improving)\n\nInclude specific examples of how to fix issues."
+    },
+    {
+      "type": "h3",
+      "text": "Debugger"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\nname: debugger\ndescription: Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues.\ntools: Read, Edit, Bash, Grep, Glob\n---\n\nYou are an expert debugger specializing in root cause analysis.\n\nWhen invoked:\n1. Capture error message and stack trace\n2. Identify reproduction steps\n3. Isolate the failure location\n4. Implement minimal fix\n5. Verify solution works\n\nDebugging process:\n- Analyze error messages and logs\n- Check recent code changes\n- Form and test hypotheses\n- Add strategic debug logging\n- Inspect variable states\n\nFor each issue, provide:\n- Root cause explanation\n- Evidence supporting the diagnosis\n- Specific code fix\n- Testing approach\n- Prevention recommendations\n\nFocus on fixing the underlying issue, not the symptoms."
+    },
+    {
+      "type": "h3",
+      "text": "Data scientist"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\nname: data-scientist\ndescription: Data analysis expert for SQL queries, BigQuery operations, and data insights. Use proactively for data analysis tasks and queries.\ntools: Bash, Read, Write\nmodel: sonnet\n---\n\nYou are a data scientist specializing in SQL and BigQuery analysis.\n\nWhen invoked:\n1. Understand the data analysis requirement\n2. Write efficient SQL queries\n3. Use BigQuery command line tools (bq) when appropriate\n4. Analyze and summarize results\n5. Present findings clearly\n\nKey practices:\n- Write optimized SQL queries with proper filters\n- Use appropriate aggregations and joins\n- Include comments explaining complex logic\n- Format results for readability\n- Provide data-driven recommendations\n\nFor each analysis:\n- Explain the query approach\n- Document any assumptions\n- Highlight key findings\n- Suggest next steps based on data\n\nAlways ensure queries are efficient and cost-effective."
+    },
+    {
+      "type": "h2",
+      "text": "Best practices"
+    },
+    {
+      "type": "li",
+      "text": "**Start with Claude-generated agents**: We highly recommend generating your initial subagent with Claude and then iterating on it to make it personally yours. This approach gives you the best results - a solid foundation that you can customize to your specific needs."
+    },
+    {
+      "type": "li",
+      "text": "**Design focused subagents**: Create subagents with single, clear responsibilities rather than trying to make one subagent do everything. This improves performance and makes subagents more predictable."
+    },
+    {
+      "type": "li",
+      "text": "**Write detailed prompts**: Include specific instructions, examples, and constraints in your system prompts. The more guidance you provide, the better the subagent will perform."
+    },
+    {
+      "type": "li",
+      "text": "**Limit tool access**: Only grant tools that are necessary for the subagent’s purpose. This improves security and helps the subagent focus on relevant actions."
+    },
+    {
+      "type": "li",
+      "text": "**Version control**: Check project subagents into version control so your team can benefit from and improve them collaboratively."
+    },
+    {
+      "type": "h2",
+      "text": "Advanced usage"
+    },
+    {
+      "type": "h3",
+      "text": "Chaining subagents"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> First use the code-analyzer subagent to find performance issues, then use the optimizer subagent to fix them"
+    },
+    {
+      "type": "h3",
+      "text": "Dynamic subagent selection"
+    },
+    {
+      "type": "h3",
+      "text": "Resumable subagents"
+    },
+    {
+      "type": "li",
+      "text": "Each subagent execution is assigned a unique `agentId`"
+    },
+    {
+      "type": "li",
+      "text": "The agent’s conversation is stored in a separate transcript file: `agent-{agentId}.jsonl`"
+    },
+    {
+      "type": "li",
+      "text": "You can resume a previous agent by providing its `agentId` via the `resume` parameter"
+    },
+    {
+      "type": "li",
+      "text": "When resumed, the agent continues with full context from its previous conversation"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Use the code-analyzer agent to start reviewing the authentication module\n\n[Agent completes initial analysis and returns agentId: \"abc123\"]"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Resume agent abc123 and now analyze the authorization logic as well\n\n[Agent continues with full context from previous conversation]"
+    },
+    {
+      "type": "li",
+      "text": "**Long-running research**: Break down large codebase analysis into multiple sessions"
+    },
+    {
+      "type": "li",
+      "text": "**Iterative refinement**: Continue refining a subagent’s work without losing context"
+    },
+    {
+      "type": "li",
+      "text": "**Multi-step workflows**: Have a subagent work on related tasks sequentially while maintaining context"
+    },
+    {
+      "type": "li",
+      "text": "Agent transcripts are stored in your project directory"
+    },
+    {
+      "type": "li",
+      "text": "Recording is disabled during resume to avoid duplicating messages"
+    },
+    {
+      "type": "li",
+      "text": "Both synchronous and asynchronous agents can be resumed"
+    },
+    {
+      "type": "li",
+      "text": "The `resume` parameter accepts the agent ID from a previous execution"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"description\": \"Continue analysis\",\n  \"prompt\": \"Now examine the error handling patterns\",\n  \"subagent_type\": \"code-analyzer\",\n  \"resume\": \"abc123\"  // Agent ID from previous execution\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "Keep track of agent IDs for tasks you may want to resume later. Claude Code displays the agent ID when a subagent completes its work."
+    },
+    {
+      "type": "h2",
+      "text": "Performance considerations"
+    },
+    {
+      "type": "li",
+      "text": "**Context efficiency**: Agents help preserve main context, enabling longer overall sessions"
+    },
+    {
+      "type": "li",
+      "text": "**Latency**: Subagents start off with a clean slate each time they are invoked and may add latency as they gather context that they require to do their job effectively."
+    },
+    {
+      "type": "h2",
+      "text": "Related documentation"
+    },
+    {
+      "type": "li",
+      "text": "[Plugins](/docs/en/plugins) - Extend Claude Code with custom agents through plugins"
+    },
+    {
+      "type": "li",
+      "text": "[Slash commands](/docs/en/slash-commands) - Learn about other built-in commands"
+    },
+    {
+      "type": "li",
+      "text": "[Settings](/docs/en/settings) - Configure Claude Code behavior"
+    },
+    {
+      "type": "li",
+      "text": "[Hooks](/docs/en/hooks) - Automate workflows with event handlers"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

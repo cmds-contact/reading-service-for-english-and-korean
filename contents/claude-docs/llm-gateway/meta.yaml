@@ -1,0 +1,16 @@
+id: llm-gateway
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/llm-gateway
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "LLM gateway configuration"
+    type: original
+  ko:
+    title: "LLM Gateway 구성"
+    type: translation
+    translator: ai

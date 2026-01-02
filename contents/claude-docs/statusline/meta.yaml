@@ -1,0 +1,16 @@
+id: statusline
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/statusline
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Status line configuration"
+    type: original
+  ko:
+    title: "상태 표시줄 설정"
+    type: translation
+    translator: ai

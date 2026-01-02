@@ -1,0 +1,16 @@
+id: github-actions
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/github-actions
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Claude Code GitHub Actions"
+    type: original
+  ko:
+    title: "Claude Code GitHub Actions"
+    type: translation
+    translator: ai

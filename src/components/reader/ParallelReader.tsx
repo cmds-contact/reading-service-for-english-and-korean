@@ -8,16 +8,20 @@ import { cn } from '@/lib/utils'
 
 interface ParallelReaderProps {
   content: ContentPair
+  /** DocsLayout 등에서 사용 시 true로 설정하여 h-full 사용 */
+  fullHeight?: boolean
 }
 
-export function ParallelReader({ content }: ParallelReaderProps) {
+export function ParallelReader({ content, fullHeight = false }: ParallelReaderProps) {
   const { layoutMode, activeLanguage } = useReaderStore()
+
+  const heightClass = fullHeight ? 'h-full' : 'h-[calc(100vh-3.5rem)]'
 
   return (
     <div
       className={cn(
-        layoutMode === 'side-by-side' && 'h-[calc(100vh-3.5rem)] flex flex-col',
-        layoutMode === 'top-bottom' && 'h-[calc(100vh-3.5rem)] flex flex-col'
+        layoutMode === 'side-by-side' && `${heightClass} flex flex-col`,
+        layoutMode === 'top-bottom' && `${heightClass} flex flex-col`
       )}
     >
       <main
