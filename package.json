@@ -1,6 +1,6 @@
 {
   "name": "reading-service-for-english-and-korean",
-  "version": "1.0.0",
+  "version": "0.3.1",
   "description": "English-Korean parallel reader web service",
   "scripts": {
     "dev": "next dev",
