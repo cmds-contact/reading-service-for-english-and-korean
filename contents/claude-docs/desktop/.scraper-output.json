@@ -1,0 +1,128 @@
+{
+  "title": "Claude Code on desktop",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Claude Code on desktop"
+    },
+    {
+      "type": "p",
+      "text": "Run Claude Code tasks locally or on secure cloud infrastructure with the Claude desktop app"
+    },
+    {
+      "type": "h2",
+      "text": "Claude Code on desktop (Preview)"
+    },
+    {
+      "type": "h2",
+      "text": "Features"
+    },
+    {
+      "type": "li",
+      "text": "Parallel local sessions with `git` worktrees: Run multiple Claude Code sessions simultaneously in the same repository, each with its own isolated `git` worktree"
+    },
+    {
+      "type": "li",
+      "text": "Include files listed in your `.gitignore` in your worktrees: Automatically copy files in your `.gitignore`, like `.env`, to new worktrees using `.worktreeinclude`"
+    },
+    {
+      "type": "li",
+      "text": "**Launch Claude Code on the web**: Kick off secure cloud sessions directly from the desktop app"
+    },
+    {
+      "type": "h2",
+      "text": "Installation"
+    },
+    {
+      "type": "blockquote",
+      "text": "Local sessions are not available on Windows arm64 architectures."
+    },
+    {
+      "type": "h2",
+      "text": "Using Git worktrees"
+    },
+    {
+      "type": "blockquote",
+      "text": "If you start a local session in a folder that does not have Git initialized, the desktop app will not create a new worktree."
+    },
+    {
+      "type": "h3",
+      "text": "Copying files ignored with .gitignore"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": ".env\n.env.local\n.env.*\n**/.claude/settings.local.json"
+    },
+    {
+      "type": "blockquote",
+      "text": "Only files that are both matched by `.worktreeinclude` AND listed in `.gitignore` are copied. This prevents accidentally duplicating tracked files."
+    },
+    {
+      "type": "h3",
+      "text": "Launch Claude Code on the web"
+    },
+    {
+      "type": "h2",
+      "text": "Bundled Claude Code version"
+    },
+    {
+      "type": "blockquote",
+      "text": "The bundled Claude Code version in Desktop may differ from the latest CLI version. Desktop prioritizes stability while the CLI may have newer features."
+    },
+    {
+      "type": "h2",
+      "text": "Environment configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Custom environment variables"
+    },
+    {
+      "type": "blockquote",
+      "text": "Environment variables must be specified as key-value pairs, in `.env` format. For example:CopyAsk AIAPI_KEY=your_api_key\nDEBUG=true\n\n# Multiline values - wrap in quotes\nCERT=\"-----BEGIN CERT-----\nMIIE...\n-----END CERT-----\""
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "API_KEY=your_api_key\nDEBUG=true\n\n# Multiline values - wrap in quotes\nCERT=\"-----BEGIN CERT-----\nMIIE...\n-----END CERT-----\""
+    },
+    {
+      "type": "h2",
+      "text": "Enterprise configuration"
+    },
+    {
+      "type": "h2",
+      "text": "Related resources"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Code on the web](/docs/en/claude-code-on-the-web)"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Desktop support articles](https://support.claude.com/en/collections/16163169-claude-desktop)"
+    },
+    {
+      "type": "li",
+      "text": "[Enterprise Configuration](https://support.claude.com/en/articles/12622667-enterprise-configuration)"
+    },
+    {
+      "type": "li",
+      "text": "[Common workflows](/docs/en/common-workflows)"
+    },
+    {
+      "type": "li",
+      "text": "[Settings reference](/docs/en/settings)"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

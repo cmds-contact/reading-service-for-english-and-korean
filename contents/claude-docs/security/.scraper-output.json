@@ -1,0 +1,286 @@
+{
+  "title": "Security",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Security"
+    },
+    {
+      "type": "p",
+      "text": "Learn about Claude Code’s security safeguards and best practices for safe usage."
+    },
+    {
+      "type": "h2",
+      "text": "How we approach security"
+    },
+    {
+      "type": "h3",
+      "text": "Security foundation"
+    },
+    {
+      "type": "h3",
+      "text": "Permission-based architecture"
+    },
+    {
+      "type": "h3",
+      "text": "Built-in protections"
+    },
+    {
+      "type": "li",
+      "text": "**Sandboxed bash tool**: [Sandbox](/docs/en/sandboxing) bash commands with filesystem and network isolation, reducing permission prompts while maintaining security. Enable with `/sandbox` to define boundaries where Claude Code can work autonomously"
+    },
+    {
+      "type": "li",
+      "text": "**Write access restriction**: Claude Code can only write to the folder where it was started and its subfolders—it cannot modify files in parent directories without explicit permission. While Claude Code can read files outside the working directory (useful for accessing system libraries and dependencies), write operations are strictly confined to the project scope, creating a clear security boundary"
+    },
+    {
+      "type": "li",
+      "text": "**Prompt fatigue mitigation**: Support for allowlisting frequently used safe commands per-user, per-codebase, or per-organization"
+    },
+    {
+      "type": "li",
+      "text": "**Accept Edits mode**: Batch accept multiple edits while maintaining permission prompts for commands with side effects"
+    },
+    {
+      "type": "h3",
+      "text": "User responsibility"
+    },
+    {
+      "type": "h2",
+      "text": "Protect against prompt injection"
+    },
+    {
+      "type": "h3",
+      "text": "Core protections"
+    },
+    {
+      "type": "li",
+      "text": "**Permission system**: Sensitive operations require explicit approval"
+    },
+    {
+      "type": "li",
+      "text": "**Context-aware analysis**: Detects potentially harmful instructions by analyzing the full request"
+    },
+    {
+      "type": "li",
+      "text": "**Input sanitization**: Prevents command injection by processing user inputs"
+    },
+    {
+      "type": "li",
+      "text": "**Command blocklist**: Blocks risky commands that fetch arbitrary content from the web like `curl` and `wget` by default. When explicitly allowed, be aware of [permission pattern limitations](/docs/en/iam#tool-specific-permission-rules)"
+    },
+    {
+      "type": "h3",
+      "text": "Privacy safeguards"
+    },
+    {
+      "type": "li",
+      "text": "Limited retention periods for sensitive information (see the [Privacy Center](https://privacy.anthropic.com/en/articles/10023548-how-long-do-you-store-my-data) to learn more)"
+    },
+    {
+      "type": "li",
+      "text": "Restricted access to user session data"
+    },
+    {
+      "type": "li",
+      "text": "User control over data training preferences. Consumer users can change their [privacy settings](https://claude.ai/settings/privacy) at any time."
+    },
+    {
+      "type": "h3",
+      "text": "Additional safeguards"
+    },
+    {
+      "type": "li",
+      "text": "**Network request approval**: Tools that make network requests require user approval by default"
+    },
+    {
+      "type": "li",
+      "text": "**Isolated context windows**: Web fetch uses a separate context window to avoid injecting potentially malicious prompts"
+    },
+    {
+      "type": "li",
+      "text": "**Trust verification**: First-time codebase runs and new MCP servers require trust verification\n\nNote: Trust verification is disabled when running non-interactively with the `-p` flag"
+    },
+    {
+      "type": "li",
+      "text": "Note: Trust verification is disabled when running non-interactively with the `-p` flag"
+    },
+    {
+      "type": "li",
+      "text": "**Command injection detection**: Suspicious bash commands require manual approval even if previously allowlisted"
+    },
+    {
+      "type": "li",
+      "text": "**Fail-closed matching**: Unmatched commands default to requiring manual approval"
+    },
+    {
+      "type": "li",
+      "text": "**Natural language descriptions**: Complex bash commands include explanations for user understanding"
+    },
+    {
+      "type": "li",
+      "text": "**Secure credential storage**: API keys and tokens are encrypted. See [Credential Management](/docs/en/iam#credential-management)"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Windows WebDAV security risk**: When running Claude Code on Windows, we recommend against enabling WebDAV or allowing Claude Code to access paths such as `\\\\*` that may contain WebDAV subdirectories. [WebDAV has been deprecated by Microsoft](https://learn.microsoft.com/en-us/windows/whats-new/deprecated-features#:~:text=The%20Webclient%20(WebDAV)%20service%20is%20deprecated) due to security risks. Enabling WebDAV may allow Claude Code to trigger network requests to remote hosts, bypassing the permission system."
+    },
+    {
+      "type": "li",
+      "text": "Review suggested commands before approval"
+    },
+    {
+      "type": "li",
+      "text": "Avoid piping untrusted content directly to Claude"
+    },
+    {
+      "type": "li",
+      "text": "Verify proposed changes to critical files"
+    },
+    {
+      "type": "li",
+      "text": "Use virtual machines (VMs) to run scripts and make tool calls, especially when interacting with external web services"
+    },
+    {
+      "type": "li",
+      "text": "Report suspicious behavior with `/bug`"
+    },
+    {
+      "type": "blockquote",
+      "text": "While these protections significantly reduce risk, no system is completely\nimmune to all attacks. Always maintain good security practices when working\nwith any AI tool."
+    },
+    {
+      "type": "h2",
+      "text": "MCP security"
+    },
+    {
+      "type": "h2",
+      "text": "IDE security"
+    },
+    {
+      "type": "h2",
+      "text": "Cloud execution security"
+    },
+    {
+      "type": "li",
+      "text": "**Isolated virtual machines**: Each cloud session runs in an isolated, Anthropic-managed VM"
+    },
+    {
+      "type": "li",
+      "text": "**Network access controls**: Network access is limited by default and can be configured to be disabled or allow only specific domains"
+    },
+    {
+      "type": "li",
+      "text": "**Credential protection**: Authentication is handled through a secure proxy that uses a scoped credential inside the sandbox, which is then translated to your actual GitHub authentication token"
+    },
+    {
+      "type": "li",
+      "text": "**Branch restrictions**: Git push operations are restricted to the current working branch"
+    },
+    {
+      "type": "li",
+      "text": "**Audit logging**: All operations in cloud environments are logged for compliance and audit purposes"
+    },
+    {
+      "type": "li",
+      "text": "**Automatic cleanup**: Cloud environments are automatically terminated after session completion"
+    },
+    {
+      "type": "h2",
+      "text": "Security best practices"
+    },
+    {
+      "type": "h3",
+      "text": "Working with sensitive code"
+    },
+    {
+      "type": "li",
+      "text": "Review all suggested changes before approval"
+    },
+    {
+      "type": "li",
+      "text": "Use project-specific permission settings for sensitive repositories"
+    },
+    {
+      "type": "li",
+      "text": "Consider using [devcontainers](/docs/en/devcontainer) for additional isolation"
+    },
+    {
+      "type": "li",
+      "text": "Regularly audit your permission settings with `/permissions`"
+    },
+    {
+      "type": "h3",
+      "text": "Team security"
+    },
+    {
+      "type": "li",
+      "text": "Use [enterprise managed settings](/docs/en/iam#enterprise-managed-settings) to enforce organizational standards"
+    },
+    {
+      "type": "li",
+      "text": "Share approved permission configurations through version control"
+    },
+    {
+      "type": "li",
+      "text": "Train team members on security best practices"
+    },
+    {
+      "type": "li",
+      "text": "Monitor Claude Code usage through [OpenTelemetry metrics](/docs/en/monitoring-usage)"
+    },
+    {
+      "type": "h3",
+      "text": "Reporting security issues"
+    },
+    {
+      "type": "li",
+      "text": "Do not disclose it publicly"
+    },
+    {
+      "type": "li",
+      "text": "Report it through our [HackerOne program](https://hackerone.com/anthropic-vdp/reports/new?type=team&report_type=vulnerability)"
+    },
+    {
+      "type": "li",
+      "text": "Include detailed reproduction steps"
+    },
+    {
+      "type": "li",
+      "text": "Allow time for us to address the issue before public disclosure"
+    },
+    {
+      "type": "h2",
+      "text": "Related resources"
+    },
+    {
+      "type": "li",
+      "text": "[Sandboxing](/docs/en/sandboxing) - Filesystem and network isolation for bash commands"
+    },
+    {
+      "type": "li",
+      "text": "[Identity and Access Management](/docs/en/iam) - Configure permissions and access controls"
+    },
+    {
+      "type": "li",
+      "text": "[Monitoring usage](/docs/en/monitoring-usage) - Track and audit Claude Code activity"
+    },
+    {
+      "type": "li",
+      "text": "[Development containers](/docs/en/devcontainer) - Secure, isolated environments"
+    },
+    {
+      "type": "li",
+      "text": "[Anthropic Trust Center](https://trust.anthropic.com) - Security certifications and compliance"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

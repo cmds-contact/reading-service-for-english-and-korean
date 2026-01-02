@@ -1,0 +1,16 @@
+id: desktop
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/desktop
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Claude Code on desktop"
+    type: original
+  ko:
+    title: "데스크톱에서 Claude Code 사용"
+    type: translation
+    translator: ai

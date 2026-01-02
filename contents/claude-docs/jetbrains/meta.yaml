@@ -1,0 +1,16 @@
+id: jetbrains
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/jetbrains
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "JetBrains IDEs"
+    type: original
+  ko:
+    title: "JetBrains IDE"
+    type: translation
+    translator: ai

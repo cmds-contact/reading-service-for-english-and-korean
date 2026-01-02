@@ -1,0 +1,16 @@
+id: headless
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/headless
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Run Claude Code programmatically"
+    type: original
+  ko:
+    title: "Claude Code를 프로그래밍 방식으로 실행하기"
+    type: translation
+    translator: ai

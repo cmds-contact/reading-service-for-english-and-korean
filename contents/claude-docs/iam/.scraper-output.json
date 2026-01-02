@@ -1,0 +1,322 @@
+{
+  "title": "Identity and Access Management",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Identity and Access Management"
+    },
+    {
+      "type": "p",
+      "text": "Learn how to configure user authentication, authorization, and access controls for Claude Code in your organization."
+    },
+    {
+      "type": "h2",
+      "text": "Authentication methods"
+    },
+    {
+      "type": "li",
+      "text": "Claude API via the Claude Console"
+    },
+    {
+      "type": "li",
+      "text": "Amazon Bedrock"
+    },
+    {
+      "type": "li",
+      "text": "Microsoft Foundry"
+    },
+    {
+      "type": "li",
+      "text": "Google Vertex AI"
+    },
+    {
+      "type": "h3",
+      "text": "Claude API authentication"
+    },
+    {
+      "type": "li",
+      "text": "Use your existing Claude Console account or create a new Claude Console account"
+    },
+    {
+      "type": "li",
+      "text": "You can add users through either method below:\n\nBulk invite users from within the Console (Console -> Settings -> Members -> Invite)\n[Set up SSO](https://support.claude.com/en/articles/10280258-setting-up-single-sign-on-on-the-api-console)"
+    },
+    {
+      "type": "li",
+      "text": "Bulk invite users from within the Console (Console -> Settings -> Members -> Invite)"
+    },
+    {
+      "type": "li",
+      "text": "[Set up SSO](https://support.claude.com/en/articles/10280258-setting-up-single-sign-on-on-the-api-console)"
+    },
+    {
+      "type": "li",
+      "text": "When inviting users, they need one of the following roles:\n\n“Claude Code” role means users can only create Claude Code API keys\n“Developer” role means users can create any kind of API key"
+    },
+    {
+      "type": "li",
+      "text": "“Claude Code” role means users can only create Claude Code API keys"
+    },
+    {
+      "type": "li",
+      "text": "“Developer” role means users can create any kind of API key"
+    },
+    {
+      "type": "li",
+      "text": "Each invited user needs to complete these steps:\n\nAccept the Console invite\n[Check system requirements](/docs/en/setup#system-requirements)\n[Install Claude Code](/docs/en/setup#installation)\nLogin with Console account credentials"
+    },
+    {
+      "type": "li",
+      "text": "Accept the Console invite"
+    },
+    {
+      "type": "li",
+      "text": "[Check system requirements](/docs/en/setup#system-requirements)"
+    },
+    {
+      "type": "li",
+      "text": "[Install Claude Code](/docs/en/setup#installation)"
+    },
+    {
+      "type": "li",
+      "text": "Login with Console account credentials"
+    },
+    {
+      "type": "h3",
+      "text": "Cloud provider authentication"
+    },
+    {
+      "type": "li",
+      "text": "Follow the [Bedrock docs](/docs/en/amazon-bedrock), [Vertex docs](/docs/en/google-vertex-ai), or [Microsoft Foundry docs](/docs/en/microsoft-foundry)"
+    },
+    {
+      "type": "li",
+      "text": "Distribute the environment variables and instructions for generating cloud credentials to your users. Read more about how to [manage configuration here](/docs/en/settings)."
+    },
+    {
+      "type": "li",
+      "text": "Users can [install Claude Code](/docs/en/setup#installation)"
+    },
+    {
+      "type": "h2",
+      "text": "Access control and permissions"
+    },
+    {
+      "type": "h3",
+      "text": "Permission system"
+    },
+    {
+      "type": "h3",
+      "text": "Configuring permissions"
+    },
+    {
+      "type": "li",
+      "text": "**Allow** rules will allow Claude Code to use the specified tool without further manual approval."
+    },
+    {
+      "type": "li",
+      "text": "**Ask** rules will ask the user for confirmation whenever Claude Code tries to use the specified tool. Ask rules take precedence over allow rules."
+    },
+    {
+      "type": "li",
+      "text": "**Deny** rules will prevent Claude Code from using the specified tool. Deny rules take precedence over allow and ask rules."
+    },
+    {
+      "type": "li",
+      "text": "**Additional directories** extend Claude’s file access to directories beyond the initial working directory."
+    },
+    {
+      "type": "li",
+      "text": "**Default mode** controls Claude’s permission behavior when encountering new requests."
+    },
+    {
+      "type": "h4",
+      "text": "Permission modes"
+    },
+    {
+      "type": "h4",
+      "text": "Working directories"
+    },
+    {
+      "type": "li",
+      "text": "**During startup**: Use `--add-dir <path>` CLI argument"
+    },
+    {
+      "type": "li",
+      "text": "**During session**: Use `/add-dir` slash command"
+    },
+    {
+      "type": "li",
+      "text": "**Persistent configuration**: Add to `additionalDirectories` in [settings files](/docs/en/settings#settings-files)"
+    },
+    {
+      "type": "h4",
+      "text": "Tool-specific permission rules"
+    },
+    {
+      "type": "li",
+      "text": "`Bash(npm run build)` Matches the exact Bash command `npm run build`"
+    },
+    {
+      "type": "li",
+      "text": "`Bash(npm run test:*)` Matches Bash commands starting with `npm run test`"
+    },
+    {
+      "type": "li",
+      "text": "`Bash(curl http://site.com/:*)` Matches curl commands that start with exactly `curl http://site.com/`"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code is aware of shell operators (like `&&`) so a prefix match rule like `Bash(safe-cmd:*)` won’t give it permission to run the command `safe-cmd && other-cmd`"
+    },
+    {
+      "type": "blockquote",
+      "text": "Important limitations of Bash permission patterns:\nThis tool uses **prefix matches**, not regex or glob patterns\nThe wildcard `:*` only works at the end of a pattern to match any continuation\nPatterns like `Bash(curl http://github.com/:*)` can be bypassed in many ways:\n\nOptions before URL: `curl -X GET http://github.com/...` won’t match\nDifferent protocol: `curl https://github.com/...` won’t match\nRedirects: `curl -L http://bit.ly/xyz` (redirects to github)\nVariables: `URL=http://github.com && curl $URL` won’t match\nExtra spaces: `curl  http://github.com` won’t match\n\n\nFor more reliable URL filtering, consider:\nUsing the WebFetch tool with `WebFetch(domain:github.com)` permission\nInstructing Claude Code about your allowed curl patterns via CLAUDE.md\nUsing hooks for custom permission validation"
+    },
+    {
+      "type": "li",
+      "text": "This tool uses **prefix matches**, not regex or glob patterns"
+    },
+    {
+      "type": "li",
+      "text": "The wildcard `:*` only works at the end of a pattern to match any continuation"
+    },
+    {
+      "type": "li",
+      "text": "Patterns like `Bash(curl http://github.com/:*)` can be bypassed in many ways:\n\nOptions before URL: `curl -X GET http://github.com/...` won’t match\nDifferent protocol: `curl https://github.com/...` won’t match\nRedirects: `curl -L http://bit.ly/xyz` (redirects to github)\nVariables: `URL=http://github.com && curl $URL` won’t match\nExtra spaces: `curl  http://github.com` won’t match"
+    },
+    {
+      "type": "li",
+      "text": "Options before URL: `curl -X GET http://github.com/...` won’t match"
+    },
+    {
+      "type": "li",
+      "text": "Different protocol: `curl https://github.com/...` won’t match"
+    },
+    {
+      "type": "li",
+      "text": "Redirects: `curl -L http://bit.ly/xyz` (redirects to github)"
+    },
+    {
+      "type": "li",
+      "text": "Variables: `URL=http://github.com && curl $URL` won’t match"
+    },
+    {
+      "type": "li",
+      "text": "Extra spaces: `curl  http://github.com` won’t match"
+    },
+    {
+      "type": "li",
+      "text": "Using the WebFetch tool with `WebFetch(domain:github.com)` permission"
+    },
+    {
+      "type": "li",
+      "text": "Instructing Claude Code about your allowed curl patterns via CLAUDE.md"
+    },
+    {
+      "type": "li",
+      "text": "Using hooks for custom permission validation"
+    },
+    {
+      "type": "blockquote",
+      "text": "A pattern like `/Users/alice/file` is NOT an absolute path - it’s relative to your settings file! Use `//Users/alice/file` for absolute paths."
+    },
+    {
+      "type": "li",
+      "text": "`Edit(/docs/**)` - Edits in `<project>/docs/` (NOT `/docs/`!)"
+    },
+    {
+      "type": "li",
+      "text": "`Read(~/.zshrc)` - Reads your home directory’s `.zshrc`"
+    },
+    {
+      "type": "li",
+      "text": "`Edit(//tmp/scratch.txt)` - Edits the absolute path `/tmp/scratch.txt`"
+    },
+    {
+      "type": "li",
+      "text": "`Read(src/**)` - Reads from `<current-directory>/src/`"
+    },
+    {
+      "type": "li",
+      "text": "`WebFetch(domain:example.com)` Matches fetch requests to example.com"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__puppeteer` Matches any tool provided by the `puppeteer` server (name configured in Claude Code)"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__puppeteer__*` Wildcard syntax that also matches all tools from the `puppeteer` server"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__puppeteer__puppeteer_navigate` Matches the `puppeteer_navigate` tool provided by the `puppeteer` server"
+    },
+    {
+      "type": "h3",
+      "text": "Additional permission control with hooks"
+    },
+    {
+      "type": "h3",
+      "text": "Enterprise managed settings"
+    },
+    {
+      "type": "h3",
+      "text": "Settings precedence"
+    },
+    {
+      "type": "li",
+      "text": "Managed settings (via Claude.ai admin console)"
+    },
+    {
+      "type": "li",
+      "text": "File-based managed settings (`managed-settings.json`)"
+    },
+    {
+      "type": "li",
+      "text": "Command line arguments"
+    },
+    {
+      "type": "li",
+      "text": "Local project settings (`.claude/settings.local.json`)"
+    },
+    {
+      "type": "li",
+      "text": "Shared project settings (`.claude/settings.json`)"
+    },
+    {
+      "type": "li",
+      "text": "User settings (`~/.claude/settings.json`)"
+    },
+    {
+      "type": "h2",
+      "text": "Credential management"
+    },
+    {
+      "type": "li",
+      "text": "**Storage location**: On macOS, API keys, OAuth tokens, and other credentials are stored in the encrypted macOS Keychain."
+    },
+    {
+      "type": "li",
+      "text": "**Supported authentication types**: Claude.ai credentials, Claude API credentials, Azure Auth, Bedrock Auth, and Vertex Auth."
+    },
+    {
+      "type": "li",
+      "text": "**Custom credential scripts**: The `apiKeyHelper` setting can be configured to run a shell script that returns an API key."
+    },
+    {
+      "type": "li",
+      "text": "**Refresh intervals**: By default, `apiKeyHelper` is called after 5 minutes or on HTTP 401 response. Set `CLAUDE_CODE_API_KEY_HELPER_TTL_MS` environment variable for custom refresh intervals."
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

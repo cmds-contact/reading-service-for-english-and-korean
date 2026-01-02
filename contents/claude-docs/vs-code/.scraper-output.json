@@ -1,0 +1,311 @@
+{
+  "title": "Use Claude Code in VS Code",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Use Claude Code in VS Code"
+    },
+    {
+      "type": "p",
+      "text": "Install and configure the Claude Code extension for VS Code. Get AI coding assistance with inline diffs, @-mentions, plan review, and keyboard shortcuts."
+    },
+    {
+      "type": "h2",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "li",
+      "text": "VS Code 1.98.0 or higher"
+    },
+    {
+      "type": "li",
+      "text": "An Anthropic account (you’ll sign in when you first open the extension). If you’re using a third-party provider like Amazon Bedrock or Google Vertex AI, see [Use third-party providers](#use-third-party-providers) instead."
+    },
+    {
+      "type": "h2",
+      "text": "Install the extension"
+    },
+    {
+      "type": "li",
+      "text": "[Install for VS Code](vscode:extension/anthropic.claude-code)"
+    },
+    {
+      "type": "li",
+      "text": "[Install for Cursor](cursor:extension/anthropic.claude-code)"
+    },
+    {
+      "type": "blockquote",
+      "text": "You may need to restart VS Code or run “Developer: Reload Window” from the Command Palette after installation."
+    },
+    {
+      "type": "h2",
+      "text": "Get started"
+    },
+    {
+      "type": "p",
+      "text": "Open the Claude Code panel"
+    },
+    {
+      "type": "li",
+      "text": "**Command Palette**: `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows/Linux), type “Claude Code”, and select an option like “Open in New Tab”"
+    },
+    {
+      "type": "li",
+      "text": "**Status Bar**: Click **✱ Claude Code** in the bottom-right corner of the window. This works even when no file is open."
+    },
+    {
+      "type": "p",
+      "text": "Send a prompt"
+    },
+    {
+      "type": "blockquote",
+      "text": "Select text in the editor and press `Alt+K` to insert an @-mention with the file path and line numbers directly into your prompt."
+    },
+    {
+      "type": "p",
+      "text": "Review changes"
+    },
+    {
+      "type": "h2",
+      "text": "Customize your workflow"
+    },
+    {
+      "type": "h3",
+      "text": "Change the layout"
+    },
+    {
+      "type": "li",
+      "text": "**Secondary sidebar** (default): The right side of the window"
+    },
+    {
+      "type": "li",
+      "text": "**Primary sidebar**: The left sidebar with icons for Explorer, Search, etc."
+    },
+    {
+      "type": "li",
+      "text": "**Editor area**: Opens Claude as a tab alongside your files"
+    },
+    {
+      "type": "blockquote",
+      "text": "The Spark icon only appears in the Activity Bar (left sidebar icons) when the Claude panel is docked to the left. Since Claude defaults to the right side, use the Editor Toolbar icon to open Claude."
+    },
+    {
+      "type": "h3",
+      "text": "Switch to terminal mode"
+    },
+    {
+      "type": "h2",
+      "text": "VS Code commands and shortcuts"
+    },
+    {
+      "type": "blockquote",
+      "text": "These are VS Code commands for controlling the extension. For Claude Code slash commands (like `/help` or `/compact`), not all CLI commands are available in the extension yet. See [VS Code extension vs. Claude Code CLI](#vs-code-extension-vs-claude-code-cli) for details."
+    },
+    {
+      "type": "h2",
+      "text": "Configure settings"
+    },
+    {
+      "type": "li",
+      "text": "**Extension settings**: Open with `Cmd+,` (Mac) or `Ctrl+,` (Windows/Linux), then go to Extensions → Claude Code.\nSettingDescriptionSelected ModelDefault model for new conversations. Change per-session with `/model`.Use TerminalLaunch Claude in terminal mode instead of graphical panelInitial Permission ModeControls approval prompts for file edits and commands. Defaults to `default` (ask before each action).Preferred LocationDefault location: sidebar (right) or panel (new tab)AutosaveAuto-save files before Claude reads or writes themUse Ctrl+Enter to SendUse Ctrl/Cmd+Enter instead of Enter to send promptsEnable New Conversation ShortcutEnable Cmd/Ctrl+N to start a new conversationRespect Git IgnoreExclude .gitignore patterns from file searchesEnvironment VariablesSet environment variables for the Claude process. **Not recommended**—use [Claude Code settings](/docs/en/settings) instead so configuration is shared between extension and CLI.Disable Login PromptSkip authentication prompts (for third-party provider setups)Allow Dangerously Skip PermissionsBypass all permission prompts. **Use with extreme caution**—recommended only for isolated sandboxes with no internet access.Claude Process WrapperExecutable path used to launch the Claude process"
+    },
+    {
+      "type": "li",
+      "text": "**Claude Code settings** (`~/.claude/settings.json`): These settings are shared between the VS Code extension and the CLI. Use this file for allowed commands and directories, environment variables, hooks, and MCP servers. See the [settings documentation](/docs/en/settings) for details."
+    },
+    {
+      "type": "h2",
+      "text": "Use third-party providers"
+    },
+    {
+      "type": "p",
+      "text": "Disable login prompt"
+    },
+    {
+      "type": "p",
+      "text": "Configure your provider"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Code on Amazon Bedrock](/docs/en/amazon-bedrock)"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Code on Google Vertex AI](/docs/en/google-vertex-ai)"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Code on Microsoft Foundry](/docs/en/microsoft-foundry)"
+    },
+    {
+      "type": "h2",
+      "text": "VS Code extension vs. Claude Code CLI"
+    },
+    {
+      "type": "h3",
+      "text": "Run CLI in VS Code"
+    },
+    {
+      "type": "h3",
+      "text": "Switch between extension and CLI"
+    },
+    {
+      "type": "h2",
+      "text": "Security considerations"
+    },
+    {
+      "type": "li",
+      "text": "Enable [VS Code Restricted Mode](https://code.visualstudio.com/docs/editor/workspace-trust#_restricted-mode) for untrusted workspaces"
+    },
+    {
+      "type": "li",
+      "text": "Use manual approval mode instead of auto-accept for edits"
+    },
+    {
+      "type": "li",
+      "text": "Review changes carefully before accepting them"
+    },
+    {
+      "type": "h2",
+      "text": "Fix common issues"
+    },
+    {
+      "type": "h3",
+      "text": "Extension won’t install"
+    },
+    {
+      "type": "li",
+      "text": "Ensure you have a compatible version of VS Code (1.98.0 or later)"
+    },
+    {
+      "type": "li",
+      "text": "Check that VS Code has permission to install extensions"
+    },
+    {
+      "type": "li",
+      "text": "Try installing directly from the Marketplace website"
+    },
+    {
+      "type": "h3",
+      "text": "Spark icon not visible"
+    },
+    {
+      "type": "li",
+      "text": "**Open a file**: The icon requires a file to be open—having just a folder open isn’t enough"
+    },
+    {
+      "type": "li",
+      "text": "**Check VS Code version**: Requires 1.98.0 or higher (Help → About)"
+    },
+    {
+      "type": "li",
+      "text": "**Restart VS Code**: Run “Developer: Reload Window” from the Command Palette"
+    },
+    {
+      "type": "li",
+      "text": "**Disable conflicting extensions**: Temporarily disable other AI extensions (Cline, Continue, etc.)"
+    },
+    {
+      "type": "li",
+      "text": "**Check workspace trust**: The extension doesn’t work in Restricted Mode"
+    },
+    {
+      "type": "h3",
+      "text": "Claude Code never responds"
+    },
+    {
+      "type": "li",
+      "text": "**Check your internet connection**: Ensure you have a stable internet connection"
+    },
+    {
+      "type": "li",
+      "text": "**Start a new conversation**: Try starting a fresh conversation to see if the issue persists"
+    },
+    {
+      "type": "li",
+      "text": "**Try the CLI**: Run `claude` from the terminal to see if you get more detailed error messages"
+    },
+    {
+      "type": "li",
+      "text": "**File a bug report**: If the problem continues, [file an issue on GitHub](https://github.com/anthropics/claude-code/issues) with details about the error"
+    },
+    {
+      "type": "h3",
+      "text": "Standalone CLI not connecting to IDE"
+    },
+    {
+      "type": "li",
+      "text": "Ensure you’re running Claude Code from VS Code’s integrated terminal (not an external terminal)"
+    },
+    {
+      "type": "li",
+      "text": "Ensure the CLI for your IDE variant is installed:\n\nVS Code: `code` command should be available\nCursor: `cursor` command should be available\nWindsurf: `windsurf` command should be available\nVSCodium: `codium` command should be available"
+    },
+    {
+      "type": "li",
+      "text": "VS Code: `code` command should be available"
+    },
+    {
+      "type": "li",
+      "text": "Cursor: `cursor` command should be available"
+    },
+    {
+      "type": "li",
+      "text": "Windsurf: `windsurf` command should be available"
+    },
+    {
+      "type": "li",
+      "text": "VSCodium: `codium` command should be available"
+    },
+    {
+      "type": "li",
+      "text": "If the command isn’t available, install it from the Command Palette → “Shell Command: Install ‘code’ command in PATH”"
+    },
+    {
+      "type": "h2",
+      "text": "Uninstall the extension"
+    },
+    {
+      "type": "li",
+      "text": "Open the Extensions view (`Cmd+Shift+X` on Mac or `Ctrl+Shift+X` on Windows/Linux)"
+    },
+    {
+      "type": "li",
+      "text": "Search for “Claude Code”"
+    },
+    {
+      "type": "li",
+      "text": "Click **Uninstall**"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "rm -rf ~/.vscode/globalStorage/anthropic.claude-code"
+    },
+    {
+      "type": "h2",
+      "text": "Next steps"
+    },
+    {
+      "type": "li",
+      "text": "[Explore common workflows](/docs/en/common-workflows) to get the most out of Claude Code"
+    },
+    {
+      "type": "li",
+      "text": "[Set up MCP servers](/docs/en/mcp) to extend Claude’s capabilities with external tools. Configure servers using the CLI, then use them in the extension."
+    },
+    {
+      "type": "li",
+      "text": "[Configure Claude Code settings](/docs/en/settings) to customize allowed commands, hooks, and more. These settings are shared between the extension and CLI."
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

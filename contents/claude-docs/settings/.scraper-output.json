@@ -1,0 +1,699 @@
+{
+  "title": "Claude Code settings",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Claude Code settings"
+    },
+    {
+      "type": "p",
+      "text": "Configure Claude Code with global and project-level settings, and environment variables."
+    },
+    {
+      "type": "h2",
+      "text": "Configuration scopes"
+    },
+    {
+      "type": "h3",
+      "text": "Available scopes"
+    },
+    {
+      "type": "h3",
+      "text": "When to use each scope"
+    },
+    {
+      "type": "li",
+      "text": "Security policies that must be enforced organization-wide"
+    },
+    {
+      "type": "li",
+      "text": "Compliance requirements that can’t be overridden"
+    },
+    {
+      "type": "li",
+      "text": "Standardized configurations deployed by IT/DevOps"
+    },
+    {
+      "type": "li",
+      "text": "Personal preferences you want everywhere (themes, editor settings)"
+    },
+    {
+      "type": "li",
+      "text": "Tools and plugins you use across all projects"
+    },
+    {
+      "type": "li",
+      "text": "API keys and authentication (stored securely)"
+    },
+    {
+      "type": "li",
+      "text": "Team-shared settings (permissions, hooks, MCP servers)"
+    },
+    {
+      "type": "li",
+      "text": "Plugins the whole team should have"
+    },
+    {
+      "type": "li",
+      "text": "Standardizing tooling across collaborators"
+    },
+    {
+      "type": "li",
+      "text": "Personal overrides for a specific project"
+    },
+    {
+      "type": "li",
+      "text": "Testing configurations before sharing with the team"
+    },
+    {
+      "type": "li",
+      "text": "Machine-specific settings that won’t work for others"
+    },
+    {
+      "type": "h3",
+      "text": "How scopes interact"
+    },
+    {
+      "type": "li",
+      "text": "**Enterprise** (highest) - can’t be overridden by anything"
+    },
+    {
+      "type": "li",
+      "text": "**Command line arguments** - temporary session overrides"
+    },
+    {
+      "type": "li",
+      "text": "**Local** - overrides project and user settings"
+    },
+    {
+      "type": "li",
+      "text": "**Project** - overrides user settings"
+    },
+    {
+      "type": "li",
+      "text": "**User** (lowest) - applies when nothing else specifies the setting"
+    },
+    {
+      "type": "h3",
+      "text": "What uses scopes"
+    },
+    {
+      "type": "h2",
+      "text": "Settings files"
+    },
+    {
+      "type": "li",
+      "text": "**User settings** are defined in `~/.claude/settings.json` and apply to all\nprojects."
+    },
+    {
+      "type": "li",
+      "text": "**Project settings** are saved in your project directory:\n\n`.claude/settings.json` for settings that are checked into source control and shared with your team\n`.claude/settings.local.json` for settings that are not checked in, useful for personal preferences and experimentation. Claude Code will configure git to ignore `.claude/settings.local.json` when it is created."
+    },
+    {
+      "type": "li",
+      "text": "`.claude/settings.json` for settings that are checked into source control and shared with your team"
+    },
+    {
+      "type": "li",
+      "text": "`.claude/settings.local.json` for settings that are not checked in, useful for personal preferences and experimentation. Claude Code will configure git to ignore `.claude/settings.local.json` when it is created."
+    },
+    {
+      "type": "li",
+      "text": "**Managed settings** (Enterprise): Enterprise administrators can configure and distribute Claude Code settings to their organization through the [Claude.ai admin console](https://claude.ai/admin-settings/claude-code). These settings are fetched automatically when users authenticate, take precedence over user and project settings, and cannot be overridden locally. This feature is available to Claude for Enterprise customers. If you don’t see this option in your admin console, contact your Anthropic account team to have the feature enabled.\nFor organizations that prefer file-based policy distribution, Claude Code also supports `managed-settings.json` and `managed-mcp.json` files that can be deployed to system directories:\n\nmacOS: `/Library/Application Support/ClaudeCode/`\nLinux and WSL: `/etc/claude-code/`\nWindows: `C:\\Program Files\\ClaudeCode\\`\n\nThese are system-wide paths (not user home directories like `~/Library/...`) that require administrator privileges. They are designed to be deployed by IT administrators.\nSee [Enterprise managed settings](/docs/en/iam#enterprise-managed-settings) and [Enterprise MCP configuration](/docs/en/mcp#enterprise-mcp-configuration) for details.\nEnterprise deployments can also restrict **plugin marketplace additions** using\n`strictKnownMarketplaces`. For more information, see [Enterprise marketplace restrictions](/docs/en/plugin-marketplaces#enterprise-marketplace-restrictions)."
+    },
+    {
+      "type": "li",
+      "text": "macOS: `/Library/Application Support/ClaudeCode/`"
+    },
+    {
+      "type": "li",
+      "text": "Linux and WSL: `/etc/claude-code/`"
+    },
+    {
+      "type": "li",
+      "text": "Windows: `C:\\Program Files\\ClaudeCode\\`"
+    },
+    {
+      "type": "blockquote",
+      "text": "These are system-wide paths (not user home directories like `~/Library/...`) that require administrator privileges. They are designed to be deployed by IT administrators."
+    },
+    {
+      "type": "blockquote",
+      "text": "Enterprise deployments can also restrict **plugin marketplace additions** using\n`strictKnownMarketplaces`. For more information, see [Enterprise marketplace restrictions](/docs/en/plugin-marketplaces#enterprise-marketplace-restrictions)."
+    },
+    {
+      "type": "li",
+      "text": "**Other configuration** is stored in `~/.claude.json`. This file contains your preferences (theme, notification settings, editor mode), OAuth session, [MCP server](/docs/en/mcp) configurations for user and local scopes, per-project state (allowed tools, trust settings), and various caches. Project-scoped MCP servers are stored separately in `.mcp.json`."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Bash(npm run lint)\",\n      \"Bash(npm run test:*)\",\n      \"Read(~/.zshrc)\"\n    ],\n    \"deny\": [\n      \"Bash(curl:*)\",\n      \"Read(./.env)\",\n      \"Read(./.env.*)\",\n      \"Read(./secrets/**)\"\n    ]\n  },\n  \"env\": {\n    \"CLAUDE_CODE_ENABLE_TELEMETRY\": \"1\",\n    \"OTEL_METRICS_EXPORTER\": \"otlp\"\n  },\n  \"companyAnnouncements\": [\n    \"Welcome to Acme Corp! Review our code guidelines at docs.acme.com\",\n    \"Reminder: Code reviews required for all PRs\",\n    \"New security policy in effect\"\n  ]\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Available settings"
+    },
+    {
+      "type": "h3",
+      "text": "Permission settings"
+    },
+    {
+      "type": "h3",
+      "text": "Sandbox settings"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"sandbox\": {\n    \"enabled\": true,\n    \"autoAllowBashIfSandboxed\": true,\n    \"excludedCommands\": [\"docker\"],\n    \"network\": {\n      \"allowUnixSockets\": [\n        \"/var/run/docker.sock\"\n      ],\n      \"allowLocalBinding\": true\n    }\n  },\n  \"permissions\": {\n    \"deny\": [\n      \"Read(.envrc)\",\n      \"Read(~/.aws/**)\"\n    ]\n  }\n}"
+    },
+    {
+      "type": "li",
+      "text": "Use `Read` deny rules to block Claude from reading specific files or directories"
+    },
+    {
+      "type": "li",
+      "text": "Use `Edit` allow rules to let Claude write to directories beyond the current working directory"
+    },
+    {
+      "type": "li",
+      "text": "Use `Edit` deny rules to block writes to specific paths"
+    },
+    {
+      "type": "li",
+      "text": "Use `WebFetch` allow/deny rules to control which network domains Claude can access"
+    },
+    {
+      "type": "h3",
+      "text": "Attribution settings"
+    },
+    {
+      "type": "li",
+      "text": "Commits use [git trailers](https://git-scm.com/docs/git-interpret-trailers) (like `Co-Authored-By`) by default,  which can be customized or disabled"
+    },
+    {
+      "type": "li",
+      "text": "Pull request descriptions are plain text"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\n   Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "🤖 Generated with [Claude Code](https://claude.com/claude-code)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"attribution\": {\n    \"commit\": \"Generated with AI\\n\\nCo-Authored-By: AI <ai@example.com>\",\n    \"pr\": \"\"\n  }\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "The `attribution` setting takes precedence over the deprecated `includeCoAuthoredBy` setting. To hide all attribution, set `commit` and `pr` to empty strings."
+    },
+    {
+      "type": "h3",
+      "text": "File suggestion settings"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"fileSuggestion\": {\n    \"type\": \"command\",\n    \"command\": \"~/.claude/file-suggestion.sh\"\n  }\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\"query\": \"src/comp\"}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "src/components/Button.tsx\nsrc/components/Modal.tsx\nsrc/components/Form.tsx"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\nquery=$(cat | jq -r '.query')\nyour-repo-file-index --query \"$query\" | head -20"
+    },
+    {
+      "type": "h3",
+      "text": "Hook configuration"
+    },
+    {
+      "type": "li",
+      "text": "Managed hooks and SDK hooks are loaded"
+    },
+    {
+      "type": "li",
+      "text": "User hooks, project hooks, and plugin hooks are blocked"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"allowManagedHooksOnly\": true\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Settings precedence"
+    },
+    {
+      "type": "li",
+      "text": "**Managed settings** (Enterprise)\n\nRemote settings configured via the [Claude.ai admin console](https://claude.ai/admin-settings/claude-code)\nFetched automatically when users authenticate\nCannot be overridden"
+    },
+    {
+      "type": "li",
+      "text": "Remote settings configured via the [Claude.ai admin console](https://claude.ai/admin-settings/claude-code)"
+    },
+    {
+      "type": "li",
+      "text": "Fetched automatically when users authenticate"
+    },
+    {
+      "type": "li",
+      "text": "Cannot be overridden"
+    },
+    {
+      "type": "li",
+      "text": "**File-based managed settings** (`managed-settings.json`)\n\nPolicies deployed by IT/DevOps to system directories\nCannot be overridden by user or project settings\nIgnored when remote managed settings are configured"
+    },
+    {
+      "type": "li",
+      "text": "Policies deployed by IT/DevOps to system directories"
+    },
+    {
+      "type": "li",
+      "text": "Cannot be overridden by user or project settings"
+    },
+    {
+      "type": "li",
+      "text": "Ignored when remote managed settings are configured"
+    },
+    {
+      "type": "li",
+      "text": "**Command line arguments**\n\nTemporary overrides for a specific session"
+    },
+    {
+      "type": "li",
+      "text": "Temporary overrides for a specific session"
+    },
+    {
+      "type": "li",
+      "text": "**Local project settings** (`.claude/settings.local.json`)\n\nPersonal project-specific settings"
+    },
+    {
+      "type": "li",
+      "text": "Personal project-specific settings"
+    },
+    {
+      "type": "li",
+      "text": "**Shared project settings** (`.claude/settings.json`)\n\nTeam-shared project settings in source control"
+    },
+    {
+      "type": "li",
+      "text": "Team-shared project settings in source control"
+    },
+    {
+      "type": "li",
+      "text": "**User settings** (`~/.claude/settings.json`)\n\nPersonal global settings"
+    },
+    {
+      "type": "li",
+      "text": "Personal global settings"
+    },
+    {
+      "type": "h3",
+      "text": "Key points about the configuration system"
+    },
+    {
+      "type": "li",
+      "text": "Memory files (`CLAUDE.md`): Contain instructions and context that Claude loads at startup"
+    },
+    {
+      "type": "li",
+      "text": "**Settings files (JSON)**: Configure permissions, environment variables, and tool behavior"
+    },
+    {
+      "type": "li",
+      "text": "**Slash commands**: Custom commands that can be invoked during a session with `/command-name`"
+    },
+    {
+      "type": "li",
+      "text": "**MCP servers**: Extend Claude Code with additional tools and integrations"
+    },
+    {
+      "type": "li",
+      "text": "**Precedence**: Higher-level configurations (Enterprise) override lower-level ones (User/Project)"
+    },
+    {
+      "type": "li",
+      "text": "**Inheritance**: Settings are merged, with more specific settings adding to or overriding broader ones"
+    },
+    {
+      "type": "h3",
+      "text": "System prompt"
+    },
+    {
+      "type": "h3",
+      "text": "Excluding sensitive files"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"permissions\": {\n    \"deny\": [\n      \"Read(./.env)\",\n      \"Read(./.env.*)\",\n      \"Read(./secrets/**)\",\n      \"Read(./config/credentials.json)\",\n      \"Read(./build)\"\n    ]\n  }\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Subagent configuration"
+    },
+    {
+      "type": "li",
+      "text": "**User subagents**: `~/.claude/agents/` - Available across all your projects"
+    },
+    {
+      "type": "li",
+      "text": "**Project subagents**: `.claude/agents/` - Specific to your project and can be shared with your team"
+    },
+    {
+      "type": "h2",
+      "text": "Plugin configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Plugin settings"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"enabledPlugins\": {\n    \"formatter@acme-tools\": true,\n    \"deployer@acme-tools\": true,\n    \"analyzer@security-plugins\": false\n  },\n  \"extraKnownMarketplaces\": {\n    \"acme-tools\": {\n      \"source\": \"github\",\n      \"repo\": \"acme-corp/claude-plugins\"\n    }\n  }\n}"
+    },
+    {
+      "type": "h4",
+      "text": "enabledPlugins"
+    },
+    {
+      "type": "li",
+      "text": "**User settings** (`~/.claude/settings.json`): Personal plugin preferences"
+    },
+    {
+      "type": "li",
+      "text": "**Project settings** (`.claude/settings.json`): Project-specific plugins shared with team"
+    },
+    {
+      "type": "li",
+      "text": "**Local settings** (`.claude/settings.local.json`): Per-machine overrides (not committed)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"enabledPlugins\": {\n    \"code-formatter@team-tools\": true,\n    \"deployment-tools@team-tools\": true,\n    \"experimental-features@personal\": false\n  }\n}"
+    },
+    {
+      "type": "h4",
+      "text": "extraKnownMarketplaces"
+    },
+    {
+      "type": "li",
+      "text": "Team members are prompted to install the marketplace when they trust the folder"
+    },
+    {
+      "type": "li",
+      "text": "Team members are then prompted to install plugins from that marketplace"
+    },
+    {
+      "type": "li",
+      "text": "Users can skip unwanted marketplaces or plugins (stored in user settings)"
+    },
+    {
+      "type": "li",
+      "text": "Installation respects trust boundaries and requires explicit consent"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"extraKnownMarketplaces\": {\n    \"acme-tools\": {\n      \"source\": {\n        \"source\": \"github\",\n        \"repo\": \"acme-corp/claude-plugins\"\n      }\n    },\n    \"security-plugins\": {\n      \"source\": {\n        \"source\": \"git\",\n        \"url\": \"https://git.example.com/security/plugins.git\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "type": "li",
+      "text": "`github`: GitHub repository (uses `repo`)"
+    },
+    {
+      "type": "li",
+      "text": "`git`: Any git URL (uses `url`)"
+    },
+    {
+      "type": "li",
+      "text": "`directory`: Local filesystem path (uses `path`, for development only)"
+    },
+    {
+      "type": "h4",
+      "text": "strictKnownMarketplaces"
+    },
+    {
+      "type": "li",
+      "text": "**macOS**: `/Library/Application Support/ClaudeCode/managed-settings.json`"
+    },
+    {
+      "type": "li",
+      "text": "**Linux and WSL**: `/etc/claude-code/managed-settings.json`"
+    },
+    {
+      "type": "li",
+      "text": "**Windows**: `C:\\ProgramData\\ClaudeCode\\managed-settings.json`"
+    },
+    {
+      "type": "li",
+      "text": "Only available in enterprise managed settings (`managed-settings.json`)"
+    },
+    {
+      "type": "li",
+      "text": "Cannot be overridden by user or project settings (highest precedence)"
+    },
+    {
+      "type": "li",
+      "text": "Enforced BEFORE network/filesystem operations (blocked sources never execute)"
+    },
+    {
+      "type": "li",
+      "text": "Uses exact matching for source specifications (including `ref`, `path` for git sources)"
+    },
+    {
+      "type": "li",
+      "text": "`undefined` (default): No restrictions - users can add any marketplace"
+    },
+    {
+      "type": "li",
+      "text": "Empty array `[]`: Complete lockdown - users cannot add any new marketplaces"
+    },
+    {
+      "type": "li",
+      "text": "List of sources: Users can only add marketplaces that match exactly"
+    },
+    {
+      "type": "li",
+      "text": "**GitHub repositories**:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{ \"source\": \"github\", \"repo\": \"acme-corp/approved-plugins\" }\n{ \"source\": \"github\", \"repo\": \"acme-corp/security-tools\", \"ref\": \"v2.0\" }\n{ \"source\": \"github\", \"repo\": \"acme-corp/plugins\", \"ref\": \"main\", \"path\": \"marketplace\" }"
+    },
+    {
+      "type": "li",
+      "text": "**Git repositories**:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{ \"source\": \"git\", \"url\": \"https://gitlab.example.com/tools/plugins.git\" }\n{ \"source\": \"git\", \"url\": \"https://bitbucket.org/acme-corp/plugins.git\", \"ref\": \"production\" }\n{ \"source\": \"git\", \"url\": \"ssh://git@git.example.com/plugins.git\", \"ref\": \"v3.1\", \"path\": \"approved\" }"
+    },
+    {
+      "type": "li",
+      "text": "**URL-based marketplaces**:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{ \"source\": \"url\", \"url\": \"https://plugins.example.com/marketplace.json\" }\n{ \"source\": \"url\", \"url\": \"https://cdn.example.com/marketplace.json\", \"headers\": { \"Authorization\": \"Bearer ${TOKEN}\" } }"
+    },
+    {
+      "type": "li",
+      "text": "**NPM packages**:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{ \"source\": \"npm\", \"package\": \"@acme-corp/claude-plugins\" }\n{ \"source\": \"npm\", \"package\": \"@acme-corp/approved-marketplace\" }"
+    },
+    {
+      "type": "li",
+      "text": "**File paths**:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{ \"source\": \"file\", \"path\": \"/usr/local/share/claude/acme-marketplace.json\" }\n{ \"source\": \"file\", \"path\": \"/opt/acme-corp/plugins/marketplace.json\" }"
+    },
+    {
+      "type": "li",
+      "text": "**Directory paths**:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{ \"source\": \"directory\", \"path\": \"/usr/local/share/claude/acme-plugins\" }\n{ \"source\": \"directory\", \"path\": \"/opt/acme-corp/approved-marketplaces\" }"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"strictKnownMarketplaces\": [\n    {\n      \"source\": \"github\",\n      \"repo\": \"acme-corp/approved-plugins\"\n    },\n    {\n      \"source\": \"github\",\n      \"repo\": \"acme-corp/security-tools\",\n      \"ref\": \"v2.0\"\n    },\n    {\n      \"source\": \"url\",\n      \"url\": \"https://plugins.example.com/marketplace.json\"\n    },\n    {\n      \"source\": \"npm\",\n      \"package\": \"@acme-corp/compliance-plugins\"\n    }\n  ]\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"strictKnownMarketplaces\": []\n}"
+    },
+    {
+      "type": "li",
+      "text": "The `repo` or `url` must match exactly"
+    },
+    {
+      "type": "li",
+      "text": "The `ref` field must match exactly (or both be undefined)"
+    },
+    {
+      "type": "li",
+      "text": "The `path` field must match exactly (or both be undefined)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "// These are DIFFERENT sources:\n{ \"source\": \"github\", \"repo\": \"acme-corp/plugins\" }\n{ \"source\": \"github\", \"repo\": \"acme-corp/plugins\", \"ref\": \"main\" }\n\n// These are also DIFFERENT:\n{ \"source\": \"github\", \"repo\": \"acme-corp/plugins\", \"path\": \"marketplace\" }\n{ \"source\": \"github\", \"repo\": \"acme-corp/plugins\" }"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"strictKnownMarketplaces\": [\n    { \"source\": \"github\", \"repo\": \"acme-corp/plugins\" }\n  ]\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"extraKnownMarketplaces\": {\n    \"acme-tools\": {\n      \"source\": { \"source\": \"github\", \"repo\": \"acme-corp/plugins\" }\n    }\n  }\n}"
+    },
+    {
+      "type": "li",
+      "text": "Restrictions are checked BEFORE any network requests or filesystem operations"
+    },
+    {
+      "type": "li",
+      "text": "When blocked, users see clear error messages indicating the source is blocked by enterprise policy"
+    },
+    {
+      "type": "li",
+      "text": "The restriction applies only to adding NEW marketplaces; previously installed marketplaces remain accessible"
+    },
+    {
+      "type": "li",
+      "text": "Enterprise managed settings have the highest precedence and cannot be overridden"
+    },
+    {
+      "type": "h3",
+      "text": "Managing plugins"
+    },
+    {
+      "type": "li",
+      "text": "Browse available plugins from marketplaces"
+    },
+    {
+      "type": "li",
+      "text": "Install/uninstall plugins"
+    },
+    {
+      "type": "li",
+      "text": "Enable/disable plugins"
+    },
+    {
+      "type": "li",
+      "text": "View plugin details (commands, agents, hooks provided)"
+    },
+    {
+      "type": "li",
+      "text": "Add/remove marketplaces"
+    },
+    {
+      "type": "h2",
+      "text": "Environment variables"
+    },
+    {
+      "type": "blockquote",
+      "text": "All environment variables can also be configured in `settings.json`. This is useful as a way to automatically set environment variables for each session, or to roll out a set of environment variables for your whole team or organization."
+    },
+    {
+      "type": "h2",
+      "text": "Tools available to Claude"
+    },
+    {
+      "type": "h3",
+      "text": "Bash tool behavior"
+    },
+    {
+      "type": "li",
+      "text": "**Working directory persists**: When Claude changes the working directory (for example, `cd /path/to/dir`), subsequent Bash commands will execute in that directory. You can use `CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1` to reset to the project directory after each command."
+    },
+    {
+      "type": "li",
+      "text": "**Environment variables do NOT persist**: Environment variables set in one Bash command (for example, `export MY_VAR=value`) are **not** available in subsequent Bash commands. Each Bash command runs in a fresh shell environment."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "conda activate myenv\n# or: source /path/to/venv/bin/activate\nclaude"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export CLAUDE_ENV_FILE=/path/to/env-setup.sh\nclaude"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "conda activate myenv\n# or: source /path/to/venv/bin/activate\n# or: export MY_VAR=value"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"SessionStart\": [{\n      \"matcher\": \"startup\",\n      \"hooks\": [{\n        \"type\": \"command\",\n        \"command\": \"echo 'conda activate myenv' >> \\\"$CLAUDE_ENV_FILE\\\"\"\n      }]\n    }]\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Extending tools with hooks"
+    },
+    {
+      "type": "h2",
+      "text": "See also"
+    },
+    {
+      "type": "li",
+      "text": "[Identity and Access Management](/docs/en/iam#configuring-permissions) - Learn about Claude Code’s permission system"
+    },
+    {
+      "type": "li",
+      "text": "[IAM and access control](/docs/en/iam#enterprise-managed-settings) - Enterprise policy management"
+    },
+    {
+      "type": "li",
+      "text": "[Troubleshooting](/docs/en/troubleshooting#auto-updater-issues) - Solutions for common configuration issues"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

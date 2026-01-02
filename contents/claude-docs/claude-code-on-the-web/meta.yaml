@@ -1,0 +1,16 @@
+id: claude-code-on-the-web
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/claude-code-on-the-web
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Claude Code on the web"
+    type: original
+  ko:
+    title: "웹에서 Claude Code 사용"
+    type: translation
+    translator: ai

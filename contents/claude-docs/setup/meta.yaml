@@ -1,0 +1,16 @@
+id: setup
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/setup
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Set up Claude Code"
+    type: original
+  ko:
+    title: "Claude Code 설치"
+    type: translation
+    translator: ai

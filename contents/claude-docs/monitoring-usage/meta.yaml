@@ -1,0 +1,16 @@
+id: monitoring-usage
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/monitoring-usage
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Monitoring"
+    type: original
+  ko:
+    title: "모니터링"
+    type: translation
+    translator: ai

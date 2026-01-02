@@ -1,0 +1,225 @@
+{
+  "title": "Claude Code on Amazon Bedrock",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Claude Code on Amazon Bedrock"
+    },
+    {
+      "type": "p",
+      "text": "Learn about configuring Claude Code through Amazon Bedrock, including setup, IAM configuration, and troubleshooting."
+    },
+    {
+      "type": "h2",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "li",
+      "text": "An AWS account with Bedrock access enabled"
+    },
+    {
+      "type": "li",
+      "text": "Access to desired Claude models (for example, Claude Sonnet 4.5) in Bedrock"
+    },
+    {
+      "type": "li",
+      "text": "AWS CLI installed and configured (optional - only needed if you don’t have another mechanism for getting credentials)"
+    },
+    {
+      "type": "li",
+      "text": "Appropriate IAM permissions"
+    },
+    {
+      "type": "h2",
+      "text": "Setup"
+    },
+    {
+      "type": "h3",
+      "text": "1. Submit use case details"
+    },
+    {
+      "type": "li",
+      "text": "Ensure you have the right IAM permissions (see more on that below)"
+    },
+    {
+      "type": "li",
+      "text": "Navigate to the [Amazon Bedrock console](https://console.aws.amazon.com/bedrock/)"
+    },
+    {
+      "type": "li",
+      "text": "Select **Chat/Text playground**"
+    },
+    {
+      "type": "li",
+      "text": "Choose any Anthropic model and you will be prompted to fill out the use case form"
+    },
+    {
+      "type": "h3",
+      "text": "2. Configure AWS credentials"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "aws configure"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export AWS_ACCESS_KEY_ID=your-access-key-id\nexport AWS_SECRET_ACCESS_KEY=your-secret-access-key\nexport AWS_SESSION_TOKEN=your-session-token"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "aws sso login --profile=<your-profile-name>\n\nexport AWS_PROFILE=your-profile-name"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "aws login"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export AWS_BEARER_TOKEN_BEDROCK=your-bedrock-api-key"
+    },
+    {
+      "type": "h4",
+      "text": "Advanced credential configuration"
+    },
+    {
+      "type": "h5",
+      "text": "Example configuration"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"awsAuthRefresh\": \"aws sso login --profile myprofile\",\n  \"env\": {\n    \"AWS_PROFILE\": \"myprofile\"\n  }\n}"
+    },
+    {
+      "type": "h5",
+      "text": "Configuration settings explained"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"Credentials\": {\n    \"AccessKeyId\": \"value\",\n    \"SecretAccessKey\": \"value\",\n    \"SessionToken\": \"value\"\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "3. Configure Claude Code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Enable Bedrock integration\nexport CLAUDE_CODE_USE_BEDROCK=1\nexport AWS_REGION=us-east-1  # or your preferred region\n\n# Optional: Override the region for the small/fast model (Haiku)\nexport ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION=us-west-2"
+    },
+    {
+      "type": "li",
+      "text": "`AWS_REGION` is a required environment variable. Claude Code does not read from the `.aws` config file for this setting."
+    },
+    {
+      "type": "li",
+      "text": "When using Bedrock, the `/login` and `/logout` commands are disabled since authentication is handled through AWS credentials."
+    },
+    {
+      "type": "li",
+      "text": "You can use settings files for environment variables like `AWS_PROFILE` that you don’t want to leak to other processes. See [Settings](/docs/en/settings) for more information."
+    },
+    {
+      "type": "h3",
+      "text": "4. Model configuration"
+    },
+    {
+      "type": "blockquote",
+      "text": "For Bedrock users, Claude Code won’t automatically upgrade from Haiku 3.5 to Haiku 4.5. To manually switch to a newer Haiku model, set the `ANTHROPIC_DEFAULT_HAIKU_MODEL` environment variable to the full model name (for example, `us.anthropic.claude-haiku-4-5-20251001-v1:0`)."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Using inference profile ID\nexport ANTHROPIC_MODEL='global.anthropic.claude-sonnet-4-5-20250929-v1:0'\nexport ANTHROPIC_SMALL_FAST_MODEL='us.anthropic.claude-haiku-4-5-20251001-v1:0'\n\n# Using application inference profile ARN\nexport ANTHROPIC_MODEL='arn:aws:bedrock:us-east-2:your-account-id:application-inference-profile/your-model-id'\n\n# Optional: Disable prompt caching if needed\nexport DISABLE_PROMPT_CACHING=1"
+    },
+    {
+      "type": "blockquote",
+      "text": "[Prompt caching](https://docs.claude.com/en/docs/build-with-claude/prompt-caching) may not be available in all regions."
+    },
+    {
+      "type": "h3",
+      "text": "5. Output token configuration"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Recommended output token settings for Bedrock\nexport CLAUDE_CODE_MAX_OUTPUT_TOKENS=4096\nexport MAX_THINKING_TOKENS=1024"
+    },
+    {
+      "type": "li",
+      "text": "`CLAUDE_CODE_MAX_OUTPUT_TOKENS=4096`: Bedrock’s burndown throttling logic sets a minimum of 4096 tokens as the `max_token` penalty. Setting this lower won’t reduce costs but may cut off long tool uses, causing the Claude Code agent loop to fail persistently. Claude Code typically uses less than 4096 output tokens without extended thinking, but may need this headroom for tasks involving significant file creation or Write tool usage."
+    },
+    {
+      "type": "li",
+      "text": "`MAX_THINKING_TOKENS=1024`: This provides space for extended thinking without cutting off tool use responses, while still maintaining focused reasoning chains. This balance helps prevent trajectory changes that aren’t always helpful for coding tasks specifically."
+    },
+    {
+      "type": "h2",
+      "text": "IAM configuration"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"AllowModelAndInferenceProfileAccess\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"bedrock:InvokeModel\",\n        \"bedrock:InvokeModelWithResponseStream\",\n        \"bedrock:ListInferenceProfiles\"\n      ],\n      \"Resource\": [\n        \"arn:aws:bedrock:*:*:inference-profile/*\",\n        \"arn:aws:bedrock:*:*:application-inference-profile/*\",\n        \"arn:aws:bedrock:*:*:foundation-model/*\"\n      ]\n    },\n    {\n      \"Sid\": \"AllowMarketplaceSubscription\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"aws-marketplace:ViewSubscriptions\",\n        \"aws-marketplace:Subscribe\"\n      ],\n      \"Resource\": \"*\",\n      \"Condition\": {\n        \"StringEquals\": {\n          \"aws:CalledViaLast\": \"bedrock.amazonaws.com\"\n        }\n      }\n    }\n  ]\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "We recommend creating a dedicated AWS account for Claude Code to simplify cost tracking and access control."
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "li",
+      "text": "Check model availability: `aws bedrock list-inference-profiles --region your-region`"
+    },
+    {
+      "type": "li",
+      "text": "Switch to a supported region: `export AWS_REGION=us-east-1`"
+    },
+    {
+      "type": "li",
+      "text": "Consider using inference profiles for cross-region access"
+    },
+    {
+      "type": "li",
+      "text": "Specify the model as an [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-support.html) ID"
+    },
+    {
+      "type": "h2",
+      "text": "Additional resources"
+    },
+    {
+      "type": "li",
+      "text": "[Bedrock documentation](https://docs.aws.amazon.com/bedrock/)"
+    },
+    {
+      "type": "li",
+      "text": "[Bedrock pricing](https://aws.amazon.com/bedrock/pricing/)"
+    },
+    {
+      "type": "li",
+      "text": "[Bedrock inference profiles](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-support.html)"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Code on Amazon Bedrock: Quick Setup Guide](https://community.aws/content/2tXkZKrZzlrlu0KfH8gST5Dkppq/claude-code-on-amazon-bedrock-quick-setup-guide)- [Claude Code Monitoring Implementation (Bedrock)](https://github.com/aws-solutions-library-samples/guidance-for-claude-code-with-amazon-bedrock/blob/main/assets/docs/MONITORING.md)"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

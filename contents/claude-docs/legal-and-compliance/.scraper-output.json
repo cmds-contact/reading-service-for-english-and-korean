@@ -1,0 +1,62 @@
+{
+  "title": "Legal and compliance",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Legal and compliance"
+    },
+    {
+      "type": "p",
+      "text": "Legal agreements, compliance certifications, and security information for Claude Code."
+    },
+    {
+      "type": "h2",
+      "text": "Legal agreements"
+    },
+    {
+      "type": "h3",
+      "text": "License"
+    },
+    {
+      "type": "li",
+      "text": "[Commercial Terms](https://www.anthropic.com/legal/commercial-terms) - for Team, Enterprise, and Claude API users"
+    },
+    {
+      "type": "li",
+      "text": "[Consumer Terms](https://www.anthropic.com/legal/consumer-terms) - for Free, Pro, and Max users"
+    },
+    {
+      "type": "h3",
+      "text": "Commercial agreements"
+    },
+    {
+      "type": "h2",
+      "text": "Compliance"
+    },
+    {
+      "type": "h3",
+      "text": "Healthcare compliance (BAA)"
+    },
+    {
+      "type": "h2",
+      "text": "Security and trust"
+    },
+    {
+      "type": "h3",
+      "text": "Trust and safety"
+    },
+    {
+      "type": "h3",
+      "text": "Security vulnerability reporting"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

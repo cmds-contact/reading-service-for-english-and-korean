@@ -1,0 +1,16 @@
+id: costs
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/costs
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Manage costs effectively"
+    type: original
+  ko:
+    title: "비용 효율적으로 관리하기"
+    type: translation
+    translator: ai

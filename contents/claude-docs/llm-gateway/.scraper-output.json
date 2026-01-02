@@ -1,0 +1,222 @@
+{
+  "title": "LLM gateway configuration",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "LLM gateway configuration"
+    },
+    {
+      "type": "p",
+      "text": "Learn how to configure Claude Code to work with LLM gateway solutions. Covers gateway requirements, authentication configuration, model selection, and provider-specific endpoint setup."
+    },
+    {
+      "type": "li",
+      "text": "**Centralized authentication** - Single point for API key management"
+    },
+    {
+      "type": "li",
+      "text": "**Usage tracking** - Monitor usage across teams and projects"
+    },
+    {
+      "type": "li",
+      "text": "**Cost controls** - Implement budgets and rate limits"
+    },
+    {
+      "type": "li",
+      "text": "**Audit logging** - Track all model interactions for compliance"
+    },
+    {
+      "type": "li",
+      "text": "**Model routing** - Switch between providers without code changes"
+    },
+    {
+      "type": "h2",
+      "text": "Gateway requirements"
+    },
+    {
+      "type": "li",
+      "text": "**Anthropic Messages**: `/v1/messages`, `/v1/messages/count_tokens`\n\nMust forward request headers: `anthropic-beta`, `anthropic-version`"
+    },
+    {
+      "type": "li",
+      "text": "Must forward request headers: `anthropic-beta`, `anthropic-version`"
+    },
+    {
+      "type": "li",
+      "text": "**Bedrock InvokeModel**: `/invoke`, `/invoke-with-response-stream`\n\nMust preserve request body fields: `anthropic_beta`, `anthropic_version`"
+    },
+    {
+      "type": "li",
+      "text": "Must preserve request body fields: `anthropic_beta`, `anthropic_version`"
+    },
+    {
+      "type": "li",
+      "text": "**Vertex rawPredict**: `:rawPredict`, `:streamRawPredict`, `/count-tokens:rawPredict`\n\nMust forward request headers: `anthropic-beta`, `anthropic-version`"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code determines which features to enable based on the API format. When using the Anthropic Messages format with Bedrock or Vertex, you may need to set environment variable `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1`."
+    },
+    {
+      "type": "h2",
+      "text": "Configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Model selection"
+    },
+    {
+      "type": "h2",
+      "text": "LiteLLM configuration"
+    },
+    {
+      "type": "blockquote",
+      "text": "LiteLLM is a third-party proxy service. Anthropic doesn’t endorse, maintain, or audit LiteLLM’s security or functionality. This guide is provided for informational purposes and may become outdated. Use at your own discretion."
+    },
+    {
+      "type": "h3",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code updated to the latest version"
+    },
+    {
+      "type": "li",
+      "text": "LiteLLM Proxy Server deployed and accessible"
+    },
+    {
+      "type": "li",
+      "text": "Access to Claude models through your chosen provider"
+    },
+    {
+      "type": "h3",
+      "text": "Basic LiteLLM setup"
+    },
+    {
+      "type": "h4",
+      "text": "Authentication methods"
+    },
+    {
+      "type": "h5",
+      "text": "Static API key"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Set in environment\nexport ANTHROPIC_AUTH_TOKEN=sk-litellm-static-key\n\n# Or in Claude Code settings\n{\n  \"env\": {\n    \"ANTHROPIC_AUTH_TOKEN\": \"sk-litellm-static-key\"\n  }\n}"
+    },
+    {
+      "type": "h5",
+      "text": "Dynamic API key with helper"
+    },
+    {
+      "type": "li",
+      "text": "Create an API key helper script:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\n# ~/bin/get-litellm-key.sh\n\n# Example: Fetch key from vault\nvault kv get -field=api_key secret/litellm/claude-code\n\n# Example: Generate JWT token\njwt encode \\\n  --secret=\"${JWT_SECRET}\" \\\n  --exp=\"+1h\" \\\n  '{\"user\":\"'${USER}'\",\"team\":\"engineering\"}'"
+    },
+    {
+      "type": "li",
+      "text": "Configure Claude Code settings to use the helper:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"apiKeyHelper\": \"~/bin/get-litellm-key.sh\"\n}"
+    },
+    {
+      "type": "li",
+      "text": "Set token refresh interval:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Refresh every hour (3600000 ms)\nexport CLAUDE_CODE_API_KEY_HELPER_TTL_MS=3600000"
+    },
+    {
+      "type": "h4",
+      "text": "Unified endpoint (recommended)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export ANTHROPIC_BASE_URL=https://litellm-server:4000"
+    },
+    {
+      "type": "li",
+      "text": "Load balancing"
+    },
+    {
+      "type": "li",
+      "text": "Fallbacks"
+    },
+    {
+      "type": "li",
+      "text": "Consistent support for cost tracking and end-user tracking"
+    },
+    {
+      "type": "h4",
+      "text": "Provider-specific pass-through endpoints (alternative)"
+    },
+    {
+      "type": "h5",
+      "text": "Claude API through LiteLLM"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export ANTHROPIC_BASE_URL=https://litellm-server:4000/anthropic"
+    },
+    {
+      "type": "h5",
+      "text": "Amazon Bedrock through LiteLLM"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export ANTHROPIC_BEDROCK_BASE_URL=https://litellm-server:4000/bedrock\nexport CLAUDE_CODE_SKIP_BEDROCK_AUTH=1\nexport CLAUDE_CODE_USE_BEDROCK=1"
+    },
+    {
+      "type": "h5",
+      "text": "Google Vertex AI through LiteLLM"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export ANTHROPIC_VERTEX_BASE_URL=https://litellm-server:4000/vertex_ai/v1\nexport ANTHROPIC_VERTEX_PROJECT_ID=your-gcp-project-id\nexport CLAUDE_CODE_SKIP_VERTEX_AUTH=1\nexport CLAUDE_CODE_USE_VERTEX=1\nexport CLOUD_ML_REGION=us-east5"
+    },
+    {
+      "type": "h2",
+      "text": "Additional resources"
+    },
+    {
+      "type": "li",
+      "text": "[LiteLLM documentation](https://docs.litellm.ai/)"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Code settings](/docs/en/settings)"
+    },
+    {
+      "type": "li",
+      "text": "[Enterprise network configuration](/docs/en/network-config)"
+    },
+    {
+      "type": "li",
+      "text": "[Third-party integrations overview](/docs/en/third-party-integrations)"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

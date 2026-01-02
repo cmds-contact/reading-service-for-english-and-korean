@@ -65,6 +65,102 @@ body {
   .prose blockquote {
     @apply border-l-4 border-slate-300 dark:border-slate-600 pl-4 italic text-slate-600 dark:text-slate-400;
   }
+
+  /* 인라인 코드 스타일 */
+  .prose code:not(pre code) {
+    @apply bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  /* 코드 블록 스타일 */
+  .prose pre {
+    @apply bg-slate-900 dark:bg-slate-950 text-slate-100 p-4 rounded-lg overflow-x-auto my-4 text-sm leading-relaxed;
+    scrollbar-width: thin;
+  }
+
+  .prose pre code {
+    @apply bg-transparent text-inherit p-0 rounded-none text-sm font-mono;
+  }
+
+  /* 코드 블록 언어 표시 (optional) */
+  .prose pre[data-language]::before {
+    content: attr(data-language);
+    @apply block text-xs text-slate-400 mb-2 uppercase tracking-wide;
+  }
+
+  /* 이미지 스타일 */
+  .prose img {
+    @apply rounded-lg shadow-md max-w-full h-auto my-4 mx-auto;
+  }
+
+  .prose figure {
+    @apply my-6;
+  }
+
+  .prose figcaption,
+  .prose img + em,
+  .prose p > em:only-child {
+    @apply block text-sm text-center text-slate-500 dark:text-slate-400 mt-2 italic;
+  }
+
+  /* 이미지 갤러리 (가로 슬라이드) */
+  .prose .image-gallery {
+    @apply flex gap-4 overflow-x-auto snap-x snap-mandatory my-6 pb-4 -mx-4 px-4;
+    scrollbar-width: thin;
+  }
+
+  .prose .image-gallery figure {
+    @apply flex-shrink-0 snap-center m-0;
+    width: 80%;
+    max-width: 400px;
+  }
+
+  .prose .image-gallery img {
+    @apply w-full h-auto rounded-lg shadow-md m-0;
+  }
+
+  .prose .image-gallery figcaption {
+    @apply text-sm text-center text-slate-500 dark:text-slate-400 mt-2 italic;
+  }
+
+  /* 테이블 스타일 - 가로줄만 */
+  .prose table {
+    @apply w-full my-6 text-sm;
+    border-collapse: collapse;
+  }
+
+  .prose thead {
+    @apply border-b-2 border-slate-300 dark:border-slate-600;
+  }
+
+  .prose th {
+    @apply py-3 px-4 text-left font-semibold text-slate-800 dark:text-slate-200;
+  }
+
+  .prose tbody tr {
+    @apply border-b border-slate-200 dark:border-slate-700;
+  }
+
+  .prose tbody tr:last-child {
+    @apply border-b-0;
+  }
+
+  .prose td {
+    @apply py-3 px-4 text-slate-700 dark:text-slate-300;
+  }
+
+  /* 비디오/iframe 임베딩 스타일 */
+  .prose iframe {
+    @apply w-full aspect-video rounded-lg my-4;
+  }
+
+  .prose .video-embed {
+    @apply relative w-full my-4;
+    padding-bottom: 56.25%; /* 16:9 비율 */
+  }
+
+  .prose .video-embed iframe {
+    @apply absolute top-0 left-0 w-full h-full rounded-lg;
+  }
 }
 
 @layer components {

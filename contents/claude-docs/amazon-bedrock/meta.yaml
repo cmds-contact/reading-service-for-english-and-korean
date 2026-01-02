@@ -1,0 +1,16 @@
+id: amazon-bedrock
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/amazon-bedrock
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Claude Code on Amazon Bedrock"
+    type: original
+  ko:
+    title: "Amazon Bedrock에서 Claude Code 사용하기"
+    type: translation
+    translator: ai

@@ -1,0 +1,16 @@
+id: chrome
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/chrome
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Use Claude Code with Chrome (beta)"
+    type: original
+  ko:
+    title: "Chrome에서 Claude Code 사용하기 (베타)"
+    type: translation
+    translator: ai

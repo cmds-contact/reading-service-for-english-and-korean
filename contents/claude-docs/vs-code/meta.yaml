@@ -1,0 +1,16 @@
+id: vs-code
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/vs-code
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Use Claude Code in VS Code"
+    type: original
+  ko:
+    title: "VS Code에서 Claude Code 사용하기"
+    type: translation
+    translator: ai

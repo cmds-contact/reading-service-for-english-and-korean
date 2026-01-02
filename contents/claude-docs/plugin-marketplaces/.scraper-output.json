@@ -1,0 +1,383 @@
+{
+  "title": "Create and distribute a plugin marketplace",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Create and distribute a plugin marketplace"
+    },
+    {
+      "type": "p",
+      "text": "Build and host plugin marketplaces to distribute Claude Code extensions across teams and communities."
+    },
+    {
+      "type": "h2",
+      "text": "Overview"
+    },
+    {
+      "type": "li",
+      "text": "**Creating plugins**: build one or more plugins with commands, agents, hooks, MCP servers, or LSP servers. This guide assumes you already have plugins to distribute; see [Create plugins](/docs/en/plugins) for details on how to create them."
+    },
+    {
+      "type": "li",
+      "text": "**Creating a marketplace file**: define a `marketplace.json` that lists your plugins and where to find them (see [Create the marketplace file](#create-the-marketplace-file))."
+    },
+    {
+      "type": "li",
+      "text": "**Host the marketplace**: push to GitHub, GitLab, or another git host (see [Host and distribute marketplaces](#host-and-distribute-marketplaces))."
+    },
+    {
+      "type": "li",
+      "text": "**Share with users**: users add your marketplace with `/plugin marketplace add` and install individual plugins (see [Discover and install plugins](/docs/en/discover-plugins))."
+    },
+    {
+      "type": "h2",
+      "text": "Walkthrough: create a local marketplace"
+    },
+    {
+      "type": "p",
+      "text": "Create the directory structure"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "mkdir -p my-marketplace/.claude-plugin\nmkdir -p my-marketplace/plugins/review-plugin/.claude-plugin\nmkdir -p my-marketplace/plugins/review-plugin/commands"
+    },
+    {
+      "type": "p",
+      "text": "Create the plugin command"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "Review the code I've selected or the recent changes for:\n- Potential bugs or edge cases\n- Security concerns\n- Performance issues\n- Readability improvements\n\nBe concise and actionable."
+    },
+    {
+      "type": "p",
+      "text": "Create the plugin manifest"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"review-plugin\",\n  \"description\": \"Adds a /review command for quick code reviews\",\n  \"version\": \"1.0.0\"\n}"
+    },
+    {
+      "type": "p",
+      "text": "Create the marketplace file"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"my-plugins\",\n  \"owner\": {\n    \"name\": \"Your Name\"\n  },\n  \"plugins\": [\n    {\n      \"name\": \"review-plugin\",\n      \"source\": \"./plugins/review-plugin\",\n      \"description\": \"Adds a /review command for quick code reviews\"\n    }\n  ]\n}"
+    },
+    {
+      "type": "p",
+      "text": "Add and install"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add ./my-marketplace\n/plugin install review-plugin@my-plugins"
+    },
+    {
+      "type": "p",
+      "text": "Try it out"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/review"
+    },
+    {
+      "type": "blockquote",
+      "text": "**How plugins are installed**: When users install a plugin, Claude Code copies the plugin directory to a cache location. This means plugins can’t reference files outside their directory using paths like `../shared-utils`, because those files won’t be copied.If you need to share files across plugins, use symlinks (which are followed during copying) or restructure your marketplace so the shared directory is inside the plugin source path. See [Plugin caching and file resolution](/docs/en/plugins-reference#plugin-caching-and-file-resolution) for details."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"company-tools\",\n  \"owner\": {\n    \"name\": \"DevTools Team\",\n    \"email\": \"devtools@example.com\"\n  },\n  \"plugins\": [\n    {\n      \"name\": \"code-formatter\",\n      \"source\": \"./plugins/formatter\",\n      \"description\": \"Automatic code formatting on save\",\n      \"version\": \"2.1.0\",\n      \"author\": {\n        \"name\": \"DevTools Team\"\n      }\n    },\n    {\n      \"name\": \"deployment-tools\",\n      \"source\": {\n        \"source\": \"github\",\n        \"repo\": \"company/deploy-plugin\"\n      },\n      \"description\": \"Deployment automation tools\"\n    }\n  ]\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Marketplace schema"
+    },
+    {
+      "type": "h3",
+      "text": "Required fields"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Reserved names**: The following marketplace names are reserved for official Anthropic use and cannot be used by third-party marketplaces: `claude-code-marketplace`, `claude-code-plugins`, `claude-plugins-official`, `anthropic-marketplace`, `anthropic-plugins`, `agent-skills`, `life-sciences`. Names that impersonate official marketplaces (like `official-claude-plugins` or `anthropic-tools-v2`) are also blocked."
+    },
+    {
+      "type": "h3",
+      "text": "Owner fields"
+    },
+    {
+      "type": "h3",
+      "text": "Optional metadata"
+    },
+    {
+      "type": "h2",
+      "text": "Plugin entries"
+    },
+    {
+      "type": "h3",
+      "text": "Optional plugin fields"
+    },
+    {
+      "type": "h2",
+      "text": "Plugin sources"
+    },
+    {
+      "type": "h3",
+      "text": "Relative paths"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"my-plugin\",\n  \"source\": \"./plugins/my-plugin\"\n}"
+    },
+    {
+      "type": "h3",
+      "text": "GitHub repositories"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"github-plugin\",\n  \"source\": {\n    \"source\": \"github\",\n    \"repo\": \"owner/plugin-repo\"\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Git repositories"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"git-plugin\",\n  \"source\": {\n    \"source\": \"url\",\n    \"url\": \"https://gitlab.com/team/plugin.git\"\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Advanced plugin entries"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"enterprise-tools\",\n  \"source\": {\n    \"source\": \"github\",\n    \"repo\": \"company/enterprise-plugin\"\n  },\n  \"description\": \"Enterprise workflow automation tools\",\n  \"version\": \"2.1.0\",\n  \"author\": {\n    \"name\": \"Enterprise Team\",\n    \"email\": \"enterprise@example.com\"\n  },\n  \"homepage\": \"https://docs.example.com/plugins/enterprise-tools\",\n  \"repository\": \"https://github.com/company/enterprise-plugin\",\n  \"license\": \"MIT\",\n  \"keywords\": [\"enterprise\", \"workflow\", \"automation\"],\n  \"category\": \"productivity\",\n  \"commands\": [\n    \"./commands/core/\",\n    \"./commands/enterprise/\",\n    \"./commands/experimental/preview.md\"\n  ],\n  \"agents\": [\"./agents/security-reviewer.md\", \"./agents/compliance-checker.md\"],\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Write|Edit\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh\"\n          }\n        ]\n      }\n    ]\n  },\n  \"mcpServers\": {\n    \"enterprise-db\": {\n      \"command\": \"${CLAUDE_PLUGIN_ROOT}/servers/db-server\",\n      \"args\": [\"--config\", \"${CLAUDE_PLUGIN_ROOT}/config.json\"]\n    }\n  },\n  \"strict\": false\n}"
+    },
+    {
+      "type": "li",
+      "text": "`commands` and `agents`: You can specify multiple directories or individual files. Paths are relative to the plugin root."
+    },
+    {
+      "type": "li",
+      "text": "`${CLAUDE_PLUGIN_ROOT}`: Use this variable in hooks and MCP server configs to reference files within the plugin’s installation directory. This is necessary because plugins are copied to a cache location when installed."
+    },
+    {
+      "type": "li",
+      "text": "`strict: false`: Since this is set to false, the plugin doesn’t need its own `plugin.json`. The marketplace entry defines everything."
+    },
+    {
+      "type": "h2",
+      "text": "Host and distribute marketplaces"
+    },
+    {
+      "type": "h3",
+      "text": "Host on GitHub (recommended)"
+    },
+    {
+      "type": "li",
+      "text": "**Create a repository**: Set up a new repository for your marketplace"
+    },
+    {
+      "type": "li",
+      "text": "**Add marketplace file**: Create `.claude-plugin/marketplace.json` with your plugin definitions"
+    },
+    {
+      "type": "li",
+      "text": "**Share with teams**: Users add your marketplace with `/plugin marketplace add owner/repo`"
+    },
+    {
+      "type": "h3",
+      "text": "Host on other git services"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add https://gitlab.com/company/plugins.git"
+    },
+    {
+      "type": "h3",
+      "text": "Test locally before distribution"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add ./my-local-marketplace\n/plugin install test-plugin@my-local-marketplace"
+    },
+    {
+      "type": "h3",
+      "text": "Require marketplaces for your team"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"extraKnownMarketplaces\": {\n    \"company-tools\": {\n      \"source\": {\n        \"source\": \"github\",\n        \"repo\": \"your-org/claude-plugins\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"enabledPlugins\": {\n    \"code-formatter@company-tools\": true,\n    \"deployment-tools@company-tools\": true\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Enterprise marketplace restrictions"
+    },
+    {
+      "type": "h4",
+      "text": "Common configurations"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"strictKnownMarketplaces\": []\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"strictKnownMarketplaces\": [\n    {\n      \"source\": \"github\",\n      \"repo\": \"acme-corp/approved-plugins\"\n    },\n    {\n      \"source\": \"github\",\n      \"repo\": \"acme-corp/security-tools\",\n      \"ref\": \"v2.0\"\n    },\n    {\n      \"source\": \"url\",\n      \"url\": \"https://plugins.example.com/marketplace.json\"\n    }\n  ]\n}"
+    },
+    {
+      "type": "h4",
+      "text": "How restrictions work"
+    },
+    {
+      "type": "li",
+      "text": "For GitHub sources: `repo` is required, and `ref` or `path` must also match if specified in the allowlist"
+    },
+    {
+      "type": "li",
+      "text": "For URL sources: the full URL must match exactly"
+    },
+    {
+      "type": "h2",
+      "text": "Validation and testing"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude plugin validate ."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin validate ."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin marketplace add ./path/to/marketplace"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin install test-plugin@marketplace-name"
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "h3",
+      "text": "Marketplace not loading"
+    },
+    {
+      "type": "li",
+      "text": "Verify the marketplace URL is accessible"
+    },
+    {
+      "type": "li",
+      "text": "Check that `.claude-plugin/marketplace.json` exists at the specified path"
+    },
+    {
+      "type": "li",
+      "text": "Ensure JSON syntax is valid using `claude plugin validate` or `/plugin validate`"
+    },
+    {
+      "type": "li",
+      "text": "For private repositories, confirm you have access permissions"
+    },
+    {
+      "type": "h3",
+      "text": "Marketplace validation errors"
+    },
+    {
+      "type": "li",
+      "text": "`Marketplace has no plugins defined`: add at least one plugin to the `plugins` array"
+    },
+    {
+      "type": "li",
+      "text": "`No marketplace description provided`: add `metadata.description` to help users understand your marketplace"
+    },
+    {
+      "type": "li",
+      "text": "`Plugin \"x\" uses npm source which is not yet fully implemented`: use `github` or local path sources instead"
+    },
+    {
+      "type": "h3",
+      "text": "Plugin installation failures"
+    },
+    {
+      "type": "li",
+      "text": "Verify plugin source URLs are accessible"
+    },
+    {
+      "type": "li",
+      "text": "Check that plugin directories contain required files"
+    },
+    {
+      "type": "li",
+      "text": "For GitHub sources, ensure repositories are public or you have access"
+    },
+    {
+      "type": "li",
+      "text": "Test plugin sources manually by cloning/downloading"
+    },
+    {
+      "type": "h3",
+      "text": "Files not found after installation"
+    },
+    {
+      "type": "h2",
+      "text": "See also"
+    },
+    {
+      "type": "li",
+      "text": "[Discover and install prebuilt plugins](/docs/en/discover-plugins) - Installing plugins from existing marketplaces"
+    },
+    {
+      "type": "li",
+      "text": "[Plugins](/docs/en/plugins) - Creating your own plugins"
+    },
+    {
+      "type": "li",
+      "text": "[Plugins reference](/docs/en/plugins-reference) - Complete technical specifications and schemas"
+    },
+    {
+      "type": "li",
+      "text": "[Plugin settings](/docs/en/settings#plugin-settings) - Plugin configuration options"
+    },
+    {
+      "type": "li",
+      "text": "[strictKnownMarketplaces reference](/docs/en/settings#strictknownmarketplaces) - Enterprise marketplace restrictions"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

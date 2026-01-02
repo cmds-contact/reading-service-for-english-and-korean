@@ -1,0 +1,16 @@
+id: model-config
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/model-config
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Model configuration"
+    type: original
+  ko:
+    title: "모델 구성"
+    type: translation
+    translator: ai

@@ -1,0 +1,22 @@
+id: claude-for-chrome
+created: "2026-01-02"
+channel: Claude Blog
+
+source:
+  url: https://claude.com/blog/claude-for-chrome
+  published: "2025-08-25"
+
+tags:
+  - Chrome Extension
+  - Browser AI
+  - Safety
+  - Prompt Injection
+
+languages:
+  en:
+    title: "Piloting Claude in Chrome"
+    type: original
+  ko:
+    title: "Chrome용 Claude 파일럿 프로그램"
+    type: translation
+    translator: ai

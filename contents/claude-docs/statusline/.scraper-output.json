@@ -1,0 +1,190 @@
+{
+  "title": "Status line configuration",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Status line configuration"
+    },
+    {
+      "type": "p",
+      "text": "Create a custom status line for Claude Code to display contextual information"
+    },
+    {
+      "type": "h2",
+      "text": "Create a custom status line"
+    },
+    {
+      "type": "li",
+      "text": "Run `/statusline` to ask Claude Code to help you set up a custom status line. By default, it will try to reproduce your terminal’s prompt, but you can provide additional instructions about the behavior you want to Claude Code, such as `/statusline show the model name in orange`"
+    },
+    {
+      "type": "li",
+      "text": "Directly add a `statusLine` command to your `.claude/settings.json`:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"statusLine\": {\n    \"type\": \"command\",\n    \"command\": \"~/.claude/statusline.sh\",\n    \"padding\": 0 // Optional: set to 0 to let status line go to edge\n  }\n}"
+    },
+    {
+      "type": "h2",
+      "text": "How it Works"
+    },
+    {
+      "type": "li",
+      "text": "The status line is updated when the conversation messages update"
+    },
+    {
+      "type": "li",
+      "text": "Updates run at most every 300 ms"
+    },
+    {
+      "type": "li",
+      "text": "The first line of stdout from your command becomes the status line text"
+    },
+    {
+      "type": "li",
+      "text": "ANSI color codes are supported for styling your status line"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code passes contextual information about the current session (model, directories, etc.) as JSON to your script via stdin"
+    },
+    {
+      "type": "h2",
+      "text": "JSON Input Structure"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hook_event_name\": \"Status\",\n  \"session_id\": \"abc123...\",\n  \"transcript_path\": \"/path/to/transcript.json\",\n  \"cwd\": \"/current/working/directory\",\n  \"model\": {\n    \"id\": \"claude-opus-4-1\",\n    \"display_name\": \"Opus\"\n  },\n  \"workspace\": {\n    \"current_dir\": \"/current/working/directory\",\n    \"project_dir\": \"/original/project/directory\"\n  },\n  \"version\": \"1.0.80\",\n  \"output_style\": {\n    \"name\": \"default\"\n  },\n  \"cost\": {\n    \"total_cost_usd\": 0.01234,\n    \"total_duration_ms\": 45000,\n    \"total_api_duration_ms\": 2300,\n    \"total_lines_added\": 156,\n    \"total_lines_removed\": 23\n  },\n  \"context_window\": {\n    \"total_input_tokens\": 15234,\n    \"total_output_tokens\": 4521,\n    \"context_window_size\": 200000,\n    \"current_usage\": {\n      \"input_tokens\": 8500,\n      \"output_tokens\": 1200,\n      \"cache_creation_input_tokens\": 5000,\n      \"cache_read_input_tokens\": 2000\n    }\n  }\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Example Scripts"
+    },
+    {
+      "type": "h3",
+      "text": "Simple Status Line"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\n# Read JSON input from stdin\ninput=$(cat)\n\n# Extract values using jq\nMODEL_DISPLAY=$(echo \"$input\" | jq -r '.model.display_name')\nCURRENT_DIR=$(echo \"$input\" | jq -r '.workspace.current_dir')\n\necho \"[$MODEL_DISPLAY] 📁 ${CURRENT_DIR##*/}\""
+    },
+    {
+      "type": "h3",
+      "text": "Git-Aware Status Line"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\n# Read JSON input from stdin\ninput=$(cat)\n\n# Extract values using jq\nMODEL_DISPLAY=$(echo \"$input\" | jq -r '.model.display_name')\nCURRENT_DIR=$(echo \"$input\" | jq -r '.workspace.current_dir')\n\n# Show git branch if in a git repo\nGIT_BRANCH=\"\"\nif git rev-parse --git-dir > /dev/null 2>&1; then\n    BRANCH=$(git branch --show-current 2>/dev/null)\n    if [ -n \"$BRANCH\" ]; then\n        GIT_BRANCH=\" | 🌿 $BRANCH\"\n    fi\nfi\n\necho \"[$MODEL_DISPLAY] 📁 ${CURRENT_DIR##*/}$GIT_BRANCH\""
+    },
+    {
+      "type": "h3",
+      "text": "Python Example"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/usr/bin/env python3\nimport json\nimport sys\nimport os\n\n# Read JSON from stdin\ndata = json.load(sys.stdin)\n\n# Extract values\nmodel = data['model']['display_name']\ncurrent_dir = os.path.basename(data['workspace']['current_dir'])\n\n# Check for git branch\ngit_branch = \"\"\nif os.path.exists('.git'):\n    try:\n        with open('.git/HEAD', 'r') as f:\n            ref = f.read().strip()\n            if ref.startswith('ref: refs/heads/'):\n                git_branch = f\" | 🌿 {ref.replace('ref: refs/heads/', '')}\"\n    except:\n        pass\n\nprint(f\"[{model}] 📁 {current_dir}{git_branch}\")"
+    },
+    {
+      "type": "h3",
+      "text": "Node.js Example"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/usr/bin/env node\n\nconst fs = require('fs');\nconst path = require('path');\n\n// Read JSON from stdin\nlet input = '';\nprocess.stdin.on('data', chunk => input += chunk);\nprocess.stdin.on('end', () => {\n    const data = JSON.parse(input);\n    \n    // Extract values\n    const model = data.model.display_name;\n    const currentDir = path.basename(data.workspace.current_dir);\n    \n    // Check for git branch\n    let gitBranch = '';\n    try {\n        const headContent = fs.readFileSync('.git/HEAD', 'utf8').trim();\n        if (headContent.startsWith('ref: refs/heads/')) {\n            gitBranch = ` | 🌿 ${headContent.replace('ref: refs/heads/', '')}`;\n        }\n    } catch (e) {\n        // Not a git repo or can't read HEAD\n    }\n    \n    console.log(`[${model}] 📁 ${currentDir}${gitBranch}`);\n});"
+    },
+    {
+      "type": "h3",
+      "text": "Helper Function Approach"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\n# Read JSON input once\ninput=$(cat)\n\n# Helper functions for common extractions\nget_model_name() { echo \"$input\" | jq -r '.model.display_name'; }\nget_current_dir() { echo \"$input\" | jq -r '.workspace.current_dir'; }\nget_project_dir() { echo \"$input\" | jq -r '.workspace.project_dir'; }\nget_version() { echo \"$input\" | jq -r '.version'; }\nget_cost() { echo \"$input\" | jq -r '.cost.total_cost_usd'; }\nget_duration() { echo \"$input\" | jq -r '.cost.total_duration_ms'; }\nget_lines_added() { echo \"$input\" | jq -r '.cost.total_lines_added'; }\nget_lines_removed() { echo \"$input\" | jq -r '.cost.total_lines_removed'; }\nget_input_tokens() { echo \"$input\" | jq -r '.context_window.total_input_tokens'; }\nget_output_tokens() { echo \"$input\" | jq -r '.context_window.total_output_tokens'; }\nget_context_window_size() { echo \"$input\" | jq -r '.context_window.context_window_size'; }\n\n# Use the helpers\nMODEL=$(get_model_name)\nDIR=$(get_current_dir)\necho \"[$MODEL] 📁 ${DIR##*/}\""
+    },
+    {
+      "type": "h3",
+      "text": "Context Window Usage"
+    },
+    {
+      "type": "li",
+      "text": "`total_input_tokens` / `total_output_tokens`: Cumulative totals across the entire session"
+    },
+    {
+      "type": "li",
+      "text": "`current_usage`: Current context window usage from the last API call (may be `null` if no messages yet)\n\n`input_tokens`: Input tokens in current context\n`output_tokens`: Output tokens generated\n`cache_creation_input_tokens`: Tokens written to cache\n`cache_read_input_tokens`: Tokens read from cache"
+    },
+    {
+      "type": "li",
+      "text": "`input_tokens`: Input tokens in current context"
+    },
+    {
+      "type": "li",
+      "text": "`output_tokens`: Output tokens generated"
+    },
+    {
+      "type": "li",
+      "text": "`cache_creation_input_tokens`: Tokens written to cache"
+    },
+    {
+      "type": "li",
+      "text": "`cache_read_input_tokens`: Tokens read from cache"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\ninput=$(cat)\n\nMODEL=$(echo \"$input\" | jq -r '.model.display_name')\nCONTEXT_SIZE=$(echo \"$input\" | jq -r '.context_window.context_window_size')\nUSAGE=$(echo \"$input\" | jq '.context_window.current_usage')\n\nif [ \"$USAGE\" != \"null\" ]; then\n    # Calculate current context from current_usage fields\n    CURRENT_TOKENS=$(echo \"$USAGE\" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens')\n    PERCENT_USED=$((CURRENT_TOKENS * 100 / CONTEXT_SIZE))\n    echo \"[$MODEL] Context: ${PERCENT_USED}%\"\nelse\n    echo \"[$MODEL] Context: 0%\"\nfi"
+    },
+    {
+      "type": "h2",
+      "text": "Tips"
+    },
+    {
+      "type": "li",
+      "text": "Keep your status line concise - it should fit on one line"
+    },
+    {
+      "type": "li",
+      "text": "Use emojis (if your terminal supports them) and colors to make information scannable"
+    },
+    {
+      "type": "li",
+      "text": "Use `jq` for JSON parsing in Bash (see examples above)"
+    },
+    {
+      "type": "li",
+      "text": "Test your script by running it manually with mock JSON input: `echo '{\"model\":{\"display_name\":\"Test\"},\"workspace\":{\"current_dir\":\"/test\"}}' | ./statusline.sh`"
+    },
+    {
+      "type": "li",
+      "text": "Consider caching expensive operations (like git status) if needed"
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "li",
+      "text": "If your status line doesn’t appear, check that your script is executable (`chmod +x`)"
+    },
+    {
+      "type": "li",
+      "text": "Ensure your script outputs to stdout (not stderr)"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

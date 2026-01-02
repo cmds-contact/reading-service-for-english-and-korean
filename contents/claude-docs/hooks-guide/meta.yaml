@@ -1,0 +1,16 @@
+id: hooks-guide
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/hooks-guide
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Get started with Claude Code hooks"
+    type: original
+  ko:
+    title: "Claude Code 훅 시작하기"
+    type: translation
+    translator: ai

@@ -1,0 +1,16 @@
+id: iam
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/iam
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Identity and Access Management"
+    type: original
+  ko:
+    title: "Identity and Access Management"
+    type: translation
+    translator: ai

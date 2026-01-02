@@ -1,0 +1,16 @@
+id: data-usage
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/data-usage
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Data usage"
+    type: original
+  ko:
+    title: "데이터 사용"
+    type: translation
+    translator: ai

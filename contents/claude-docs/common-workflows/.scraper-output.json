@@ -1,0 +1,1221 @@
+{
+  "title": "Common workflows",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Common workflows"
+    },
+    {
+      "type": "p",
+      "text": "Learn about common workflows with Claude Code."
+    },
+    {
+      "type": "h2",
+      "text": "Understand new codebases"
+    },
+    {
+      "type": "h3",
+      "text": "Get a quick codebase overview"
+    },
+    {
+      "type": "p",
+      "text": "Navigate to the project root directory"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cd /path/to/project"
+    },
+    {
+      "type": "p",
+      "text": "Start Claude Code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude"
+    },
+    {
+      "type": "p",
+      "text": "Ask for a high-level overview"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> give me an overview of this codebase"
+    },
+    {
+      "type": "p",
+      "text": "Dive deeper into specific components"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> explain the main architecture patterns used here"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> what are the key data models?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> how is authentication handled?"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nStart with broad questions, then narrow down to specific areas\nAsk about coding conventions and patterns used in the project\nRequest a glossary of project-specific terms"
+    },
+    {
+      "type": "li",
+      "text": "Start with broad questions, then narrow down to specific areas"
+    },
+    {
+      "type": "li",
+      "text": "Ask about coding conventions and patterns used in the project"
+    },
+    {
+      "type": "li",
+      "text": "Request a glossary of project-specific terms"
+    },
+    {
+      "type": "h3",
+      "text": "Find relevant code"
+    },
+    {
+      "type": "p",
+      "text": "Ask Claude to find relevant files"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> find the files that handle user authentication"
+    },
+    {
+      "type": "p",
+      "text": "Get context on how components interact"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> how do these authentication files work together?"
+    },
+    {
+      "type": "p",
+      "text": "Understand the execution flow"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> trace the login process from front-end to database"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nBe specific about what you’re looking for\nUse domain language from the project"
+    },
+    {
+      "type": "li",
+      "text": "Be specific about what you’re looking for"
+    },
+    {
+      "type": "li",
+      "text": "Use domain language from the project"
+    },
+    {
+      "type": "h2",
+      "text": "Fix bugs efficiently"
+    },
+    {
+      "type": "p",
+      "text": "Share the error with Claude"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> I'm seeing an error when I run npm test"
+    },
+    {
+      "type": "p",
+      "text": "Ask for fix recommendations"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> suggest a few ways to fix the @ts-ignore in user.ts"
+    },
+    {
+      "type": "p",
+      "text": "Apply the fix"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> update user.ts to add the null check you suggested"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nTell Claude the command to reproduce the issue and get a stack trace\nMention any steps to reproduce the error\nLet Claude know if the error is intermittent or consistent"
+    },
+    {
+      "type": "li",
+      "text": "Tell Claude the command to reproduce the issue and get a stack trace"
+    },
+    {
+      "type": "li",
+      "text": "Mention any steps to reproduce the error"
+    },
+    {
+      "type": "li",
+      "text": "Let Claude know if the error is intermittent or consistent"
+    },
+    {
+      "type": "h2",
+      "text": "Refactor code"
+    },
+    {
+      "type": "p",
+      "text": "Identify legacy code for refactoring"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> find deprecated API usage in our codebase"
+    },
+    {
+      "type": "p",
+      "text": "Get refactoring recommendations"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> suggest how to refactor utils.js to use modern JavaScript features"
+    },
+    {
+      "type": "p",
+      "text": "Apply the changes safely"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> refactor utils.js to use ES2024 features while maintaining the same behavior"
+    },
+    {
+      "type": "p",
+      "text": "Verify the refactoring"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> run tests for the refactored code"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nAsk Claude to explain the benefits of the modern approach\nRequest that changes maintain backward compatibility when needed\nDo refactoring in small, testable increments"
+    },
+    {
+      "type": "li",
+      "text": "Ask Claude to explain the benefits of the modern approach"
+    },
+    {
+      "type": "li",
+      "text": "Request that changes maintain backward compatibility when needed"
+    },
+    {
+      "type": "li",
+      "text": "Do refactoring in small, testable increments"
+    },
+    {
+      "type": "h2",
+      "text": "Use specialized subagents"
+    },
+    {
+      "type": "p",
+      "text": "View available subagents"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /agents"
+    },
+    {
+      "type": "p",
+      "text": "Use subagents automatically"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> review my recent code changes for security issues"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> run all tests and fix any failures"
+    },
+    {
+      "type": "p",
+      "text": "Explicitly request specific subagents"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> use the code-reviewer subagent to check the auth module"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> have the debugger subagent investigate why users can't log in"
+    },
+    {
+      "type": "p",
+      "text": "Create custom subagents for your workflow"
+    },
+    {
+      "type": "li",
+      "text": "A unique identifier that describes the subagent’s purpose (for example, `code-reviewer`, `api-designer`)."
+    },
+    {
+      "type": "li",
+      "text": "When Claude should use this agent"
+    },
+    {
+      "type": "li",
+      "text": "Which tools it can access"
+    },
+    {
+      "type": "li",
+      "text": "A system prompt describing the agent’s role and behavior"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nCreate project-specific subagents in `.claude/agents/` for team sharing\nUse descriptive `description` fields to enable automatic delegation\nLimit tool access to what each subagent actually needs\nCheck the [subagents documentation](/docs/en/sub-agents) for detailed examples"
+    },
+    {
+      "type": "li",
+      "text": "Create project-specific subagents in `.claude/agents/` for team sharing"
+    },
+    {
+      "type": "li",
+      "text": "Use descriptive `description` fields to enable automatic delegation"
+    },
+    {
+      "type": "li",
+      "text": "Limit tool access to what each subagent actually needs"
+    },
+    {
+      "type": "li",
+      "text": "Check the [subagents documentation](/docs/en/sub-agents) for detailed examples"
+    },
+    {
+      "type": "h2",
+      "text": "Use Plan Mode for safe code analysis"
+    },
+    {
+      "type": "h3",
+      "text": "When to use Plan Mode"
+    },
+    {
+      "type": "li",
+      "text": "**Multi-step implementation**: When your feature requires making edits to many files"
+    },
+    {
+      "type": "li",
+      "text": "**Code exploration**: When you want to research the codebase thoroughly before changing anything"
+    },
+    {
+      "type": "li",
+      "text": "**Interactive development**: When you want to iterate on the direction with Claude"
+    },
+    {
+      "type": "h3",
+      "text": "How to use Plan Mode"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --permission-mode plan"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --permission-mode plan -p \"Analyze the authentication system and suggest improvements\""
+    },
+    {
+      "type": "h3",
+      "text": "Example: Planning a complex refactor"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> I need to refactor our authentication system to use OAuth2. Create a detailed migration plan."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> What about backward compatibility?\n> How should we handle database migration?"
+    },
+    {
+      "type": "h3",
+      "text": "Configure Plan Mode as default"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "// .claude/settings.json\n{\n  \"permissions\": {\n    \"defaultMode\": \"plan\"\n  }\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Work with tests"
+    },
+    {
+      "type": "p",
+      "text": "Identify untested code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> find functions in NotificationsService.swift that are not covered by tests"
+    },
+    {
+      "type": "p",
+      "text": "Generate test scaffolding"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> add tests for the notification service"
+    },
+    {
+      "type": "p",
+      "text": "Add meaningful test cases"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> add test cases for edge conditions in the notification service"
+    },
+    {
+      "type": "p",
+      "text": "Run and verify tests"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> run the new tests and fix any failures"
+    },
+    {
+      "type": "h2",
+      "text": "Create pull requests"
+    },
+    {
+      "type": "p",
+      "text": "Summarize your changes"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> summarize the changes I've made to the authentication module"
+    },
+    {
+      "type": "p",
+      "text": "Generate a pull request with Claude"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> create a pr"
+    },
+    {
+      "type": "p",
+      "text": "Review and refine"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> enhance the PR description with more context about the security improvements"
+    },
+    {
+      "type": "p",
+      "text": "Add testing details"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> add information about how these changes were tested"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nAsk Claude directly to make a PR for you\nReview Claude’s generated PR before submitting\nAsk Claude to highlight potential risks or considerations"
+    },
+    {
+      "type": "li",
+      "text": "Ask Claude directly to make a PR for you"
+    },
+    {
+      "type": "li",
+      "text": "Review Claude’s generated PR before submitting"
+    },
+    {
+      "type": "li",
+      "text": "Ask Claude to highlight potential risks or considerations"
+    },
+    {
+      "type": "h2",
+      "text": "Handle documentation"
+    },
+    {
+      "type": "p",
+      "text": "Identify undocumented code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> find functions without proper JSDoc comments in the auth module"
+    },
+    {
+      "type": "p",
+      "text": "Generate documentation"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> add JSDoc comments to the undocumented functions in auth.js"
+    },
+    {
+      "type": "p",
+      "text": "Review and enhance"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> improve the generated documentation with more context and examples"
+    },
+    {
+      "type": "p",
+      "text": "Verify documentation"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> check if the documentation follows our project standards"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nSpecify the documentation style you want (JSDoc, docstrings, etc.)\nAsk for examples in the documentation\nRequest documentation for public APIs, interfaces, and complex logic"
+    },
+    {
+      "type": "li",
+      "text": "Specify the documentation style you want (JSDoc, docstrings, etc.)"
+    },
+    {
+      "type": "li",
+      "text": "Ask for examples in the documentation"
+    },
+    {
+      "type": "li",
+      "text": "Request documentation for public APIs, interfaces, and complex logic"
+    },
+    {
+      "type": "h2",
+      "text": "Work with images"
+    },
+    {
+      "type": "p",
+      "text": "Add an image to the conversation"
+    },
+    {
+      "type": "li",
+      "text": "Drag and drop an image into the Claude Code window"
+    },
+    {
+      "type": "li",
+      "text": "Copy an image and paste it into the CLI with ctrl+v (Do not use cmd+v)"
+    },
+    {
+      "type": "li",
+      "text": "Provide an image path to Claude. E.g., “Analyze this image: /path/to/your/image.png”"
+    },
+    {
+      "type": "p",
+      "text": "Ask Claude to analyze the image"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> What does this image show?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Describe the UI elements in this screenshot"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Are there any problematic elements in this diagram?"
+    },
+    {
+      "type": "p",
+      "text": "Use images for context"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Here's a screenshot of the error. What's causing it?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> This is our current database schema. How should we modify it for the new feature?"
+    },
+    {
+      "type": "p",
+      "text": "Get code suggestions from visual content"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Generate CSS to match this design mockup"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> What HTML structure would recreate this component?"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nUse images when text descriptions would be unclear or cumbersome\nInclude screenshots of errors, UI designs, or diagrams for better context\nYou can work with multiple images in a conversation\nImage analysis works with diagrams, screenshots, mockups, and more"
+    },
+    {
+      "type": "li",
+      "text": "Use images when text descriptions would be unclear or cumbersome"
+    },
+    {
+      "type": "li",
+      "text": "Include screenshots of errors, UI designs, or diagrams for better context"
+    },
+    {
+      "type": "li",
+      "text": "You can work with multiple images in a conversation"
+    },
+    {
+      "type": "li",
+      "text": "Image analysis works with diagrams, screenshots, mockups, and more"
+    },
+    {
+      "type": "h2",
+      "text": "Reference files and directories"
+    },
+    {
+      "type": "p",
+      "text": "Reference a single file"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Explain the logic in @src/utils/auth.js"
+    },
+    {
+      "type": "p",
+      "text": "Reference a directory"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> What's the structure of @src/components?"
+    },
+    {
+      "type": "p",
+      "text": "Reference MCP resources"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Show me the data from @github:repos/owner/repo/issues"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nFile paths can be relative or absolute\n@ file references add `CLAUDE.md` in the file’s directory and parent directories to context\nDirectory references show file listings, not contents\nYou can reference multiple files in a single message (for example, “@file1.js and @file2.js”)"
+    },
+    {
+      "type": "li",
+      "text": "File paths can be relative or absolute"
+    },
+    {
+      "type": "li",
+      "text": "@ file references add `CLAUDE.md` in the file’s directory and parent directories to context"
+    },
+    {
+      "type": "li",
+      "text": "Directory references show file listings, not contents"
+    },
+    {
+      "type": "li",
+      "text": "You can reference multiple files in a single message (for example, “@file1.js and @file2.js”)"
+    },
+    {
+      "type": "h2",
+      "text": "Use extended thinking (thinking mode)"
+    },
+    {
+      "type": "blockquote",
+      "text": "Sonnet 4.5 and Opus 4.5 have thinking enabled by default. All other models have thinking disabled by default. Use `/model` to view or switch your current model."
+    },
+    {
+      "type": "h3",
+      "text": "Per-request thinking with ultrathink"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> ultrathink: design a caching layer for our API"
+    },
+    {
+      "type": "h3",
+      "text": "How extended thinking token budgets work"
+    },
+    {
+      "type": "li",
+      "text": "More space to explore multiple solution approaches step-by-step"
+    },
+    {
+      "type": "li",
+      "text": "Room to analyze edge cases and evaluate tradeoffs thoroughly"
+    },
+    {
+      "type": "li",
+      "text": "Ability to revise reasoning and self-correct mistakes"
+    },
+    {
+      "type": "li",
+      "text": "When thinking is **enabled** (via `/config` or `ultrathink`), Claude can use up to **31,999 tokens** from your output budget for internal reasoning"
+    },
+    {
+      "type": "li",
+      "text": "When thinking is **disabled**, Claude uses **0 tokens** for thinking"
+    },
+    {
+      "type": "li",
+      "text": "You can set a custom thinking token budget using the `MAX_THINKING_TOKENS` environment variable"
+    },
+    {
+      "type": "li",
+      "text": "This takes highest priority and overrides the default 31,999 token budget"
+    },
+    {
+      "type": "li",
+      "text": "See the [extended thinking documentation](https://docs.claude.com/en/docs/build-with-claude/extended-thinking) for valid token ranges"
+    },
+    {
+      "type": "blockquote",
+      "text": "You’re charged for all thinking tokens used, even though Claude 4 models show summarized thinking"
+    },
+    {
+      "type": "h2",
+      "text": "Resume previous conversations"
+    },
+    {
+      "type": "li",
+      "text": "`claude --continue` continues the most recent conversation in the current directory"
+    },
+    {
+      "type": "li",
+      "text": "`claude --resume` opens a conversation picker or resumes by name"
+    },
+    {
+      "type": "h3",
+      "text": "Name your sessions"
+    },
+    {
+      "type": "p",
+      "text": "Name the current session"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /rename auth-refactor"
+    },
+    {
+      "type": "p",
+      "text": "Resume by name later"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --resume auth-refactor"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /resume auth-refactor"
+    },
+    {
+      "type": "h3",
+      "text": "Use the session picker"
+    },
+    {
+      "type": "li",
+      "text": "Session name or initial prompt"
+    },
+    {
+      "type": "li",
+      "text": "Time elapsed since last activity"
+    },
+    {
+      "type": "li",
+      "text": "Message count"
+    },
+    {
+      "type": "li",
+      "text": "Git branch (if applicable)"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\n**Name sessions early**: Use `/rename` when starting work on a distinct task—it’s much easier to find “payment-integration” than “explain this function” later\nUse `--continue` for quick access to your most recent conversation\nUse `--resume session-name` when you know which session you need\nUse `--resume` (without a name) when you need to browse and select\nFor scripts, use `claude --continue --print \"prompt\"` to resume in non-interactive mode\nPress `P` in the picker to preview a session before resuming it\nThe resumed conversation starts with the same model and configuration as the original\nHow it works:\n**Conversation Storage**: All conversations are automatically saved locally with their full message history\n**Message Deserialization**: When resuming, the entire message history is restored to maintain context\n**Tool State**: Tool usage and results from the previous conversation are preserved\n**Context Restoration**: The conversation resumes with all previous context intact"
+    },
+    {
+      "type": "li",
+      "text": "**Name sessions early**: Use `/rename` when starting work on a distinct task—it’s much easier to find “payment-integration” than “explain this function” later"
+    },
+    {
+      "type": "li",
+      "text": "Use `--continue` for quick access to your most recent conversation"
+    },
+    {
+      "type": "li",
+      "text": "Use `--resume session-name` when you know which session you need"
+    },
+    {
+      "type": "li",
+      "text": "Use `--resume` (without a name) when you need to browse and select"
+    },
+    {
+      "type": "li",
+      "text": "For scripts, use `claude --continue --print \"prompt\"` to resume in non-interactive mode"
+    },
+    {
+      "type": "li",
+      "text": "Press `P` in the picker to preview a session before resuming it"
+    },
+    {
+      "type": "li",
+      "text": "The resumed conversation starts with the same model and configuration as the original"
+    },
+    {
+      "type": "li",
+      "text": "**Conversation Storage**: All conversations are automatically saved locally with their full message history"
+    },
+    {
+      "type": "li",
+      "text": "**Message Deserialization**: When resuming, the entire message history is restored to maintain context"
+    },
+    {
+      "type": "li",
+      "text": "**Tool State**: Tool usage and results from the previous conversation are preserved"
+    },
+    {
+      "type": "li",
+      "text": "**Context Restoration**: The conversation resumes with all previous context intact"
+    },
+    {
+      "type": "h2",
+      "text": "Run parallel Claude Code sessions with Git worktrees"
+    },
+    {
+      "type": "p",
+      "text": "Understand Git worktrees"
+    },
+    {
+      "type": "p",
+      "text": "Create a new worktree"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Create a new worktree with a new branch \ngit worktree add ../project-feature-a -b feature-a\n\n# Or create a worktree with an existing branch\ngit worktree add ../project-bugfix bugfix-123"
+    },
+    {
+      "type": "p",
+      "text": "Run Claude Code in each worktree"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Navigate to your worktree \ncd ../project-feature-a\n\n# Run Claude Code in this isolated environment\nclaude"
+    },
+    {
+      "type": "p",
+      "text": "Run Claude in another worktree"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cd ../project-bugfix\nclaude"
+    },
+    {
+      "type": "p",
+      "text": "Manage your worktrees"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# List all worktrees\ngit worktree list\n\n# Remove a worktree when done\ngit worktree remove ../project-feature-a"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nEach worktree has its own independent file state, making it perfect for parallel Claude Code sessions\nChanges made in one worktree won’t affect others, preventing Claude instances from interfering with each other\nAll worktrees share the same Git history and remote connections\nFor long-running tasks, you can have Claude working in one worktree while you continue development in another\nUse descriptive directory names to easily identify which task each worktree is for\nRemember to initialize your development environment in each new worktree according to your project’s setup. Depending on your stack, this might include:\n\nJavaScript projects: Running dependency installation (`npm install`, `yarn`)\nPython projects: Setting up virtual environments or installing with package managers\nOther languages: Following your project’s standard setup process"
+    },
+    {
+      "type": "li",
+      "text": "Each worktree has its own independent file state, making it perfect for parallel Claude Code sessions"
+    },
+    {
+      "type": "li",
+      "text": "Changes made in one worktree won’t affect others, preventing Claude instances from interfering with each other"
+    },
+    {
+      "type": "li",
+      "text": "All worktrees share the same Git history and remote connections"
+    },
+    {
+      "type": "li",
+      "text": "For long-running tasks, you can have Claude working in one worktree while you continue development in another"
+    },
+    {
+      "type": "li",
+      "text": "Use descriptive directory names to easily identify which task each worktree is for"
+    },
+    {
+      "type": "li",
+      "text": "Remember to initialize your development environment in each new worktree according to your project’s setup. Depending on your stack, this might include:\n\nJavaScript projects: Running dependency installation (`npm install`, `yarn`)\nPython projects: Setting up virtual environments or installing with package managers\nOther languages: Following your project’s standard setup process"
+    },
+    {
+      "type": "li",
+      "text": "JavaScript projects: Running dependency installation (`npm install`, `yarn`)"
+    },
+    {
+      "type": "li",
+      "text": "Python projects: Setting up virtual environments or installing with package managers"
+    },
+    {
+      "type": "li",
+      "text": "Other languages: Following your project’s standard setup process"
+    },
+    {
+      "type": "h2",
+      "text": "Use Claude as a unix-style utility"
+    },
+    {
+      "type": "h3",
+      "text": "Add Claude to your verification process"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "// package.json\n{\n    ...\n    \"scripts\": {\n        ...\n        \"lint:claude\": \"claude -p 'you are a linter. please look at the changes vs. main and report any issues related to typos. report the filename and line number on one line, and a description of the issue on the second line. do not return any other text.'\"\n    }\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nUse Claude for automated code review in your CI/CD pipeline\nCustomize the prompt to check for specific issues relevant to your project\nConsider creating multiple scripts for different types of verification"
+    },
+    {
+      "type": "li",
+      "text": "Use Claude for automated code review in your CI/CD pipeline"
+    },
+    {
+      "type": "li",
+      "text": "Customize the prompt to check for specific issues relevant to your project"
+    },
+    {
+      "type": "li",
+      "text": "Consider creating multiple scripts for different types of verification"
+    },
+    {
+      "type": "h3",
+      "text": "Pipe in, pipe out"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cat build-error.txt | claude -p 'concisely explain the root cause of this build error' > output.txt"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nUse pipes to integrate Claude into existing shell scripts\nCombine with other Unix tools for powerful workflows\nConsider using —output-format for structured output"
+    },
+    {
+      "type": "li",
+      "text": "Use pipes to integrate Claude into existing shell scripts"
+    },
+    {
+      "type": "li",
+      "text": "Combine with other Unix tools for powerful workflows"
+    },
+    {
+      "type": "li",
+      "text": "Consider using —output-format for structured output"
+    },
+    {
+      "type": "h3",
+      "text": "Control output format"
+    },
+    {
+      "type": "p",
+      "text": "Use text format (default)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cat data.txt | claude -p 'summarize this data' --output-format text > summary.txt"
+    },
+    {
+      "type": "p",
+      "text": "Use JSON format"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cat code.py | claude -p 'analyze this code for bugs' --output-format json > analysis.json"
+    },
+    {
+      "type": "p",
+      "text": "Use streaming JSON format"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cat log.txt | claude -p 'parse this log file for errors' --output-format stream-json"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nUse `--output-format text` for simple integrations where you just need Claude’s response\nUse `--output-format json` when you need the full conversation log\nUse `--output-format stream-json` for real-time output of each conversation turn"
+    },
+    {
+      "type": "li",
+      "text": "Use `--output-format text` for simple integrations where you just need Claude’s response"
+    },
+    {
+      "type": "li",
+      "text": "Use `--output-format json` when you need the full conversation log"
+    },
+    {
+      "type": "li",
+      "text": "Use `--output-format stream-json` for real-time output of each conversation turn"
+    },
+    {
+      "type": "h2",
+      "text": "Create custom slash commands"
+    },
+    {
+      "type": "h3",
+      "text": "Create project-specific commands"
+    },
+    {
+      "type": "p",
+      "text": "Create a commands directory in your project"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "mkdir -p .claude/commands"
+    },
+    {
+      "type": "p",
+      "text": "Create a Markdown file for each command"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "echo \"Analyze the performance of this code and suggest three specific optimizations:\" > .claude/commands/optimize.md"
+    },
+    {
+      "type": "p",
+      "text": "Use your custom command in Claude Code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /optimize"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nCommand names are derived from the filename (for example, `optimize.md` becomes `/optimize`)\nYou can organize commands in subdirectories (for example, `.claude/commands/frontend/component.md` creates `/component` with “(project:frontend)” shown in the description)\nProject commands are available to everyone who clones the repository\nThe Markdown file content becomes the prompt sent to Claude when the command is invoked"
+    },
+    {
+      "type": "li",
+      "text": "Command names are derived from the filename (for example, `optimize.md` becomes `/optimize`)"
+    },
+    {
+      "type": "li",
+      "text": "You can organize commands in subdirectories (for example, `.claude/commands/frontend/component.md` creates `/component` with “(project:frontend)” shown in the description)"
+    },
+    {
+      "type": "li",
+      "text": "Project commands are available to everyone who clones the repository"
+    },
+    {
+      "type": "li",
+      "text": "The Markdown file content becomes the prompt sent to Claude when the command is invoked"
+    },
+    {
+      "type": "h3",
+      "text": "Add command arguments with $ARGUMENTS"
+    },
+    {
+      "type": "p",
+      "text": "Create a command file with the $ARGUMENTS placeholder"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "echo 'Find and fix issue #$ARGUMENTS. Follow these steps: 1.\nUnderstand the issue described in the ticket 2. Locate the relevant code in\nour codebase 3. Implement a solution that addresses the root cause 4. Add\nappropriate tests 5. Prepare a concise PR description' >\n.claude/commands/fix-issue.md"
+    },
+    {
+      "type": "p",
+      "text": "Use the command with an issue number"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /fix-issue 123"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nThe $ARGUMENTS placeholder is replaced with any text that follows the command\nYou can position $ARGUMENTS anywhere in your command template\nOther useful applications: generating test cases for specific functions, creating documentation for components, reviewing code in particular files, or translating content to specified languages"
+    },
+    {
+      "type": "li",
+      "text": "The $ARGUMENTS placeholder is replaced with any text that follows the command"
+    },
+    {
+      "type": "li",
+      "text": "You can position $ARGUMENTS anywhere in your command template"
+    },
+    {
+      "type": "li",
+      "text": "Other useful applications: generating test cases for specific functions, creating documentation for components, reviewing code in particular files, or translating content to specified languages"
+    },
+    {
+      "type": "h3",
+      "text": "Create personal slash commands"
+    },
+    {
+      "type": "p",
+      "text": "Create a commands directory in your home folder"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "mkdir -p ~/.claude/commands"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "echo \"Review this code for security vulnerabilities, focusing on:\" >\n~/.claude/commands/security-review.md"
+    },
+    {
+      "type": "p",
+      "text": "Use your personal custom command"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /security-review"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nPersonal commands show “(user)” in their description when listed with `/help`\nPersonal commands are only available to you and not shared with your team\nPersonal commands work across all your projects\nYou can use these for consistent workflows across different codebases"
+    },
+    {
+      "type": "li",
+      "text": "Personal commands show “(user)” in their description when listed with `/help`"
+    },
+    {
+      "type": "li",
+      "text": "Personal commands are only available to you and not shared with your team"
+    },
+    {
+      "type": "li",
+      "text": "Personal commands work across all your projects"
+    },
+    {
+      "type": "li",
+      "text": "You can use these for consistent workflows across different codebases"
+    },
+    {
+      "type": "h2",
+      "text": "Ask Claude about its capabilities"
+    },
+    {
+      "type": "h3",
+      "text": "Example questions"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> can Claude Code create pull requests?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> how does Claude Code handle permissions?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> what slash commands are available?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> how do I use MCP with Claude Code?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> how do I configure Claude Code for Amazon Bedrock?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> what are the limitations of Claude Code?"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude provides documentation-based answers to these questions. For executable examples and hands-on demonstrations, refer to the specific workflow sections above."
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nClaude always has access to the latest Claude Code documentation, regardless of the version you’re using\nAsk specific questions to get detailed answers\nClaude can explain complex features like MCP integration, enterprise configurations, and advanced workflows"
+    },
+    {
+      "type": "li",
+      "text": "Claude always has access to the latest Claude Code documentation, regardless of the version you’re using"
+    },
+    {
+      "type": "li",
+      "text": "Ask specific questions to get detailed answers"
+    },
+    {
+      "type": "li",
+      "text": "Claude can explain complex features like MCP integration, enterprise configurations, and advanced workflows"
+    },
+    {
+      "type": "h2",
+      "text": "Next steps"
+    },
+    {
+      "type": "h2",
+      "text": "Claude Code reference implementation"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

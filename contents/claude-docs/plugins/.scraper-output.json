@@ -1,0 +1,401 @@
+{
+  "title": "Create plugins",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Create plugins"
+    },
+    {
+      "type": "p",
+      "text": "Create custom plugins to extend Claude Code with slash commands, agents, hooks, Skills, and MCP servers."
+    },
+    {
+      "type": "h2",
+      "text": "When to use plugins vs standalone configuration"
+    },
+    {
+      "type": "li",
+      "text": "You’re customizing Claude Code for a single project"
+    },
+    {
+      "type": "li",
+      "text": "The configuration is personal and doesn’t need to be shared"
+    },
+    {
+      "type": "li",
+      "text": "You’re experimenting with slash commands or hooks before packaging them"
+    },
+    {
+      "type": "li",
+      "text": "You want short slash command names like `/hello` or `/review`"
+    },
+    {
+      "type": "li",
+      "text": "You want to share functionality with your team or community"
+    },
+    {
+      "type": "li",
+      "text": "You need the same slash commands/agents across multiple projects"
+    },
+    {
+      "type": "li",
+      "text": "You want version control and easy updates for your extensions"
+    },
+    {
+      "type": "li",
+      "text": "You’re distributing through a marketplace"
+    },
+    {
+      "type": "li",
+      "text": "You’re okay with namespaced slash commands like `/my-plugin:hello` (namespacing prevents conflicts between plugins)"
+    },
+    {
+      "type": "blockquote",
+      "text": "Start with standalone configuration in `.claude/` for quick iteration, then [convert to a plugin](#convert-existing-configurations-to-plugins) when you’re ready to share."
+    },
+    {
+      "type": "h2",
+      "text": "Quickstart"
+    },
+    {
+      "type": "h3",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code [installed and authenticated](/docs/en/quickstart#step-1-install-claude-code)"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code version 1.0.33 or later (run `claude --version` to check)"
+    },
+    {
+      "type": "blockquote",
+      "text": "If you don’t see the `/plugin` command, update Claude Code to the latest version. See [Troubleshooting](/docs/en/troubleshooting) for upgrade instructions."
+    },
+    {
+      "type": "h3",
+      "text": "Create your first plugin"
+    },
+    {
+      "type": "p",
+      "text": "Create the plugin directory"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "mkdir my-first-plugin"
+    },
+    {
+      "type": "p",
+      "text": "Create the plugin manifest"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "mkdir my-first-plugin/.claude-plugin"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n\"name\": \"my-first-plugin\",\n\"description\": \"A greeting plugin to learn the basics\",\n\"version\": \"1.0.0\",\n\"author\": {\n\"name\": \"Your Name\"\n}\n}"
+    },
+    {
+      "type": "p",
+      "text": "Add a slash command"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "mkdir my-first-plugin/commands"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\ndescription: Greet the user with a friendly message\n---\n\n# Hello Command\n\nGreet the user warmly and ask how you can help them today."
+    },
+    {
+      "type": "p",
+      "text": "Test your plugin"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --plugin-dir ./my-first-plugin"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/my-first-plugin:hello"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Why namespacing?** Plugin slash commands are always namespaced (like `/greet:hello`) to prevent conflicts when multiple plugins have commands with the same name.To change the namespace prefix, update the `name` field in `plugin.json`."
+    },
+    {
+      "type": "p",
+      "text": "Add slash command arguments"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\ndescription: Greet the user with a personalized message\n---\n\n# Hello Command\n\nGreet the user named \"$ARGUMENTS\" warmly and ask how you can help them today. Make the greeting personal and encouraging."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/my-first-plugin:hello Alex"
+    },
+    {
+      "type": "li",
+      "text": "**Plugin manifest** (`.claude-plugin/plugin.json`): describes your plugin’s metadata"
+    },
+    {
+      "type": "li",
+      "text": "**Commands directory** (`commands/`): contains your custom slash commands"
+    },
+    {
+      "type": "li",
+      "text": "**Command arguments** (`$ARGUMENTS`): captures user input for dynamic behavior"
+    },
+    {
+      "type": "blockquote",
+      "text": "The `--plugin-dir` flag is useful for development and testing. When you’re ready to share your plugin with others, see [Create and distribute a plugin marketplace](/docs/en/plugin-marketplaces)."
+    },
+    {
+      "type": "h2",
+      "text": "Plugin structure overview"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Common mistake**: Don’t put `commands/`, `agents/`, `skills/`, or `hooks/` inside the `.claude-plugin/` directory. Only `plugin.json` goes inside `.claude-plugin/`. All other directories must be at the plugin root level."
+    },
+    {
+      "type": "blockquote",
+      "text": "**Next steps**: Ready to add more features? Jump to [Develop more complex plugins](#develop-more-complex-plugins) to add agents, hooks, MCP servers, and LSP servers. For complete technical specifications of all plugin components, see [Plugins reference](/docs/en/plugins-reference)."
+    },
+    {
+      "type": "h2",
+      "text": "Develop more complex plugins"
+    },
+    {
+      "type": "h3",
+      "text": "Add Skills to your plugin"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "my-plugin/\n├── .claude-plugin/\n│   └── plugin.json\n└── skills/\n    └── code-review/\n        └── SKILL.md"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\nname: code-review\ndescription: Reviews code for best practices and potential issues. Use when reviewing code, checking PRs, or analyzing code quality.\n---\n\nWhen reviewing code, check for:\n1. Code organization and structure\n2. Error handling\n3. Security concerns\n4. Test coverage"
+    },
+    {
+      "type": "h3",
+      "text": "Add LSP servers to your plugin"
+    },
+    {
+      "type": "blockquote",
+      "text": "For common languages like TypeScript, Python, and Rust, install the pre-built LSP plugins from the official marketplace. Create custom LSP plugins only when you need support for languages not already covered."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"go\": {\n    \"command\": \"gopls\",\n    \"args\": [\"serve\"],\n    \"extensionToLanguage\": {\n      \".go\": \"go\"\n    }\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Organize complex plugins"
+    },
+    {
+      "type": "h3",
+      "text": "Test your plugins locally"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --plugin-dir ./my-plugin"
+    },
+    {
+      "type": "li",
+      "text": "Try your commands with `/command-name`"
+    },
+    {
+      "type": "li",
+      "text": "Check that agents appear in `/agents`"
+    },
+    {
+      "type": "li",
+      "text": "Verify hooks work as expected"
+    },
+    {
+      "type": "blockquote",
+      "text": "You can load multiple plugins at once by specifying the flag multiple times:CopyAsk AIclaude --plugin-dir ./plugin-one --plugin-dir ./plugin-two"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --plugin-dir ./plugin-one --plugin-dir ./plugin-two"
+    },
+    {
+      "type": "h3",
+      "text": "Debug plugin issues"
+    },
+    {
+      "type": "li",
+      "text": "**Check the structure**: Ensure your directories are at the plugin root, not inside `.claude-plugin/`"
+    },
+    {
+      "type": "li",
+      "text": "**Test components individually**: Check each command, agent, and hook separately"
+    },
+    {
+      "type": "li",
+      "text": "**Use validation and debugging tools**: See [Debugging and development tools](/docs/en/plugins-reference#debugging-and-development-tools) for CLI commands and troubleshooting techniques"
+    },
+    {
+      "type": "h3",
+      "text": "Share your plugins"
+    },
+    {
+      "type": "li",
+      "text": "**Add documentation**: Include a `README.md` with installation and usage instructions"
+    },
+    {
+      "type": "li",
+      "text": "**Version your plugin**: Use [semantic versioning](/docs/en/plugins-reference#version-management) in your `plugin.json`"
+    },
+    {
+      "type": "li",
+      "text": "**Create or use a marketplace**: Distribute through [plugin marketplaces](/docs/en/plugin-marketplaces) for installation"
+    },
+    {
+      "type": "li",
+      "text": "**Test with others**: Have team members test the plugin before wider distribution"
+    },
+    {
+      "type": "blockquote",
+      "text": "For complete technical specifications, debugging techniques, and distribution strategies, see [Plugins reference](/docs/en/plugins-reference)."
+    },
+    {
+      "type": "h2",
+      "text": "Convert existing configurations to plugins"
+    },
+    {
+      "type": "h3",
+      "text": "Migration steps"
+    },
+    {
+      "type": "p",
+      "text": "Create the plugin structure"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "mkdir -p my-plugin/.claude-plugin"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"my-plugin\",\n  \"description\": \"Migrated from standalone configuration\",\n  \"version\": \"1.0.0\"\n}"
+    },
+    {
+      "type": "p",
+      "text": "Copy your existing files"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Copy commands\ncp -r .claude/commands my-plugin/\n\n# Copy agents (if any)\ncp -r .claude/agents my-plugin/\n\n# Copy skills (if any)\ncp -r .claude/skills my-plugin/"
+    },
+    {
+      "type": "p",
+      "text": "Migrate hooks"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "mkdir my-plugin/hooks"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Write|Edit\",\n        \"hooks\": [{ \"type\": \"command\", \"command\": \"npm run lint:fix $FILE\" }]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "p",
+      "text": "Test your migrated plugin"
+    },
+    {
+      "type": "h3",
+      "text": "What changes when migrating"
+    },
+    {
+      "type": "blockquote",
+      "text": "After migrating, you can remove the original files from `.claude/` to avoid duplicates. The plugin version will take precedence when loaded."
+    },
+    {
+      "type": "h2",
+      "text": "Next steps"
+    },
+    {
+      "type": "h3",
+      "text": "For plugin users"
+    },
+    {
+      "type": "li",
+      "text": "[Discover and install plugins](/docs/en/discover-plugins): browse marketplaces and install plugins"
+    },
+    {
+      "type": "li",
+      "text": "[Configure team marketplaces](/docs/en/discover-plugins#configure-team-marketplaces): set up repository-level plugins for your team"
+    },
+    {
+      "type": "h3",
+      "text": "For plugin developers"
+    },
+    {
+      "type": "li",
+      "text": "[Create and distribute a marketplace](/docs/en/plugin-marketplaces): package and share your plugins"
+    },
+    {
+      "type": "li",
+      "text": "[Plugins reference](/docs/en/plugins-reference): complete technical specifications"
+    },
+    {
+      "type": "li",
+      "text": "Dive deeper into specific plugin components:\n\n[Slash commands](/docs/en/slash-commands): command development details\n[Subagents](/docs/en/sub-agents): agent configuration and capabilities\n[Agent Skills](/docs/en/skills): extend Claude’s capabilities\n[Hooks](/docs/en/hooks): event handling and automation\n[MCP](/docs/en/mcp): external tool integration"
+    },
+    {
+      "type": "li",
+      "text": "[Slash commands](/docs/en/slash-commands): command development details"
+    },
+    {
+      "type": "li",
+      "text": "[Subagents](/docs/en/sub-agents): agent configuration and capabilities"
+    },
+    {
+      "type": "li",
+      "text": "[Agent Skills](/docs/en/skills): extend Claude’s capabilities"
+    },
+    {
+      "type": "li",
+      "text": "[Hooks](/docs/en/hooks): event handling and automation"
+    },
+    {
+      "type": "li",
+      "text": "[MCP](/docs/en/mcp): external tool integration"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

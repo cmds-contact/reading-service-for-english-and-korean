@@ -1,0 +1,1030 @@
+{
+  "title": "Hooks reference",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Hooks reference"
+    },
+    {
+      "type": "p",
+      "text": "This page provides reference documentation for implementing hooks in Claude Code."
+    },
+    {
+      "type": "blockquote",
+      "text": "For a quickstart guide with examples, see [Get started with Claude Code hooks](/docs/en/hooks-guide)."
+    },
+    {
+      "type": "h2",
+      "text": "Configuration"
+    },
+    {
+      "type": "li",
+      "text": "`~/.claude/settings.json` - User settings"
+    },
+    {
+      "type": "li",
+      "text": "`.claude/settings.json` - Project settings"
+    },
+    {
+      "type": "li",
+      "text": "`.claude/settings.local.json` - Local project settings (not committed)"
+    },
+    {
+      "type": "li",
+      "text": "Enterprise managed policy settings"
+    },
+    {
+      "type": "blockquote",
+      "text": "Enterprise administrators can use `allowManagedHooksOnly` to block user, project, and plugin hooks. See [Hook configuration](/docs/en/settings#hook-configuration)."
+    },
+    {
+      "type": "h3",
+      "text": "Structure"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"EventName\": [\n      {\n        \"matcher\": \"ToolPattern\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"your-command-here\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "li",
+      "text": "**matcher**: Pattern to match tool names, case-sensitive (only applicable for\n`PreToolUse`, `PermissionRequest`, and `PostToolUse`)\n\nSimple strings match exactly: `Write` matches only the Write tool\nSupports regex: `Edit|Write` or `Notebook.*`\nUse `*` to match all tools. You can also use empty string (`\"\"`) or leave\n`matcher` blank."
+    },
+    {
+      "type": "li",
+      "text": "Simple strings match exactly: `Write` matches only the Write tool"
+    },
+    {
+      "type": "li",
+      "text": "Supports regex: `Edit|Write` or `Notebook.*`"
+    },
+    {
+      "type": "li",
+      "text": "Use `*` to match all tools. You can also use empty string (`\"\"`) or leave\n`matcher` blank."
+    },
+    {
+      "type": "li",
+      "text": "**hooks**: Array of hooks to execute when the pattern matches\n\n`type`: Hook execution type - `\"command\"` for bash commands or `\"prompt\"` for LLM-based evaluation\n`command`: (For `type: \"command\"`) The bash command to execute (can use `$CLAUDE_PROJECT_DIR` environment variable)\n`prompt`: (For `type: \"prompt\"`) The prompt to send to the LLM for evaluation\n`timeout`: (Optional) How long a hook should run, in seconds, before canceling that specific hook"
+    },
+    {
+      "type": "li",
+      "text": "`type`: Hook execution type - `\"command\"` for bash commands or `\"prompt\"` for LLM-based evaluation"
+    },
+    {
+      "type": "li",
+      "text": "`command`: (For `type: \"command\"`) The bash command to execute (can use `$CLAUDE_PROJECT_DIR` environment variable)"
+    },
+    {
+      "type": "li",
+      "text": "`prompt`: (For `type: \"prompt\"`) The prompt to send to the LLM for evaluation"
+    },
+    {
+      "type": "li",
+      "text": "`timeout`: (Optional) How long a hook should run, in seconds, before canceling that specific hook"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"UserPromptSubmit\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"/path/to/prompt-validator.py\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Project-Specific Hook Scripts"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Write|Edit\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"\\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/check-style.sh\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Plugin hooks"
+    },
+    {
+      "type": "li",
+      "text": "Plugin hooks are defined in the plugin’s `hooks/hooks.json` file or in a file given by a custom path to the `hooks` field."
+    },
+    {
+      "type": "li",
+      "text": "When a plugin is enabled, its hooks are merged with user and project hooks"
+    },
+    {
+      "type": "li",
+      "text": "Multiple hooks from different sources can respond to the same event"
+    },
+    {
+      "type": "li",
+      "text": "Plugin hooks use the `${CLAUDE_PLUGIN_ROOT}` environment variable to reference plugin files"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"description\": \"Automatic code formatting\",\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Write|Edit\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"${CLAUDE_PLUGIN_ROOT}/scripts/format.sh\",\n            \"timeout\": 30\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "Plugin hooks use the same format as regular hooks with an optional `description` field to explain the hook’s purpose."
+    },
+    {
+      "type": "blockquote",
+      "text": "Plugin hooks run alongside your custom hooks. If multiple hooks match an event, they all execute in parallel."
+    },
+    {
+      "type": "li",
+      "text": "`${CLAUDE_PLUGIN_ROOT}`: Absolute path to the plugin directory"
+    },
+    {
+      "type": "li",
+      "text": "`${CLAUDE_PROJECT_DIR}`: Project root directory (same as for project hooks)"
+    },
+    {
+      "type": "li",
+      "text": "All standard environment variables are available"
+    },
+    {
+      "type": "h2",
+      "text": "Prompt-Based Hooks"
+    },
+    {
+      "type": "h3",
+      "text": "How prompt-based hooks work"
+    },
+    {
+      "type": "li",
+      "text": "Send the hook input and your prompt to a fast LLM (Haiku)"
+    },
+    {
+      "type": "li",
+      "text": "The LLM responds with structured JSON containing a decision"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code processes the decision automatically"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"Stop\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"prompt\",\n            \"prompt\": \"Evaluate if Claude should stop: $ARGUMENTS. Check if all tasks are complete.\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "li",
+      "text": "`type`: Must be `\"prompt\"`"
+    },
+    {
+      "type": "li",
+      "text": "`prompt`: The prompt text to send to the LLM\n\nUse `$ARGUMENTS` as a placeholder for the hook input JSON\nIf `$ARGUMENTS` is not present, input JSON is appended to the prompt"
+    },
+    {
+      "type": "li",
+      "text": "Use `$ARGUMENTS` as a placeholder for the hook input JSON"
+    },
+    {
+      "type": "li",
+      "text": "If `$ARGUMENTS` is not present, input JSON is appended to the prompt"
+    },
+    {
+      "type": "li",
+      "text": "`timeout`: (Optional) Timeout in seconds (default: 30 seconds)"
+    },
+    {
+      "type": "h3",
+      "text": "Response schema"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"decision\": \"approve\" | \"block\",\n  \"reason\": \"Explanation for the decision\",\n  \"continue\": false,  // Optional: stops Claude entirely\n  \"stopReason\": \"Message shown to user\",  // Optional: custom stop message\n  \"systemMessage\": \"Warning or context\"  // Optional: shown to user\n}"
+    },
+    {
+      "type": "li",
+      "text": "`decision`: `\"approve\"` allows the action, `\"block\"` prevents it"
+    },
+    {
+      "type": "li",
+      "text": "`reason`: Explanation shown to Claude when decision is `\"block\"`"
+    },
+    {
+      "type": "li",
+      "text": "`continue`: (Optional) If `false`, stops Claude’s execution entirely"
+    },
+    {
+      "type": "li",
+      "text": "`stopReason`: (Optional) Message shown when `continue` is false"
+    },
+    {
+      "type": "li",
+      "text": "`systemMessage`: (Optional) Additional message shown to the user"
+    },
+    {
+      "type": "h3",
+      "text": "Supported hook events"
+    },
+    {
+      "type": "li",
+      "text": "**Stop**: Intelligently decide if Claude should continue working"
+    },
+    {
+      "type": "li",
+      "text": "**SubagentStop**: Evaluate if a subagent has completed its task"
+    },
+    {
+      "type": "li",
+      "text": "**UserPromptSubmit**: Validate user prompts with LLM assistance"
+    },
+    {
+      "type": "li",
+      "text": "**PreToolUse**: Make context-aware permission decisions"
+    },
+    {
+      "type": "li",
+      "text": "**PermissionRequest**: Intelligently allow or deny permission dialogs"
+    },
+    {
+      "type": "h3",
+      "text": "Example: Intelligent Stop hook"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"Stop\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"prompt\",\n            \"prompt\": \"You are evaluating whether Claude should stop working. Context: $ARGUMENTS\\n\\nAnalyze the conversation and determine if:\\n1. All user-requested tasks are complete\\n2. Any errors need to be addressed\\n3. Follow-up work is needed\\n\\nRespond with JSON: {\\\"decision\\\": \\\"approve\\\" or \\\"block\\\", \\\"reason\\\": \\\"your explanation\\\"}\",\n            \"timeout\": 30\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Example: SubagentStop with custom logic"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"SubagentStop\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"prompt\",\n            \"prompt\": \"Evaluate if this subagent should stop. Input: $ARGUMENTS\\n\\nCheck if:\\n- The subagent completed its assigned task\\n- Any errors occurred that need fixing\\n- Additional context gathering is needed\\n\\nReturn: {\\\"decision\\\": \\\"approve\\\" or \\\"block\\\", \\\"reason\\\": \\\"explanation\\\"}\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Comparison with bash command hooks"
+    },
+    {
+      "type": "h3",
+      "text": "Best practices"
+    },
+    {
+      "type": "li",
+      "text": "**Be specific in prompts**: Clearly state what you want the LLM to evaluate"
+    },
+    {
+      "type": "li",
+      "text": "**Include decision criteria**: List the factors the LLM should consider"
+    },
+    {
+      "type": "li",
+      "text": "**Test your prompts**: Verify the LLM makes correct decisions for your use cases"
+    },
+    {
+      "type": "li",
+      "text": "**Set appropriate timeouts**: Default is 30 seconds, adjust if needed"
+    },
+    {
+      "type": "li",
+      "text": "**Use for complex decisions**: Bash hooks are better for simple, deterministic rules"
+    },
+    {
+      "type": "h2",
+      "text": "Hook Events"
+    },
+    {
+      "type": "h3",
+      "text": "PreToolUse"
+    },
+    {
+      "type": "li",
+      "text": "`Task` - Subagent tasks (see [subagents documentation](/docs/en/sub-agents))"
+    },
+    {
+      "type": "li",
+      "text": "`Bash` - Shell commands"
+    },
+    {
+      "type": "li",
+      "text": "`Glob` - File pattern matching"
+    },
+    {
+      "type": "li",
+      "text": "`Grep` - Content search"
+    },
+    {
+      "type": "li",
+      "text": "`Read` - File reading"
+    },
+    {
+      "type": "li",
+      "text": "`Edit` - File editing"
+    },
+    {
+      "type": "li",
+      "text": "`Write` - File writing"
+    },
+    {
+      "type": "li",
+      "text": "`WebFetch`, `WebSearch` - Web operations"
+    },
+    {
+      "type": "h3",
+      "text": "PermissionRequest"
+    },
+    {
+      "type": "h3",
+      "text": "PostToolUse"
+    },
+    {
+      "type": "h3",
+      "text": "Notification"
+    },
+    {
+      "type": "li",
+      "text": "`permission_prompt` - Permission requests from Claude Code"
+    },
+    {
+      "type": "li",
+      "text": "`idle_prompt` - When Claude is waiting for user input (after 60+ seconds of idle time)"
+    },
+    {
+      "type": "li",
+      "text": "`auth_success` - Authentication success notifications"
+    },
+    {
+      "type": "li",
+      "text": "`elicitation_dialog` - When Claude Code needs input for MCP tool elicitation"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"Notification\": [\n      {\n        \"matcher\": \"permission_prompt\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"/path/to/permission-alert.sh\"\n          }\n        ]\n      },\n      {\n        \"matcher\": \"idle_prompt\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"/path/to/idle-notification.sh\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "UserPromptSubmit"
+    },
+    {
+      "type": "h3",
+      "text": "Stop"
+    },
+    {
+      "type": "h3",
+      "text": "SubagentStop"
+    },
+    {
+      "type": "h3",
+      "text": "PreCompact"
+    },
+    {
+      "type": "li",
+      "text": "`manual` - Invoked from `/compact`"
+    },
+    {
+      "type": "li",
+      "text": "`auto` - Invoked from auto-compact (due to full context window)"
+    },
+    {
+      "type": "h3",
+      "text": "SessionStart"
+    },
+    {
+      "type": "li",
+      "text": "`startup` - Invoked from startup"
+    },
+    {
+      "type": "li",
+      "text": "`resume` - Invoked from `--resume`, `--continue`, or `/resume`"
+    },
+    {
+      "type": "li",
+      "text": "`clear` - Invoked from `/clear`"
+    },
+    {
+      "type": "li",
+      "text": "`compact` - Invoked from auto or manual compact."
+    },
+    {
+      "type": "h4",
+      "text": "Persisting environment variables"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\n\nif [ -n \"$CLAUDE_ENV_FILE\" ]; then\n  echo 'export NODE_ENV=production' >> \"$CLAUDE_ENV_FILE\"\n  echo 'export API_KEY=your-api-key' >> \"$CLAUDE_ENV_FILE\"\n  echo 'export PATH=\"$PATH:./node_modules/.bin\"' >> \"$CLAUDE_ENV_FILE\"\nfi\n\nexit 0"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\n\nENV_BEFORE=$(export -p | sort)\n\n# Run your setup commands that modify the environment\nsource ~/.nvm/nvm.sh\nnvm use 20\n\nif [ -n \"$CLAUDE_ENV_FILE\" ]; then\n  ENV_AFTER=$(export -p | sort)\n  comm -13 <(echo \"$ENV_BEFORE\") <(echo \"$ENV_AFTER\") >> \"$CLAUDE_ENV_FILE\"\nfi\n\nexit 0"
+    },
+    {
+      "type": "blockquote",
+      "text": "`CLAUDE_ENV_FILE` is only available for SessionStart hooks. Other hook types do not have access to this variable."
+    },
+    {
+      "type": "h3",
+      "text": "SessionEnd"
+    },
+    {
+      "type": "li",
+      "text": "`clear` - Session cleared with /clear command"
+    },
+    {
+      "type": "li",
+      "text": "`logout` - User logged out"
+    },
+    {
+      "type": "li",
+      "text": "`prompt_input_exit` - User exited while prompt input was visible"
+    },
+    {
+      "type": "li",
+      "text": "`other` - Other exit reasons"
+    },
+    {
+      "type": "h2",
+      "text": "Hook Input"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  // Common fields\n  session_id: string\n  transcript_path: string  // Path to conversation JSON\n  cwd: string              // The current working directory when the hook is invoked\n  permission_mode: string  // Current permission mode: \"default\", \"plan\", \"acceptEdits\", or \"bypassPermissions\"\n\n  // Event-specific fields\n  hook_event_name: string\n  ...\n}"
+    },
+    {
+      "type": "h3",
+      "text": "PreToolUse Input"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"session_id\": \"abc123\",\n  \"transcript_path\": \"/Users/.../.claude/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl\",\n  \"cwd\": \"/Users/...\",\n  \"permission_mode\": \"default\",\n  \"hook_event_name\": \"PreToolUse\",\n  \"tool_name\": \"Write\",\n  \"tool_input\": {\n    \"file_path\": \"/path/to/file.txt\",\n    \"content\": \"file content\"\n  },\n  \"tool_use_id\": \"toolu_01ABC123...\"\n}"
+    },
+    {
+      "type": "h3",
+      "text": "PostToolUse Input"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"session_id\": \"abc123\",\n  \"transcript_path\": \"/Users/.../.claude/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl\",\n  \"cwd\": \"/Users/...\",\n  \"permission_mode\": \"default\",\n  \"hook_event_name\": \"PostToolUse\",\n  \"tool_name\": \"Write\",\n  \"tool_input\": {\n    \"file_path\": \"/path/to/file.txt\",\n    \"content\": \"file content\"\n  },\n  \"tool_response\": {\n    \"filePath\": \"/path/to/file.txt\",\n    \"success\": true\n  },\n  \"tool_use_id\": \"toolu_01ABC123...\"\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Notification Input"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"session_id\": \"abc123\",\n  \"transcript_path\": \"/Users/.../.claude/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl\",\n  \"cwd\": \"/Users/...\",\n  \"permission_mode\": \"default\",\n  \"hook_event_name\": \"Notification\",\n  \"message\": \"Claude needs your permission to use Bash\",\n  \"notification_type\": \"permission_prompt\"\n}"
+    },
+    {
+      "type": "h3",
+      "text": "UserPromptSubmit Input"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"session_id\": \"abc123\",\n  \"transcript_path\": \"/Users/.../.claude/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl\",\n  \"cwd\": \"/Users/...\",\n  \"permission_mode\": \"default\",\n  \"hook_event_name\": \"UserPromptSubmit\",\n  \"prompt\": \"Write a function to calculate the factorial of a number\"\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Stop and SubagentStop Input"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"session_id\": \"abc123\",\n  \"transcript_path\": \"~/.claude/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl\",\n  \"permission_mode\": \"default\",\n  \"hook_event_name\": \"Stop\",\n  \"stop_hook_active\": true\n}"
+    },
+    {
+      "type": "h3",
+      "text": "PreCompact Input"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"session_id\": \"abc123\",\n  \"transcript_path\": \"~/.claude/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl\",\n  \"permission_mode\": \"default\",\n  \"hook_event_name\": \"PreCompact\",\n  \"trigger\": \"manual\",\n  \"custom_instructions\": \"\"\n}"
+    },
+    {
+      "type": "h3",
+      "text": "SessionStart Input"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"session_id\": \"abc123\",\n  \"transcript_path\": \"~/.claude/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl\",\n  \"permission_mode\": \"default\",\n  \"hook_event_name\": \"SessionStart\",\n  \"source\": \"startup\"\n}"
+    },
+    {
+      "type": "h3",
+      "text": "SessionEnd Input"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"session_id\": \"abc123\",\n  \"transcript_path\": \"~/.claude/projects/.../00893aaf-19fa-41d2-8238-13269b9b3ca0.jsonl\",\n  \"cwd\": \"/Users/...\",\n  \"permission_mode\": \"default\",\n  \"hook_event_name\": \"SessionEnd\",\n  \"reason\": \"exit\"\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Hook Output"
+    },
+    {
+      "type": "h3",
+      "text": "Simple: Exit Code"
+    },
+    {
+      "type": "li",
+      "text": "**Exit code 0**: Success. `stdout` is shown to the user in verbose mode\n(ctrl+o), except for `UserPromptSubmit` and `SessionStart`, where stdout is\nadded to the context. JSON output in `stdout` is parsed for structured control\n(see [Advanced: JSON Output](#advanced-json-output))."
+    },
+    {
+      "type": "li",
+      "text": "**Exit code 2**: Blocking error. Only `stderr` is used as the error message\nand fed back to Claude. The format is `[command]: {stderr}`. JSON in `stdout`\nis **not** processed for exit code 2. See per-hook-event behavior below."
+    },
+    {
+      "type": "li",
+      "text": "**Other exit codes**: Non-blocking error. `stderr` is shown to the user in verbose mode (ctrl+o) with\nformat `Failed with non-blocking status code: {stderr}`. If `stderr` is empty,\nit shows `No stderr output`. Execution continues."
+    },
+    {
+      "type": "blockquote",
+      "text": "Reminder: Claude Code does not see stdout if the exit code is 0, except for\nthe `UserPromptSubmit` hook where stdout is injected as context."
+    },
+    {
+      "type": "h4",
+      "text": "Exit Code 2 Behavior"
+    },
+    {
+      "type": "h3",
+      "text": "Advanced: JSON Output"
+    },
+    {
+      "type": "blockquote",
+      "text": "JSON output is only processed when the hook exits with code 0. If your hook\nexits with code 2 (blocking error), `stderr` text is used directly—any JSON in `stdout`\nis ignored. For other non-zero exit codes, only `stderr` is shown to the user in verbose mode (ctrl+o)."
+    },
+    {
+      "type": "h4",
+      "text": "Common JSON Fields"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"continue\": true, // Whether Claude should continue after hook execution (default: true)\n  \"stopReason\": \"string\", // Message shown when continue is false\n\n  \"suppressOutput\": true, // Hide stdout from transcript mode (default: false)\n  \"systemMessage\": \"string\" // Optional warning message shown to the user\n}"
+    },
+    {
+      "type": "li",
+      "text": "For `PreToolUse`, this is different from `\"permissionDecision\": \"deny\"`, which\nonly blocks a specific tool call and provides automatic feedback to Claude."
+    },
+    {
+      "type": "li",
+      "text": "For `PostToolUse`, this is different from `\"decision\": \"block\"`, which\nprovides automated feedback to Claude."
+    },
+    {
+      "type": "li",
+      "text": "For `UserPromptSubmit`, this prevents the prompt from being processed."
+    },
+    {
+      "type": "li",
+      "text": "For `Stop` and `SubagentStop`, this takes precedence over any\n`\"decision\": \"block\"` output."
+    },
+    {
+      "type": "li",
+      "text": "In all cases, `\"continue\" = false` takes precedence over any\n`\"decision\": \"block\"` output."
+    },
+    {
+      "type": "h4",
+      "text": "PreToolUse Decision Control"
+    },
+    {
+      "type": "li",
+      "text": "`\"allow\"` bypasses the permission system. `permissionDecisionReason` is shown\nto the user but not to Claude."
+    },
+    {
+      "type": "li",
+      "text": "`\"deny\"` prevents the tool call from executing. `permissionDecisionReason` is\nshown to Claude."
+    },
+    {
+      "type": "li",
+      "text": "`\"ask\"` asks the user to confirm the tool call in the UI.\n`permissionDecisionReason` is shown to the user but not to Claude."
+    },
+    {
+      "type": "li",
+      "text": "`updatedInput` allows you to modify the tool’s input parameters before the tool executes."
+    },
+    {
+      "type": "li",
+      "text": "This is most useful with `\"permissionDecision\": \"allow\"` to modify and approve tool calls."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hookSpecificOutput\": {\n    \"hookEventName\": \"PreToolUse\",\n    \"permissionDecision\": \"allow\"\n    \"permissionDecisionReason\": \"My reason here\",\n    \"updatedInput\": {\n      \"field_to_modify\": \"new value\"\n    }\n  }\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "The `decision` and `reason` fields are deprecated for PreToolUse hooks.\nUse `hookSpecificOutput.permissionDecision` and\n`hookSpecificOutput.permissionDecisionReason` instead. The deprecated fields\n`\"approve\"` and `\"block\"` map to `\"allow\"` and `\"deny\"` respectively."
+    },
+    {
+      "type": "h4",
+      "text": "PermissionRequest Decision Control"
+    },
+    {
+      "type": "li",
+      "text": "For `\"behavior\": \"allow\"` you can also optionally pass in an `\"updatedInput\"` that modifies the tool’s input parameters before the tool executes."
+    },
+    {
+      "type": "li",
+      "text": "For `\"behavior\": \"deny\"` you can also optionally pass in a `\"message\"` string that tells the model why the permission was denied, and a boolean `\"interrupt\"` which will stop Claude."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hookSpecificOutput\": {\n    \"hookEventName\": \"PermissionRequest\",\n    \"decision\": {\n      \"behavior\": \"allow\",\n      \"updatedInput\": {\n        \"command\": \"npm run lint\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "type": "h4",
+      "text": "PostToolUse Decision Control"
+    },
+    {
+      "type": "li",
+      "text": "`\"block\"` automatically prompts Claude with `reason`."
+    },
+    {
+      "type": "li",
+      "text": "`undefined` does nothing. `reason` is ignored."
+    },
+    {
+      "type": "li",
+      "text": "`\"hookSpecificOutput.additionalContext\"` adds context for Claude to consider."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"decision\": \"block\" | undefined,\n  \"reason\": \"Explanation for decision\",\n  \"hookSpecificOutput\": {\n    \"hookEventName\": \"PostToolUse\",\n    \"additionalContext\": \"Additional information for Claude\"\n  }\n}"
+    },
+    {
+      "type": "h4",
+      "text": "UserPromptSubmit Decision Control"
+    },
+    {
+      "type": "li",
+      "text": "**Plain text stdout** (simpler): Any non-JSON text written to stdout is added\nas context. This is the easiest way to inject information."
+    },
+    {
+      "type": "li",
+      "text": "JSON with `additionalContext` (structured): Use the JSON format below for\nmore control. The `additionalContext` field is added as context."
+    },
+    {
+      "type": "li",
+      "text": "`\"decision\": \"block\"` prevents the prompt from being processed. The submitted\nprompt is erased from context. `\"reason\"` is shown to the user but not added\nto context."
+    },
+    {
+      "type": "li",
+      "text": "`\"decision\": undefined` (or omitted) allows the prompt to proceed normally."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"decision\": \"block\" | undefined,\n  \"reason\": \"Explanation for decision\",\n  \"hookSpecificOutput\": {\n    \"hookEventName\": \"UserPromptSubmit\",\n    \"additionalContext\": \"My additional context here\"\n  }\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "The JSON format isn’t required for simple use cases. To add context, you can print plain text to stdout with exit code 0. Use JSON when you need to\nblock prompts or want more structured control."
+    },
+    {
+      "type": "h4",
+      "text": "Stop/SubagentStop Decision Control"
+    },
+    {
+      "type": "li",
+      "text": "`\"block\"` prevents Claude from stopping. You must populate `reason` for Claude\nto know how to proceed."
+    },
+    {
+      "type": "li",
+      "text": "`undefined` allows Claude to stop. `reason` is ignored."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"decision\": \"block\" | undefined,\n  \"reason\": \"Must be provided when Claude is blocked from stopping\"\n}"
+    },
+    {
+      "type": "h4",
+      "text": "SessionStart Decision Control"
+    },
+    {
+      "type": "li",
+      "text": "`\"hookSpecificOutput.additionalContext\"` adds the string to the context."
+    },
+    {
+      "type": "li",
+      "text": "Multiple hooks’ `additionalContext` values are concatenated."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hookSpecificOutput\": {\n    \"hookEventName\": \"SessionStart\",\n    \"additionalContext\": \"My additional context here\"\n  }\n}"
+    },
+    {
+      "type": "h4",
+      "text": "SessionEnd Decision Control"
+    },
+    {
+      "type": "h4",
+      "text": "Exit Code Example: Bash Command Validation"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/usr/bin/env python3\nimport json\nimport re\nimport sys\n\n# Define validation rules as a list of (regex pattern, message) tuples\nVALIDATION_RULES = [\n    (\n        r\"\\bgrep\\b(?!.*\\|)\",\n        \"Use 'rg' (ripgrep) instead of 'grep' for better performance and features\",\n    ),\n    (\n        r\"\\bfind\\s+\\S+\\s+-name\\b\",\n        \"Use 'rg --files | rg pattern' or 'rg --files -g pattern' instead of 'find -name' for better performance\",\n    ),\n]\n\n\ndef validate_command(command: str) -> list[str]:\n    issues = []\n    for pattern, message in VALIDATION_RULES:\n        if re.search(pattern, command):\n            issues.append(message)\n    return issues\n\n\ntry:\n    input_data = json.load(sys.stdin)\nexcept json.JSONDecodeError as e:\n    print(f\"Error: Invalid JSON input: {e}\", file=sys.stderr)\n    sys.exit(1)\n\ntool_name = input_data.get(\"tool_name\", \"\")\ntool_input = input_data.get(\"tool_input\", {})\ncommand = tool_input.get(\"command\", \"\")\n\nif tool_name != \"Bash\" or not command:\n    sys.exit(1)\n\n# Validate the command\nissues = validate_command(command)\n\nif issues:\n    for message in issues:\n        print(f\"• {message}\", file=sys.stderr)\n    # Exit code 2 blocks tool call and shows stderr to Claude\n    sys.exit(2)"
+    },
+    {
+      "type": "h4",
+      "text": "JSON Output Example: UserPromptSubmit to Add Context and Validation"
+    },
+    {
+      "type": "blockquote",
+      "text": "For `UserPromptSubmit` hooks, you can inject context using either method:\n**Plain text stdout** with exit code 0: Simplest approach, prints text\n**JSON output** with exit code 0: Use `\"decision\": \"block\"` to reject prompts,\nor `additionalContext` for structured context injection\nRemember: Exit code 2 only uses `stderr` for the error message. To block using\nJSON (with a custom reason), use `\"decision\": \"block\"` with exit code 0."
+    },
+    {
+      "type": "li",
+      "text": "**Plain text stdout** with exit code 0: Simplest approach, prints text"
+    },
+    {
+      "type": "li",
+      "text": "**JSON output** with exit code 0: Use `\"decision\": \"block\"` to reject prompts,\nor `additionalContext` for structured context injection"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/usr/bin/env python3\nimport json\nimport sys\nimport re\nimport datetime\n\n# Load input from stdin\ntry:\n    input_data = json.load(sys.stdin)\nexcept json.JSONDecodeError as e:\n    print(f\"Error: Invalid JSON input: {e}\", file=sys.stderr)\n    sys.exit(1)\n\nprompt = input_data.get(\"prompt\", \"\")\n\n# Check for sensitive patterns\nsensitive_patterns = [\n    (r\"(?i)\\b(password|secret|key|token)\\s*[:=]\", \"Prompt contains potential secrets\"),\n]\n\nfor pattern, message in sensitive_patterns:\n    if re.search(pattern, prompt):\n        # Use JSON output to block with a specific reason\n        output = {\n            \"decision\": \"block\",\n            \"reason\": f\"Security policy violation: {message}. Please rephrase your request without sensitive information.\"\n        }\n        print(json.dumps(output))\n        sys.exit(0)\n\n# Add current time to context\ncontext = f\"Current time: {datetime.datetime.now()}\"\nprint(context)\n\n\"\"\"\nThe following is also equivalent:\nprint(json.dumps({\n  \"hookSpecificOutput\": {\n    \"hookEventName\": \"UserPromptSubmit\",\n    \"additionalContext\": context,\n  },\n}))\n\"\"\"\n\n# Allow the prompt to proceed with the additional context\nsys.exit(0)"
+    },
+    {
+      "type": "h4",
+      "text": "JSON Output Example: PreToolUse with Approval"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/usr/bin/env python3\nimport json\nimport sys\n\n# Load input from stdin\ntry:\n    input_data = json.load(sys.stdin)\nexcept json.JSONDecodeError as e:\n    print(f\"Error: Invalid JSON input: {e}\", file=sys.stderr)\n    sys.exit(1)\n\ntool_name = input_data.get(\"tool_name\", \"\")\ntool_input = input_data.get(\"tool_input\", {})\n\n# Example: Auto-approve file reads for documentation files\nif tool_name == \"Read\":\n    file_path = tool_input.get(\"file_path\", \"\")\n    if file_path.endswith((\".md\", \".mdx\", \".txt\", \".json\")):\n        # Use JSON output to auto-approve the tool call\n        output = {\n            \"decision\": \"approve\",\n            \"reason\": \"Documentation file auto-approved\",\n            \"suppressOutput\": True  # Don't show in verbose mode\n        }\n        print(json.dumps(output))\n        sys.exit(0)\n\n# For other cases, let the normal permission flow proceed\nsys.exit(0)"
+    },
+    {
+      "type": "h2",
+      "text": "Working with MCP Tools"
+    },
+    {
+      "type": "h3",
+      "text": "MCP Tool Naming"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__memory__create_entities` - Memory server’s create entities tool"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__filesystem__read_file` - Filesystem server’s read file tool"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__github__search_repositories` - GitHub server’s search tool"
+    },
+    {
+      "type": "h3",
+      "text": "Configuring Hooks for MCP Tools"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"PreToolUse\": [\n      {\n        \"matcher\": \"mcp__memory__.*\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"echo 'Memory operation initiated' >> ~/mcp-operations.log\"\n          }\n        ]\n      },\n      {\n        \"matcher\": \"mcp__.*__write.*\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"/home/user/scripts/validate-mcp-write.py\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Examples"
+    },
+    {
+      "type": "blockquote",
+      "text": "For practical examples including code formatting, notifications, and file protection, see [More Examples](/docs/en/hooks-guide#more-examples) in the get started guide."
+    },
+    {
+      "type": "h2",
+      "text": "Security Considerations"
+    },
+    {
+      "type": "h3",
+      "text": "Disclaimer"
+    },
+    {
+      "type": "li",
+      "text": "You are solely responsible for the commands you configure"
+    },
+    {
+      "type": "li",
+      "text": "Hooks can modify, delete, or access any files your user account can access"
+    },
+    {
+      "type": "li",
+      "text": "Malicious or poorly written hooks can cause data loss or system damage"
+    },
+    {
+      "type": "li",
+      "text": "Anthropic provides no warranty and assumes no liability for any damages\nresulting from hook usage"
+    },
+    {
+      "type": "li",
+      "text": "You should thoroughly test hooks in a safe environment before production use"
+    },
+    {
+      "type": "h3",
+      "text": "Security Best Practices"
+    },
+    {
+      "type": "li",
+      "text": "**Validate and sanitize inputs** - Never trust input data blindly"
+    },
+    {
+      "type": "li",
+      "text": "**Always quote shell variables** - Use `\"$VAR\"` not `$VAR`"
+    },
+    {
+      "type": "li",
+      "text": "**Block path traversal** - Check for `..` in file paths"
+    },
+    {
+      "type": "li",
+      "text": "**Use absolute paths** - Specify full paths for scripts (use\n“$CLAUDE_PROJECT_DIR” for the project path)"
+    },
+    {
+      "type": "li",
+      "text": "**Skip sensitive files** - Avoid `.env`, `.git/`, keys, etc."
+    },
+    {
+      "type": "h3",
+      "text": "Configuration Safety"
+    },
+    {
+      "type": "li",
+      "text": "Captures a snapshot of hooks at startup"
+    },
+    {
+      "type": "li",
+      "text": "Uses this snapshot throughout the session"
+    },
+    {
+      "type": "li",
+      "text": "Warns if hooks are modified externally"
+    },
+    {
+      "type": "li",
+      "text": "Requires review in `/hooks` menu for changes to apply"
+    },
+    {
+      "type": "h2",
+      "text": "Hook Execution Details"
+    },
+    {
+      "type": "li",
+      "text": "**Timeout**: 60-second execution limit by default, configurable per command.\n\nA timeout for an individual command does not affect the other commands."
+    },
+    {
+      "type": "li",
+      "text": "A timeout for an individual command does not affect the other commands."
+    },
+    {
+      "type": "li",
+      "text": "**Parallelization**: All matching hooks run in parallel"
+    },
+    {
+      "type": "li",
+      "text": "**Deduplication**: Multiple identical hook commands are deduplicated automatically"
+    },
+    {
+      "type": "li",
+      "text": "**Environment**: Runs in current directory with Claude Code’s environment\n\nThe `CLAUDE_PROJECT_DIR` environment variable is available and contains the\nabsolute path to the project root directory (where Claude Code was started)\nThe `CLAUDE_CODE_REMOTE` environment variable indicates whether the hook is running in a remote (web) environment (`\"true\"`) or local CLI environment (not set or empty). Use this to run different logic based on execution context."
+    },
+    {
+      "type": "li",
+      "text": "The `CLAUDE_PROJECT_DIR` environment variable is available and contains the\nabsolute path to the project root directory (where Claude Code was started)"
+    },
+    {
+      "type": "li",
+      "text": "The `CLAUDE_CODE_REMOTE` environment variable indicates whether the hook is running in a remote (web) environment (`\"true\"`) or local CLI environment (not set or empty). Use this to run different logic based on execution context."
+    },
+    {
+      "type": "li",
+      "text": "**Input**: JSON via stdin"
+    },
+    {
+      "type": "li",
+      "text": "**Output**:\n\nPreToolUse/PermissionRequest/PostToolUse/Stop/SubagentStop: Progress shown in verbose mode (ctrl+o)\nNotification/SessionEnd: Logged to debug only (`--debug`)\nUserPromptSubmit/SessionStart: stdout added as context for Claude"
+    },
+    {
+      "type": "li",
+      "text": "PreToolUse/PermissionRequest/PostToolUse/Stop/SubagentStop: Progress shown in verbose mode (ctrl+o)"
+    },
+    {
+      "type": "li",
+      "text": "Notification/SessionEnd: Logged to debug only (`--debug`)"
+    },
+    {
+      "type": "li",
+      "text": "UserPromptSubmit/SessionStart: stdout added as context for Claude"
+    },
+    {
+      "type": "h2",
+      "text": "Debugging"
+    },
+    {
+      "type": "h3",
+      "text": "Basic Troubleshooting"
+    },
+    {
+      "type": "li",
+      "text": "**Check configuration** - Run `/hooks` to see if your hook is registered"
+    },
+    {
+      "type": "li",
+      "text": "**Verify syntax** - Ensure your JSON settings are valid"
+    },
+    {
+      "type": "li",
+      "text": "**Test commands** - Run hook commands manually first"
+    },
+    {
+      "type": "li",
+      "text": "**Check permissions** - Make sure scripts are executable"
+    },
+    {
+      "type": "li",
+      "text": "**Review logs** - Use `claude --debug` to see hook execution details"
+    },
+    {
+      "type": "li",
+      "text": "**Quotes not escaped** - Use `\\\"` inside JSON strings"
+    },
+    {
+      "type": "li",
+      "text": "**Wrong matcher** - Check tool names match exactly (case-sensitive)"
+    },
+    {
+      "type": "li",
+      "text": "**Command not found** - Use full paths for scripts"
+    },
+    {
+      "type": "h3",
+      "text": "Advanced Debugging"
+    },
+    {
+      "type": "li",
+      "text": "**Inspect hook execution** - Use `claude --debug` to see detailed hook\nexecution"
+    },
+    {
+      "type": "li",
+      "text": "**Validate JSON schemas** - Test hook input/output with external tools"
+    },
+    {
+      "type": "li",
+      "text": "**Check environment variables** - Verify Claude Code’s environment is correct"
+    },
+    {
+      "type": "li",
+      "text": "**Test edge cases** - Try hooks with unusual file paths or inputs"
+    },
+    {
+      "type": "li",
+      "text": "**Monitor system resources** - Check for resource exhaustion during hook\nexecution"
+    },
+    {
+      "type": "li",
+      "text": "**Use structured logging** - Implement logging in your hook scripts"
+    },
+    {
+      "type": "h3",
+      "text": "Debug Output Example"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "[DEBUG] Executing hooks for PostToolUse:Write\n[DEBUG] Getting matching hook commands for PostToolUse with query: Write\n[DEBUG] Found 1 hook matchers in settings\n[DEBUG] Matched 1 hooks for query \"Write\"\n[DEBUG] Found 1 hook commands to execute\n[DEBUG] Executing hook command: <Your command> with timeout 60000ms\n[DEBUG] Hook command completed with status 0: <Your stdout>"
+    },
+    {
+      "type": "li",
+      "text": "Which hook is running"
+    },
+    {
+      "type": "li",
+      "text": "Command being executed"
+    },
+    {
+      "type": "li",
+      "text": "Success/failure status"
+    },
+    {
+      "type": "li",
+      "text": "Output or error messages"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

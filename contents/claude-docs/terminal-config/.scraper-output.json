@@ -1,0 +1,122 @@
+{
+  "title": "Optimize your terminal setup",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Optimize your terminal setup"
+    },
+    {
+      "type": "p",
+      "text": "Claude Code works best when your terminal is properly configured. Follow these guidelines to optimize your experience."
+    },
+    {
+      "type": "h3",
+      "text": "Themes and appearance"
+    },
+    {
+      "type": "h3",
+      "text": "Line breaks"
+    },
+    {
+      "type": "li",
+      "text": "**Quick escape**: Type `\\` followed by Enter to create a newline"
+    },
+    {
+      "type": "li",
+      "text": "**Keyboard shortcut**: Set up a keybinding to insert a newline"
+    },
+    {
+      "type": "h4",
+      "text": "Set up Shift+Enter (VS Code or iTerm2):"
+    },
+    {
+      "type": "h4",
+      "text": "Set up Option+Enter (VS Code, iTerm2 or macOS Terminal.app):"
+    },
+    {
+      "type": "li",
+      "text": "Open Settings → Profiles → Keyboard"
+    },
+    {
+      "type": "li",
+      "text": "Check “Use Option as Meta Key”"
+    },
+    {
+      "type": "li",
+      "text": "Open Settings → Profiles → Keys"
+    },
+    {
+      "type": "li",
+      "text": "Under General, set Left/Right Option key to “Esc+“"
+    },
+    {
+      "type": "h3",
+      "text": "Notification setup"
+    },
+    {
+      "type": "h4",
+      "text": "iTerm 2 system notifications"
+    },
+    {
+      "type": "li",
+      "text": "Open iTerm 2 Preferences"
+    },
+    {
+      "type": "li",
+      "text": "Navigate to Profiles → Terminal"
+    },
+    {
+      "type": "li",
+      "text": "Enable “Silence bell” and Filter Alerts → “Send escape sequence-generated alerts”"
+    },
+    {
+      "type": "li",
+      "text": "Set your preferred notification delay"
+    },
+    {
+      "type": "h4",
+      "text": "Custom notification hooks"
+    },
+    {
+      "type": "h3",
+      "text": "Handling large inputs"
+    },
+    {
+      "type": "li",
+      "text": "**Avoid direct pasting**: Claude Code may struggle with very long pasted content"
+    },
+    {
+      "type": "li",
+      "text": "**Use file-based workflows**: Write content to a file and ask Claude to read it"
+    },
+    {
+      "type": "li",
+      "text": "**Be aware of VS Code limitations**: The VS Code terminal is particularly prone to truncating long pastes"
+    },
+    {
+      "type": "h3",
+      "text": "Vim Mode"
+    },
+    {
+      "type": "li",
+      "text": "Mode switching: `Esc` (to NORMAL), `i`/`I`, `a`/`A`, `o`/`O` (to INSERT)"
+    },
+    {
+      "type": "li",
+      "text": "Navigation: `h`/`j`/`k`/`l`, `w`/`e`/`b`, `0`/`$`/`^`, `gg`/`G`"
+    },
+    {
+      "type": "li",
+      "text": "Editing: `x`, `dw`/`de`/`db`/`dd`/`D`, `cw`/`ce`/`cb`/`cc`/`C`, `.` (repeat)"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

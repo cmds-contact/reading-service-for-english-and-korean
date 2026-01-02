@@ -1,0 +1,114 @@
+{
+  "title": "CLI reference",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "CLI reference"
+    },
+    {
+      "type": "p",
+      "text": "Complete reference for Claude Code command-line interface, including commands and flags."
+    },
+    {
+      "type": "h2",
+      "text": "CLI commands"
+    },
+    {
+      "type": "h2",
+      "text": "CLI flags"
+    },
+    {
+      "type": "blockquote",
+      "text": "The `--output-format json` flag is particularly useful for scripting and\nautomation, allowing you to parse Claude’s responses programmatically."
+    },
+    {
+      "type": "h3",
+      "text": "Agents flag format"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --agents '{\n  \"code-reviewer\": {\n    \"description\": \"Expert code reviewer. Use proactively after code changes.\",\n    \"prompt\": \"You are a senior code reviewer. Focus on code quality, security, and best practices.\",\n    \"tools\": [\"Read\", \"Grep\", \"Glob\", \"Bash\"],\n    \"model\": \"sonnet\"\n  },\n  \"debugger\": {\n    \"description\": \"Debugging specialist for errors and test failures.\",\n    \"prompt\": \"You are an expert debugger. Analyze errors, identify root causes, and provide fixes.\"\n  }\n}'"
+    },
+    {
+      "type": "h3",
+      "text": "System prompt flags"
+    },
+    {
+      "type": "li",
+      "text": "`--system-prompt`: Use when you need complete control over Claude’s system prompt. This removes all default Claude Code instructions, giving you a blank slate.\nCopyAsk AIclaude --system-prompt \"You are a Python expert who only writes type-annotated code\""
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --system-prompt \"You are a Python expert who only writes type-annotated code\""
+    },
+    {
+      "type": "li",
+      "text": "`--system-prompt-file`: Use when you want to load a custom prompt from a file, useful for team consistency or version-controlled prompt templates.\nCopyAsk AIclaude -p --system-prompt-file ./prompts/code-review.txt \"Review this PR\""
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude -p --system-prompt-file ./prompts/code-review.txt \"Review this PR\""
+    },
+    {
+      "type": "li",
+      "text": "`--append-system-prompt`: Use when you want to add specific instructions while keeping Claude Code’s default capabilities intact. This is the safest option for most use cases.\nCopyAsk AIclaude --append-system-prompt \"Always use TypeScript and include JSDoc comments\""
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --append-system-prompt \"Always use TypeScript and include JSDoc comments\""
+    },
+    {
+      "type": "blockquote",
+      "text": "`--system-prompt` and `--system-prompt-file` are mutually exclusive. You cannot use both flags simultaneously."
+    },
+    {
+      "type": "blockquote",
+      "text": "For most use cases, `--append-system-prompt` is recommended as it preserves Claude Code’s built-in capabilities while adding your custom requirements. Use `--system-prompt` or `--system-prompt-file` only when you need complete control over the system prompt."
+    },
+    {
+      "type": "h2",
+      "text": "See also"
+    },
+    {
+      "type": "li",
+      "text": "[Chrome extension](/docs/en/chrome) - Browser automation and web testing"
+    },
+    {
+      "type": "li",
+      "text": "[Interactive mode](/docs/en/interactive-mode) - Shortcuts, input modes, and interactive features"
+    },
+    {
+      "type": "li",
+      "text": "[Slash commands](/docs/en/slash-commands) - Interactive session commands"
+    },
+    {
+      "type": "li",
+      "text": "[Quickstart guide](/docs/en/quickstart) - Getting started with Claude Code"
+    },
+    {
+      "type": "li",
+      "text": "[Common workflows](/docs/en/common-workflows) - Advanced workflows and patterns"
+    },
+    {
+      "type": "li",
+      "text": "[Settings](/docs/en/settings) - Configuration options"
+    },
+    {
+      "type": "li",
+      "text": "[SDK documentation](https://docs.claude.com/en/docs/agent-sdk) - Programmatic usage and integrations"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

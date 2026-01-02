@@ -1,0 +1,16 @@
+id: network-config
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/network-config
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Enterprise network configuration"
+    type: original
+  ko:
+    title: "엔터프라이즈 네트워크 구성"
+    type: translation
+    translator: ai

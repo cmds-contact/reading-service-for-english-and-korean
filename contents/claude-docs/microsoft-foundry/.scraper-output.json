@@ -1,0 +1,146 @@
+{
+  "title": "Claude Code on Microsoft Foundry",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Claude Code on Microsoft Foundry"
+    },
+    {
+      "type": "p",
+      "text": "Learn about configuring Claude Code through Microsoft Foundry, including setup, configuration, and troubleshooting."
+    },
+    {
+      "type": "h2",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "li",
+      "text": "An Azure subscription with access to Microsoft Foundry"
+    },
+    {
+      "type": "li",
+      "text": "RBAC permissions to create Microsoft Foundry resources and deployments"
+    },
+    {
+      "type": "li",
+      "text": "Azure CLI installed and configured (optional - only needed if you don’t have another mechanism for getting credentials)"
+    },
+    {
+      "type": "h2",
+      "text": "Setup"
+    },
+    {
+      "type": "h3",
+      "text": "1. Provision Microsoft Foundry resource"
+    },
+    {
+      "type": "li",
+      "text": "Navigate to the [Microsoft Foundry portal](https://ai.azure.com/)"
+    },
+    {
+      "type": "li",
+      "text": "Create a new resource, noting your resource name"
+    },
+    {
+      "type": "li",
+      "text": "Create deployments for the Claude models:\n\nClaude Opus\nClaude Sonnet\nClaude Haiku"
+    },
+    {
+      "type": "li",
+      "text": "Claude Opus"
+    },
+    {
+      "type": "li",
+      "text": "Claude Sonnet"
+    },
+    {
+      "type": "li",
+      "text": "Claude Haiku"
+    },
+    {
+      "type": "h3",
+      "text": "2. Configure Azure credentials"
+    },
+    {
+      "type": "li",
+      "text": "Navigate to your resource in the Microsoft Foundry portal"
+    },
+    {
+      "type": "li",
+      "text": "Go to the **Endpoints and keys** section"
+    },
+    {
+      "type": "li",
+      "text": "Copy **API Key**"
+    },
+    {
+      "type": "li",
+      "text": "Set the environment variable:"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export ANTHROPIC_FOUNDRY_API_KEY=your-azure-api-key"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "az login"
+    },
+    {
+      "type": "blockquote",
+      "text": "When using Microsoft Foundry, the `/login` and `/logout` commands are disabled since authentication is handled through Azure credentials."
+    },
+    {
+      "type": "h3",
+      "text": "3. Configure Claude Code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Enable Microsoft Foundry integration\nexport CLAUDE_CODE_USE_FOUNDRY=1\n\n# Azure resource name (replace {resource} with your resource name)\nexport ANTHROPIC_FOUNDRY_RESOURCE={resource}\n# Or provide the full base URL:\n# export ANTHROPIC_FOUNDRY_BASE_URL=https://{resource}.services.ai.azure.com\n\n# Set models to your resource's deployment names\nexport ANTHROPIC_DEFAULT_SONNET_MODEL='claude-sonnet-4-5'\nexport ANTHROPIC_DEFAULT_HAIKU_MODEL='claude-haiku-4-5'\nexport ANTHROPIC_DEFAULT_OPUS_MODEL='claude-opus-4-1'"
+    },
+    {
+      "type": "h2",
+      "text": "Azure RBAC configuration"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"permissions\": [\n    {\n      \"dataActions\": [\n        \"Microsoft.CognitiveServices/accounts/providers/*\"\n      ]\n    }\n  ]\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "li",
+      "text": "Configure Entra ID on the environment, or set `ANTHROPIC_FOUNDRY_API_KEY`."
+    },
+    {
+      "type": "h2",
+      "text": "Additional resources"
+    },
+    {
+      "type": "li",
+      "text": "[Microsoft Foundry documentation](https://learn.microsoft.com/en-us/azure/ai-foundry/what-is-azure-ai-foundry)"
+    },
+    {
+      "type": "li",
+      "text": "[Microsoft Foundry models](https://ai.azure.com/explore/models)"
+    },
+    {
+      "type": "li",
+      "text": "[Microsoft Foundry pricing](https://azure.microsoft.com/en-us/pricing/details/ai-foundry/)"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}
