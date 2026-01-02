@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Calendar, ChevronRight } from 'lucide-react'
+import { Menu, X, Calendar, ChevronRight, PanelLeftClose, PanelLeft } from 'lucide-react'
 import { ContentListItem } from '@/types/content'
 import { cn } from '@/lib/utils'
 
@@ -47,6 +47,7 @@ function PostItem({ post, isActive }: PostItemProps) {
 
 export function BlogSidebar({ currentSlug, posts }: BlogSidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(false)
 
   // 날짜순 정렬 (최신순)
   const sortedPosts = [...posts].sort(
@@ -98,8 +99,27 @@ export function BlogSidebar({ currentSlug, posts }: BlogSidebarProps) {
       </button>
 
       {/* 데스크톱 사이드바 */}
-      <aside className="hidden lg:block w-72 flex-shrink-0 bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
-        {sidebarContent}
+      <aside
+        className={cn(
+          'hidden lg:flex flex-col flex-shrink-0 bg-stone-50 dark:bg-stone-900 border-r border-stone-200 dark:border-stone-800 transition-all duration-300',
+          isCollapsed ? 'w-12' : 'w-72'
+        )}
+      >
+        {/* 토글 버튼 */}
+        <div className={cn('flex items-center p-2', isCollapsed ? 'justify-center' : 'justify-end')}>
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="p-2 rounded-md hover:bg-stone-200 dark:hover:bg-stone-800 text-stone-500 dark:text-stone-400 transition-colors"
+            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {isCollapsed ? (
+              <PanelLeft className="w-4 h-4" />
+            ) : (
+              <PanelLeftClose className="w-4 h-4" />
+            )}
+          </button>
+        </div>
+        {!isCollapsed && sidebarContent}
       </aside>
 
       {/* 모바일 오버레이 사이드바 */}
