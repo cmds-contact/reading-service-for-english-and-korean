@@ -1,0 +1,95 @@
+{
+  "title": "Output styles",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Output styles"
+    },
+    {
+      "type": "p",
+      "text": "Adapt Claude Code for uses beyond software engineering"
+    },
+    {
+      "type": "h2",
+      "text": "Built-in output styles"
+    },
+    {
+      "type": "li",
+      "text": "**Explanatory**: Provides educational “Insights” in between helping you\ncomplete software engineering tasks. Helps you understand implementation\nchoices and codebase patterns."
+    },
+    {
+      "type": "li",
+      "text": "**Learning**: Collaborative, learn-by-doing mode where Claude will not only\nshare “Insights” while coding, but also ask you to contribute small, strategic\npieces of code yourself. Claude Code will add `TODO(human)` markers in your\ncode for you to implement."
+    },
+    {
+      "type": "h2",
+      "text": "How output styles work"
+    },
+    {
+      "type": "li",
+      "text": "All output styles exclude instructions for efficient output (such as\nresponding concisely)."
+    },
+    {
+      "type": "li",
+      "text": "Custom output styles exclude instructions for coding (such as verifying code\nwith tests), unless `keep-coding-instructions` is true."
+    },
+    {
+      "type": "li",
+      "text": "All output styles have their own custom instructions added to the end of the\nsystem prompt."
+    },
+    {
+      "type": "li",
+      "text": "All output styles trigger reminders for Claude to adhere to the output style\ninstructions during the conversation."
+    },
+    {
+      "type": "h2",
+      "text": "Change your output style"
+    },
+    {
+      "type": "li",
+      "text": "Run `/output-style` to access a menu and select your output style (this can\nalso be accessed from the `/config` menu)"
+    },
+    {
+      "type": "li",
+      "text": "Run `/output-style [style]`, such as `/output-style explanatory`, to directly\nswitch to a style"
+    },
+    {
+      "type": "h2",
+      "text": "Create a custom output style"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\nname: My Custom Style\ndescription:\n  A brief description of what this style does, to be displayed to the user\n---\n\n# Custom Style Instructions\n\nYou are an interactive CLI tool that helps users with software engineering\ntasks. [Your custom instructions here...]\n\n## Specific Behaviors\n\n[Define how the assistant should behave in this style...]"
+    },
+    {
+      "type": "h3",
+      "text": "Frontmatter"
+    },
+    {
+      "type": "h2",
+      "text": "Comparisons to related features"
+    },
+    {
+      "type": "h3",
+      "text": "Output Styles vs. CLAUDE.md vs. —append-system-prompt"
+    },
+    {
+      "type": "h3",
+      "text": "Output Styles vs. Agents"
+    },
+    {
+      "type": "h3",
+      "text": "Output Styles vs. Custom Slash Commands"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

@@ -1,0 +1,338 @@
+{
+  "title": "Claude Code in Slack",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Claude Code in Slack"
+    },
+    {
+      "type": "p",
+      "text": "Delegate coding tasks directly from your Slack workspace"
+    },
+    {
+      "type": "h2",
+      "text": "Use cases"
+    },
+    {
+      "type": "li",
+      "text": "**Bug investigation and fixes**: Ask Claude to investigate and fix bugs as soon as they’re reported in Slack channels."
+    },
+    {
+      "type": "li",
+      "text": "**Quick code reviews and modifications**: Have Claude implement small features or refactor code based on team feedback."
+    },
+    {
+      "type": "li",
+      "text": "**Collaborative debugging**: When team discussions provide crucial context (e.g., error reproductions or user reports), Claude can use that information to inform its debugging approach."
+    },
+    {
+      "type": "li",
+      "text": "**Parallel task execution**: Kick off coding tasks in Slack while you continue other work, receiving notifications when complete."
+    },
+    {
+      "type": "h2",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "h2",
+      "text": "Setting up Claude Code in Slack"
+    },
+    {
+      "type": "p",
+      "text": "Install the Claude App in Slack"
+    },
+    {
+      "type": "p",
+      "text": "Connect your Claude account"
+    },
+    {
+      "type": "li",
+      "text": "Open the Claude app in Slack by clicking on “Claude” in your Apps section"
+    },
+    {
+      "type": "li",
+      "text": "Navigate to the App Home tab"
+    },
+    {
+      "type": "li",
+      "text": "Click “Connect” to link your Slack account with your Claude account"
+    },
+    {
+      "type": "li",
+      "text": "Complete the authentication flow in your browser"
+    },
+    {
+      "type": "p",
+      "text": "Configure Claude Code on the web"
+    },
+    {
+      "type": "li",
+      "text": "Visit [claude.ai/code](https://claude.ai/code) and sign in with the same account you connected to Slack"
+    },
+    {
+      "type": "li",
+      "text": "Connect your GitHub account if not already connected"
+    },
+    {
+      "type": "li",
+      "text": "Authenticate at least one repository that you want Claude to work with"
+    },
+    {
+      "type": "p",
+      "text": "Choose your routing mode"
+    },
+    {
+      "type": "blockquote",
+      "text": "In Code + Chat mode, if Claude routes a message to Chat but you wanted a coding session, you can click “Retry as Code” to create a Claude Code session instead. Similarly, if it’s routed to Code but you wanted a Chat session, you can choose that option in that thread."
+    },
+    {
+      "type": "h2",
+      "text": "How it works"
+    },
+    {
+      "type": "h3",
+      "text": "Automatic detection"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code in Slack only works in channels (public or private). It does not work in direct messages (DMs)."
+    },
+    {
+      "type": "h3",
+      "text": "Context gathering"
+    },
+    {
+      "type": "blockquote",
+      "text": "When @Claude is invoked in Slack, Claude is given access to the conversation context to better understand your request. Claude may follow directions from other messages in the context, so users should make sure to only use Claude in trusted Slack conversations."
+    },
+    {
+      "type": "h3",
+      "text": "Session flow"
+    },
+    {
+      "type": "li",
+      "text": "**Initiation**: You @mention Claude with a coding request"
+    },
+    {
+      "type": "li",
+      "text": "**Detection**: Claude analyzes your message and detects coding intent"
+    },
+    {
+      "type": "li",
+      "text": "**Session creation**: A new Claude Code session is created on claude.ai/code"
+    },
+    {
+      "type": "li",
+      "text": "**Progress updates**: Claude posts status updates to your Slack thread as work progresses"
+    },
+    {
+      "type": "li",
+      "text": "**Completion**: When finished, Claude @mentions you with a summary and action buttons"
+    },
+    {
+      "type": "li",
+      "text": "**Review**: Click “View Session” to see the full transcript, or “Create PR” to open a pull request"
+    },
+    {
+      "type": "h2",
+      "text": "User interface elements"
+    },
+    {
+      "type": "h3",
+      "text": "App Home"
+    },
+    {
+      "type": "h3",
+      "text": "Message actions"
+    },
+    {
+      "type": "li",
+      "text": "**View Session**: Opens the full Claude Code session in your browser where you can see all work performed, continue the session, or make additional requests."
+    },
+    {
+      "type": "li",
+      "text": "**Create PR**: Creates a pull request directly from the session’s changes."
+    },
+    {
+      "type": "li",
+      "text": "**Retry as Code**: If Claude initially responds as a chat assistant but you wanted a coding session, click this button to retry the request as a Claude Code task."
+    },
+    {
+      "type": "li",
+      "text": "**Change Repo**: Allows you to select a different repository if Claude chose incorrectly."
+    },
+    {
+      "type": "h3",
+      "text": "Repository selection"
+    },
+    {
+      "type": "h2",
+      "text": "Access and permissions"
+    },
+    {
+      "type": "h3",
+      "text": "User-level access"
+    },
+    {
+      "type": "h3",
+      "text": "Workspace admin permissions"
+    },
+    {
+      "type": "h2",
+      "text": "What’s accessible where"
+    },
+    {
+      "type": "h2",
+      "text": "Best practices"
+    },
+    {
+      "type": "h3",
+      "text": "Writing effective requests"
+    },
+    {
+      "type": "li",
+      "text": "**Be specific**: Include file names, function names, or error messages when relevant."
+    },
+    {
+      "type": "li",
+      "text": "**Provide context**: Mention the repository or project if it’s not clear from the conversation."
+    },
+    {
+      "type": "li",
+      "text": "**Define success**: Explain what “done” looks like—should Claude write tests? Update documentation? Create a PR?"
+    },
+    {
+      "type": "li",
+      "text": "**Use threads**: Reply in threads when discussing bugs or features so Claude can gather the full context."
+    },
+    {
+      "type": "h3",
+      "text": "When to use Slack vs. web"
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "h3",
+      "text": "Sessions not starting"
+    },
+    {
+      "type": "li",
+      "text": "Verify your Claude account is connected in the Claude App Home"
+    },
+    {
+      "type": "li",
+      "text": "Check that you have Claude Code on the web access enabled"
+    },
+    {
+      "type": "li",
+      "text": "Ensure you have at least one GitHub repository connected to Claude Code"
+    },
+    {
+      "type": "h3",
+      "text": "Repository not showing"
+    },
+    {
+      "type": "li",
+      "text": "Connect the repository in Claude Code on the web at [claude.ai/code](https://claude.ai/code)"
+    },
+    {
+      "type": "li",
+      "text": "Verify your GitHub permissions for that repository"
+    },
+    {
+      "type": "li",
+      "text": "Try disconnecting and reconnecting your GitHub account"
+    },
+    {
+      "type": "h3",
+      "text": "Wrong repository selected"
+    },
+    {
+      "type": "li",
+      "text": "Click the “Change Repo” button to select a different repository"
+    },
+    {
+      "type": "li",
+      "text": "Include the repository name in your request for more accurate selection"
+    },
+    {
+      "type": "h3",
+      "text": "Authentication errors"
+    },
+    {
+      "type": "li",
+      "text": "Disconnect and reconnect your Claude account in the App Home"
+    },
+    {
+      "type": "li",
+      "text": "Ensure you’re signed into the correct Claude account in your browser"
+    },
+    {
+      "type": "li",
+      "text": "Check that your Claude plan includes Claude Code access"
+    },
+    {
+      "type": "h3",
+      "text": "Session expiration"
+    },
+    {
+      "type": "li",
+      "text": "Sessions remain accessible in your Claude Code history on the web"
+    },
+    {
+      "type": "li",
+      "text": "You can continue or reference past sessions from [claude.ai/code](https://claude.ai/code)"
+    },
+    {
+      "type": "h2",
+      "text": "Current limitations"
+    },
+    {
+      "type": "li",
+      "text": "**GitHub only**: Currently supports repositories on GitHub."
+    },
+    {
+      "type": "li",
+      "text": "**One PR at a time**: Each session can create one pull request."
+    },
+    {
+      "type": "li",
+      "text": "**Rate limits apply**: Sessions use your individual Claude plan’s rate limits."
+    },
+    {
+      "type": "li",
+      "text": "**Web access required**: Users must have Claude Code on the web access; those without it will only get standard Claude chat responses."
+    },
+    {
+      "type": "h2",
+      "text": "Related resources"
+    },
+    {
+      "type": "h2",
+      "text": "Claude Code on the web"
+    },
+    {
+      "type": "h2",
+      "text": "Claude for Slack"
+    },
+    {
+      "type": "h2",
+      "text": "Slack App Marketplace"
+    },
+    {
+      "type": "h2",
+      "text": "Claude Help Center"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

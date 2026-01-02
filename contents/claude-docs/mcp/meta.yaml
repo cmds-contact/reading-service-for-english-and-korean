@@ -1,0 +1,16 @@
+id: mcp
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/mcp
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Connect Claude Code to tools via MCP"
+    type: original
+  ko:
+    title: "MCP를 통해 Claude Code를 도구에 연결하기"
+    type: translation
+    translator: ai

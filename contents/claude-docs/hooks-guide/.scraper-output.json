@@ -1,0 +1,232 @@
+{
+  "title": "Get started with Claude Code hooks",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Get started with Claude Code hooks"
+    },
+    {
+      "type": "p",
+      "text": "Learn how to customize and extend Claude Code’s behavior by registering shell commands"
+    },
+    {
+      "type": "blockquote",
+      "text": "For reference documentation on hooks, see [Hooks reference](/docs/en/hooks)."
+    },
+    {
+      "type": "li",
+      "text": "**Notifications**: Customize how you get notified when Claude Code is awaiting\nyour input or permission to run something."
+    },
+    {
+      "type": "li",
+      "text": "**Automatic formatting**: Run `prettier` on .ts files, `gofmt` on .go files,\netc. after every file edit."
+    },
+    {
+      "type": "li",
+      "text": "**Logging**: Track and count all executed commands for compliance or\ndebugging."
+    },
+    {
+      "type": "li",
+      "text": "**Feedback**: Provide automated feedback when Claude Code produces code that\ndoes not follow your codebase conventions."
+    },
+    {
+      "type": "li",
+      "text": "**Custom permissions**: Block modifications to production files or sensitive\ndirectories."
+    },
+    {
+      "type": "blockquote",
+      "text": "You must consider the security implication of hooks as you add them, because hooks run automatically during the agent loop with your current environment’s credentials.\nFor example, malicious hooks code can exfiltrate your data. Always review your hooks implementation before registering them.For full security best practices, see [Security Considerations](/docs/en/hooks#security-considerations) in the hooks reference documentation."
+    },
+    {
+      "type": "h2",
+      "text": "Hook Events Overview"
+    },
+    {
+      "type": "li",
+      "text": "**PreToolUse**: Runs before tool calls (can block them)"
+    },
+    {
+      "type": "li",
+      "text": "**PermissionRequest**: Runs when a permission dialog is shown (can allow or deny)"
+    },
+    {
+      "type": "li",
+      "text": "**PostToolUse**: Runs after tool calls complete"
+    },
+    {
+      "type": "li",
+      "text": "**UserPromptSubmit**: Runs when the user submits a prompt, before Claude processes it"
+    },
+    {
+      "type": "li",
+      "text": "**Notification**: Runs when Claude Code sends notifications"
+    },
+    {
+      "type": "li",
+      "text": "**Stop**: Runs when Claude Code finishes responding"
+    },
+    {
+      "type": "li",
+      "text": "**SubagentStop**: Runs when subagent tasks complete"
+    },
+    {
+      "type": "li",
+      "text": "**PreCompact**: Runs before Claude Code is about to run a compact operation"
+    },
+    {
+      "type": "li",
+      "text": "**SessionStart**: Runs when Claude Code starts a new session or resumes an existing session"
+    },
+    {
+      "type": "li",
+      "text": "**SessionEnd**: Runs when Claude Code session ends"
+    },
+    {
+      "type": "h2",
+      "text": "Quickstart"
+    },
+    {
+      "type": "h3",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "h3",
+      "text": "Step 1: Open hooks configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Step 2: Add a matcher"
+    },
+    {
+      "type": "blockquote",
+      "text": "You can use `*` to match all tools."
+    },
+    {
+      "type": "h3",
+      "text": "Step 3: Add the hook"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "jq -r '\"\\(.tool_input.command) - \\(.tool_input.description // \"No description\")\"' >> ~/.claude/bash-command-log.txt"
+    },
+    {
+      "type": "h3",
+      "text": "Step 4: Save your configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Step 5: Verify your hook"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"PreToolUse\": [\n      {\n        \"matcher\": \"Bash\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"jq -r '\\\"\\\\(.tool_input.command) - \\\\(.tool_input.description // \\\"No description\\\")\\\"' >> ~/.claude/bash-command-log.txt\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Step 6: Test your hook"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cat ~/.claude/bash-command-log.txt"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "ls - Lists files and directories"
+    },
+    {
+      "type": "h2",
+      "text": "More Examples"
+    },
+    {
+      "type": "blockquote",
+      "text": "For a complete example implementation, see the [bash command validator example](https://github.com/anthropics/claude-code/blob/main/examples/hooks/bash_command_validator_example.py) in our public codebase."
+    },
+    {
+      "type": "h3",
+      "text": "Code Formatting Hook"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"jq -r '.tool_input.file_path' | { read file_path; if echo \\\"$file_path\\\" | grep -q '\\\\.ts$'; then npx prettier --write \\\"$file_path\\\"; fi; }\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Markdown Formatting Hook"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"\\\"$CLAUDE_PROJECT_DIR\\\"/.claude/hooks/markdown_formatter.py\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/usr/bin/env python3\n\"\"\"\nMarkdown formatter for Claude Code output.\nFixes missing language tags and spacing issues while preserving code content.\n\"\"\"\nimport json\nimport sys\nimport re\nimport os\n\ndef detect_language(code):\n    \"\"\"Best-effort language detection from code content.\"\"\"\n    s = code.strip()\n    \n    # JSON detection\n    if re.search(r'^\\s*[{\\[]', s):\n        try:\n            json.loads(s)\n            return 'json'\n        except:\n            pass\n    \n    # Python detection\n    if re.search(r'^\\s*def\\s+\\w+\\s*\\(', s, re.M) or \\\n       re.search(r'^\\s*(import|from)\\s+\\w+', s, re.M):\n        return 'python'\n    \n    # JavaScript detection  \n    if re.search(r'\\b(function\\s+\\w+\\s*\\(|const\\s+\\w+\\s*=)', s) or \\\n       re.search(r'=>|console\\.(log|error)', s):\n        return 'javascript'\n    \n    # Bash detection\n    if re.search(r'^#!.*\\b(bash|sh)\\b', s, re.M) or \\\n       re.search(r'\\b(if|then|fi|for|in|do|done)\\b', s):\n        return 'bash'\n    \n    # SQL detection\n    if re.search(r'\\b(SELECT|INSERT|UPDATE|DELETE|CREATE)\\s+', s, re.I):\n        return 'sql'\n        \n    return 'text'\n\ndef format_markdown(content):\n    \"\"\"Format markdown content with language detection.\"\"\"\n    # Fix unlabeled code fences\n    def add_lang_to_fence(match):\n        indent, info, body, closing = match.groups()\n        if not info.strip():\n            lang = detect_language(body)\n            return f\"{indent}```{lang}\\n{body}{closing}\\n\"\n        return match.group(0)\n    \n    fence_pattern = r'(?ms)^([ \\t]{0,3})```([^\\n]*)\\n(.*?)(\\n\\1```)\\s*$'\n    content = re.sub(fence_pattern, add_lang_to_fence, content)\n    \n    # Fix excessive blank lines (only outside code fences)\n    content = re.sub(r'\\n{3,}', '\\n\\n', content)\n    \n    return content.rstrip() + '\\n'\n\n# Main execution\ntry:\n    input_data = json.load(sys.stdin)\n    file_path = input_data.get('tool_input', {}).get('file_path', '')\n    \n    if not file_path.endswith(('.md', '.mdx')):\n        sys.exit(0)  # Not a markdown file\n    \n    if os.path.exists(file_path):\n        with open(file_path, 'r', encoding='utf-8') as f:\n            content = f.read()\n        \n        formatted = format_markdown(content)\n        \n        if formatted != content:\n            with open(file_path, 'w', encoding='utf-8') as f:\n                f.write(formatted)\n            print(f\"✓ Fixed markdown formatting in {file_path}\")\n    \nexcept Exception as e:\n    print(f\"Error formatting markdown: {e}\", file=sys.stderr)\n    sys.exit(1)"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "chmod +x .claude/hooks/markdown_formatter.py"
+    },
+    {
+      "type": "li",
+      "text": "Detects programming languages in unlabeled code blocks"
+    },
+    {
+      "type": "li",
+      "text": "Adds appropriate language tags for syntax highlighting"
+    },
+    {
+      "type": "li",
+      "text": "Fixes excessive blank lines while preserving code content"
+    },
+    {
+      "type": "li",
+      "text": "Only processes markdown files (`.md`, `.mdx`)"
+    },
+    {
+      "type": "h3",
+      "text": "Custom Notification Hook"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"Notification\": [\n      {\n        \"matcher\": \"\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"notify-send 'Claude Code' 'Awaiting your input'\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "File Protection Hook"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"PreToolUse\": [\n      {\n        \"matcher\": \"Edit|Write\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"python3 -c \\\"import json, sys; data=json.load(sys.stdin); path=data.get('tool_input',{}).get('file_path',''); sys.exit(2 if any(p in path for p in ['.env', 'package-lock.json', '.git/']) else 0)\\\"\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Learn more"
+    },
+    {
+      "type": "li",
+      "text": "For comprehensive security best practices and safety guidelines, see [Security Considerations](/docs/en/hooks#security-considerations) in the hooks reference documentation."
+    },
+    {
+      "type": "li",
+      "text": "For troubleshooting steps and debugging techniques, see [Debugging](/docs/en/hooks#debugging) in the hooks reference\ndocumentation."
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

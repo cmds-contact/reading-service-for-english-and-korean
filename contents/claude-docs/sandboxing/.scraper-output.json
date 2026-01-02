@@ -1,0 +1,397 @@
+{
+  "title": "Sandboxing",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Sandboxing"
+    },
+    {
+      "type": "p",
+      "text": "Learn how Claude Code’s sandboxed bash tool provides filesystem and network isolation for safer, more autonomous agent execution."
+    },
+    {
+      "type": "h2",
+      "text": "Overview"
+    },
+    {
+      "type": "h2",
+      "text": "Why sandboxing matters"
+    },
+    {
+      "type": "li",
+      "text": "**Approval fatigue**: Repeatedly clicking “approve” can cause users to pay less attention to what they’re approving"
+    },
+    {
+      "type": "li",
+      "text": "**Reduced productivity**: Constant interruptions slow down development workflows"
+    },
+    {
+      "type": "li",
+      "text": "**Limited autonomy**: Claude Code cannot work as efficiently when waiting for approvals"
+    },
+    {
+      "type": "li",
+      "text": "**Defining clear boundaries**: Specify exactly which directories and network hosts Claude Code can access"
+    },
+    {
+      "type": "li",
+      "text": "**Reducing permission prompts**: Safe commands within the sandbox don’t require approval"
+    },
+    {
+      "type": "li",
+      "text": "**Maintaining security**: Attempts to access resources outside the sandbox trigger immediate notifications"
+    },
+    {
+      "type": "li",
+      "text": "**Enabling autonomy**: Claude Code can run more independently within defined limits"
+    },
+    {
+      "type": "blockquote",
+      "text": "Effective sandboxing requires **both** filesystem and network isolation. Without network isolation, a compromised agent could exfiltrate sensitive files like SSH keys. Without filesystem isolation, a compromised agent could backdoor system resources to gain network access. When configuring sandboxing it is important to ensure that your configured settings do not create bypasses in these systems."
+    },
+    {
+      "type": "h2",
+      "text": "How it works"
+    },
+    {
+      "type": "h3",
+      "text": "Filesystem isolation"
+    },
+    {
+      "type": "li",
+      "text": "**Default writes behavior**: Read and write access to the current working directory and its subdirectories"
+    },
+    {
+      "type": "li",
+      "text": "**Default read behavior**: Read access to the entire computer, except certain denied directories"
+    },
+    {
+      "type": "li",
+      "text": "**Blocked access**: Cannot modify files outside the current working directory without explicit permission"
+    },
+    {
+      "type": "li",
+      "text": "**Configurable**: Define custom allowed and denied paths through settings"
+    },
+    {
+      "type": "h3",
+      "text": "Network isolation"
+    },
+    {
+      "type": "li",
+      "text": "**Domain restrictions**: Only approved domains can be accessed"
+    },
+    {
+      "type": "li",
+      "text": "**User confirmation**: New domain requests trigger permission prompts"
+    },
+    {
+      "type": "li",
+      "text": "**Custom proxy support**: Advanced users can implement custom rules on outgoing traffic"
+    },
+    {
+      "type": "li",
+      "text": "**Comprehensive coverage**: Restrictions apply to all scripts, programs, and subprocesses spawned by commands"
+    },
+    {
+      "type": "h3",
+      "text": "OS-level enforcement"
+    },
+    {
+      "type": "li",
+      "text": "**Linux**: Uses [bubblewrap](https://github.com/containers/bubblewrap) for isolation"
+    },
+    {
+      "type": "li",
+      "text": "**macOS**: Uses Seatbelt for sandbox enforcement"
+    },
+    {
+      "type": "h2",
+      "text": "Getting started"
+    },
+    {
+      "type": "h3",
+      "text": "Enable sandboxing"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /sandbox"
+    },
+    {
+      "type": "h3",
+      "text": "Sandbox modes"
+    },
+    {
+      "type": "blockquote",
+      "text": "Auto-allow mode works independently of your permission mode setting. Even if you’re not in “accept edits” mode, sandboxed bash commands will run automatically when auto-allow is enabled. This means bash commands that modify files within the sandbox boundaries will execute without prompting, even when file edit tools would normally require approval."
+    },
+    {
+      "type": "h3",
+      "text": "Configure sandboxing"
+    },
+    {
+      "type": "blockquote",
+      "text": "Not all commands are compatible with sandboxing out of the box. Some notes that may help you make the most out of the sandbox:\nMany CLI tools require accessing certain hosts. As you use these tools, they will request permission to access certain hosts. Granting permission will allow them to access these hosts now and in the future, enabling them to safely execute inside the sandbox.\n`watchman` is incompatible with running in the sandbox. If you’re running `jest`, consider using `jest --no-watchman`\n`docker` is incompatible with running in the sandbox. Consider specifying `docker` in `excludedCommands` to force it to run outside of the sandbox."
+    },
+    {
+      "type": "li",
+      "text": "Many CLI tools require accessing certain hosts. As you use these tools, they will request permission to access certain hosts. Granting permission will allow them to access these hosts now and in the future, enabling them to safely execute inside the sandbox."
+    },
+    {
+      "type": "li",
+      "text": "`watchman` is incompatible with running in the sandbox. If you’re running `jest`, consider using `jest --no-watchman`"
+    },
+    {
+      "type": "li",
+      "text": "`docker` is incompatible with running in the sandbox. Consider specifying `docker` in `excludedCommands` to force it to run outside of the sandbox."
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code includes an intentional escape hatch mechanism that allows commands to run outside the sandbox when necessary. When a command fails due to sandbox restrictions (such as network connectivity issues or incompatible tools), Claude is prompted to analyze the failure and may retry the command with the `dangerouslyDisableSandbox` parameter. Commands that use this parameter go through the normal Claude Code permissions flow requiring user permission to execute. This allows Claude Code to handle edge cases where certain tools or network operations cannot function within sandbox constraints.You can disable this escape hatch by setting `\"allowUnsandboxedCommands\": false` in your [sandbox settings](/docs/en/settings#sandbox-settings). When disabled, the `dangerouslyDisableSandbox` parameter is completely ignored and all commands must run sandboxed or be explicitly listed in `excludedCommands`."
+    },
+    {
+      "type": "h2",
+      "text": "Security benefits"
+    },
+    {
+      "type": "h3",
+      "text": "Protection against prompt injection"
+    },
+    {
+      "type": "li",
+      "text": "Cannot modify critical config files such as `~/.bashrc`"
+    },
+    {
+      "type": "li",
+      "text": "Cannot modify system-level files in `/bin/`"
+    },
+    {
+      "type": "li",
+      "text": "Cannot read files that are denied in your [Claude permission settings](/docs/en/iam#configuring-permissions)"
+    },
+    {
+      "type": "li",
+      "text": "Cannot exfiltrate data to attacker-controlled servers"
+    },
+    {
+      "type": "li",
+      "text": "Cannot download malicious scripts from unauthorized domains"
+    },
+    {
+      "type": "li",
+      "text": "Cannot make unexpected API calls to unapproved services"
+    },
+    {
+      "type": "li",
+      "text": "Cannot contact any domains not explicitly allowed"
+    },
+    {
+      "type": "li",
+      "text": "All access attempts outside the sandbox are blocked at the OS level"
+    },
+    {
+      "type": "li",
+      "text": "You receive immediate notifications when boundaries are tested"
+    },
+    {
+      "type": "li",
+      "text": "You can choose to deny, allow once, or permanently update your configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Reduced attack surface"
+    },
+    {
+      "type": "li",
+      "text": "**Malicious dependencies**: NPM packages or other dependencies with harmful code"
+    },
+    {
+      "type": "li",
+      "text": "**Compromised scripts**: Build scripts or tools with security vulnerabilities"
+    },
+    {
+      "type": "li",
+      "text": "**Social engineering**: Attacks that trick users into running dangerous commands"
+    },
+    {
+      "type": "li",
+      "text": "**Prompt injection**: Attacks that trick Claude into running dangerous commands"
+    },
+    {
+      "type": "h3",
+      "text": "Transparent operation"
+    },
+    {
+      "type": "li",
+      "text": "The operation is blocked at the OS level"
+    },
+    {
+      "type": "li",
+      "text": "You receive an immediate notification"
+    },
+    {
+      "type": "li",
+      "text": "You can choose to:\n\nDeny the request\nAllow it once\nUpdate your sandbox configuration to permanently allow it"
+    },
+    {
+      "type": "li",
+      "text": "Deny the request"
+    },
+    {
+      "type": "li",
+      "text": "Allow it once"
+    },
+    {
+      "type": "li",
+      "text": "Update your sandbox configuration to permanently allow it"
+    },
+    {
+      "type": "h2",
+      "text": "Security Limitations"
+    },
+    {
+      "type": "li",
+      "text": "Network Sandboxing Limitations: The network filtering system operates by restricting the domains that processes are allowed to connect to. It does not otherwise inspect the traffic passing through the proxy and users are responsible for ensuring they only allow trusted domains in their policy."
+    },
+    {
+      "type": "blockquote",
+      "text": "Users should be aware of potential risks that come from allowing broad domains like `github.com` that may allow for data exfiltration. Also, in some cases it may be possible to bypass the network filtering through [domain fronting](https://en.wikipedia.org/wiki/Domain_fronting)."
+    },
+    {
+      "type": "li",
+      "text": "Privilege Escalation via Unix Sockets: The `allowUnixSockets` configuration can inadvertently grant access to powerful system services that could lead to sandbox bypasses. For example, if it is used to allow access to `/var/run/docker.sock` this would effectively grant access to the host system through exploiting the docker socket. Users are encouraged to carefully consider any unix sockets that they allow through the sandbox."
+    },
+    {
+      "type": "li",
+      "text": "Filesystem Permission Escalation: Overly broad filesystem write permissions can enable privilege escalation attacks. Allowing writes to directories containing executables in `$PATH`, system configuration directories, or user shell configuration files (`.bashrc`, `.zshrc`) can lead to code execution in different security contexts when other users or system processes access these files."
+    },
+    {
+      "type": "li",
+      "text": "Linux Sandbox Strength: The Linux implementation provides strong filesystem and network isolation but includes an `enableWeakerNestedSandbox` mode that enables it to work inside of Docker environments without privileged namespaces. This option considerably weakens security and should only be used in cases where additional isolation is otherwise enforced."
+    },
+    {
+      "type": "h2",
+      "text": "Advanced usage"
+    },
+    {
+      "type": "h3",
+      "text": "Custom proxy configuration"
+    },
+    {
+      "type": "li",
+      "text": "Decrypt and inspect HTTPS traffic"
+    },
+    {
+      "type": "li",
+      "text": "Apply custom filtering rules"
+    },
+    {
+      "type": "li",
+      "text": "Log all network requests"
+    },
+    {
+      "type": "li",
+      "text": "Integrate with existing security infrastructure"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"sandbox\": {\n    \"network\": {\n      \"httpProxyPort\": 8080,\n      \"socksProxyPort\": 8081\n    }\n  }\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Integration with existing security tools"
+    },
+    {
+      "type": "li",
+      "text": "**IAM policies**: Combine with [permission settings](/docs/en/iam) for defense-in-depth"
+    },
+    {
+      "type": "li",
+      "text": "**Development containers**: Use with [devcontainers](/docs/en/devcontainer) for additional isolation"
+    },
+    {
+      "type": "li",
+      "text": "**Enterprise policies**: Enforce sandbox configurations through [managed settings](/docs/en/settings#settings-precedence)"
+    },
+    {
+      "type": "h2",
+      "text": "Best practices"
+    },
+    {
+      "type": "li",
+      "text": "**Start restrictive**: Begin with minimal permissions and expand as needed"
+    },
+    {
+      "type": "li",
+      "text": "**Monitor logs**: Review sandbox violation attempts to understand Claude Code’s needs"
+    },
+    {
+      "type": "li",
+      "text": "**Use environment-specific configs**: Different sandbox rules for development vs. production contexts"
+    },
+    {
+      "type": "li",
+      "text": "**Combine with permissions**: Use sandboxing alongside IAM policies for comprehensive security"
+    },
+    {
+      "type": "li",
+      "text": "**Test configurations**: Verify your sandbox settings don’t block legitimate workflows"
+    },
+    {
+      "type": "h2",
+      "text": "Open source"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "npx @anthropic-ai/sandbox-runtime <command-to-sandbox>"
+    },
+    {
+      "type": "h2",
+      "text": "Limitations"
+    },
+    {
+      "type": "li",
+      "text": "**Performance overhead**: Minimal, but some filesystem operations may be slightly slower"
+    },
+    {
+      "type": "li",
+      "text": "**Compatibility**: Some tools that require specific system access patterns may need configuration adjustments, or may even need to be run outside of the sandbox"
+    },
+    {
+      "type": "li",
+      "text": "**Platform support**: Currently supports Linux and macOS; Windows support planned"
+    },
+    {
+      "type": "h2",
+      "text": "See also"
+    },
+    {
+      "type": "li",
+      "text": "[Security](/docs/en/security) - Comprehensive security features and best practices"
+    },
+    {
+      "type": "li",
+      "text": "[IAM](/docs/en/iam) - Permission configuration and access control"
+    },
+    {
+      "type": "li",
+      "text": "[Settings](/docs/en/settings) - Complete configuration reference"
+    },
+    {
+      "type": "li",
+      "text": "[CLI reference](/docs/en/cli-reference) - Command-line options including `-sb`"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

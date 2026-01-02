@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "description": "Claude Docs Scraper 알려진 문제 패턴 DB - Self-Improving Agent",
+  "lastUpdated": "2026-01-02",
+  "issues": [
+    {
+      "id": "zero-width-space",
+      "type": "TEXT_CLEANING",
+      "pattern": "헤딩에 \\u200B (zero-width space) 문자 포함",
+      "addedDate": "2026-01-02",
+      "status": "resolved",
+      "fix": {
+        "file": "scrape-claude-docs.js",
+        "action": "cleanText_function",
+        "description": "cleanText 함수로 zero-width space 제거"
+      }
+    },
+    {
+      "id": "shiki-highlighter",
+      "type": "CODE_LANG_MISS",
+      "pattern": "shiki 하이라이터 사용 시 data-language 속성에서 언어 추출",
+      "addedDate": "2026-01-02",
+      "status": "resolved",
+      "fix": {
+        "file": "scrape-claude-docs.js",
+        "action": "lang_extraction",
+        "description": "data-language 속성 확인 로직 추가"
+      }
+    }
+  ],
+  "siteStructureHistory": [
+    {
+      "date": "2026-01-02",
+      "structure": "article > 본문 또는 main > 본문, aside/nav로 사이드바",
+      "notes": "표준 구조"
+    }
+  ],
+  "knownPatterns": {
+    "codeBlocks": {
+      "selectors": ["pre", "pre code"],
+      "langPatterns": ["language-*", "data-language"],
+      "highlighters": ["shiki"]
+    },
+    "excludeElements": {
+      "selectors": ["nav", "aside", "[class*='sidebar']", "[class*='toc']", "footer"]
+    }
+  }
+}

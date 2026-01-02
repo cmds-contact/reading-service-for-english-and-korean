@@ -1,0 +1,16 @@
+id: slack
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/slack
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Claude Code in Slack"
+    type: original
+  ko:
+    title: "Slack에서 Claude Code 사용하기"
+    type: translation
+    translator: ai

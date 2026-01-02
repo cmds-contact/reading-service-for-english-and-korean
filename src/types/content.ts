@@ -13,9 +13,9 @@ export interface ContentMeta {
   id: string
   created: string
   updated: string
+  channel: string
   source: {
     url: string
-    company: string
     published: string
   }
   category?: string
@@ -28,7 +28,7 @@ export interface ContentMeta {
 // 파싱된 문단
 export interface ParsedParagraph {
   id: string
-  type: 'heading' | 'paragraph' | 'list' | 'blockquote'
+  type: 'heading' | 'paragraph' | 'list' | 'blockquote' | 'image' | 'video'
   level?: number
   content: string
   rawContent: string
@@ -41,6 +41,7 @@ export interface ParsedLanguageContent {
 
 // 콘텐츠 페어 (영어 + 한국어)
 export interface ContentPair {
+  channel: string
   slug: string
   meta: ContentMeta
   en: ParsedLanguageContent
@@ -49,6 +50,7 @@ export interface ContentPair {
 
 // 콘텐츠 목록 아이템
 export interface ContentListItem {
+  channel: string
   slug: string
   meta: ContentMeta
 }

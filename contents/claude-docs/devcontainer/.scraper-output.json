@@ -1,0 +1,166 @@
+{
+  "title": "Development containers",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Development containers"
+    },
+    {
+      "type": "p",
+      "text": "Learn about the Claude Code development container for teams that need consistent, secure environments."
+    },
+    {
+      "type": "blockquote",
+      "text": "While the devcontainer provides substantial protections, no system is completely immune to all attacks.\nWhen executed with `--dangerously-skip-permissions`, devcontainers don’t prevent a malicious project from exfiltrating anything accessible in the devcontainer including Claude Code credentials.\nWe recommend only using devcontainers when developing with trusted repositories.\nAlways maintain good security practices and monitor Claude’s activities."
+    },
+    {
+      "type": "h2",
+      "text": "Key features"
+    },
+    {
+      "type": "li",
+      "text": "**Production-ready Node.js**: Built on Node.js 20 with essential development dependencies"
+    },
+    {
+      "type": "li",
+      "text": "**Security by design**: Custom firewall restricting network access to only necessary services"
+    },
+    {
+      "type": "li",
+      "text": "**Developer-friendly tools**: Includes git, ZSH with productivity enhancements, fzf, and more"
+    },
+    {
+      "type": "li",
+      "text": "**Seamless VS Code integration**: Pre-configured extensions and optimized settings"
+    },
+    {
+      "type": "li",
+      "text": "**Session persistence**: Preserves command history and configurations between container restarts"
+    },
+    {
+      "type": "li",
+      "text": "**Works everywhere**: Compatible with macOS, Windows, and Linux development environments"
+    },
+    {
+      "type": "h2",
+      "text": "Getting started in 4 steps"
+    },
+    {
+      "type": "li",
+      "text": "Install VS Code and the Remote - Containers extension"
+    },
+    {
+      "type": "li",
+      "text": "Clone the [Claude Code reference implementation](https://github.com/anthropics/claude-code/tree/main/.devcontainer) repository"
+    },
+    {
+      "type": "li",
+      "text": "Open the repository in VS Code"
+    },
+    {
+      "type": "li",
+      "text": "When prompted, click “Reopen in Container” (or use Command Palette: Cmd+Shift+P → “Remote-Containers: Reopen in Container”)"
+    },
+    {
+      "type": "h2",
+      "text": "Configuration breakdown"
+    },
+    {
+      "type": "li",
+      "text": "**devcontainer.json**: Controls container settings, extensions, and volume mounts"
+    },
+    {
+      "type": "li",
+      "text": "**Dockerfile**: Defines the container image and installed tools"
+    },
+    {
+      "type": "li",
+      "text": "**init-firewall.sh**: Establishes network security rules"
+    },
+    {
+      "type": "h2",
+      "text": "Security features"
+    },
+    {
+      "type": "li",
+      "text": "**Precise access control**: Restricts outbound connections to whitelisted domains only (npm registry, GitHub, Claude API, etc.)"
+    },
+    {
+      "type": "li",
+      "text": "**Allowed outbound connections**: The firewall permits outbound DNS and SSH connections"
+    },
+    {
+      "type": "li",
+      "text": "**Default-deny policy**: Blocks all other external network access"
+    },
+    {
+      "type": "li",
+      "text": "**Startup verification**: Validates firewall rules when the container initializes"
+    },
+    {
+      "type": "li",
+      "text": "**Isolation**: Creates a secure development environment separated from your main system"
+    },
+    {
+      "type": "h2",
+      "text": "Customization options"
+    },
+    {
+      "type": "li",
+      "text": "Add or remove VS Code extensions based on your workflow"
+    },
+    {
+      "type": "li",
+      "text": "Modify resource allocations for different hardware environments"
+    },
+    {
+      "type": "li",
+      "text": "Adjust network access permissions"
+    },
+    {
+      "type": "li",
+      "text": "Customize shell configurations and developer tooling"
+    },
+    {
+      "type": "h2",
+      "text": "Example use cases"
+    },
+    {
+      "type": "h3",
+      "text": "Secure client work"
+    },
+    {
+      "type": "h3",
+      "text": "Team onboarding"
+    },
+    {
+      "type": "h3",
+      "text": "Consistent CI/CD environments"
+    },
+    {
+      "type": "h2",
+      "text": "Related resources"
+    },
+    {
+      "type": "li",
+      "text": "[VS Code devcontainers documentation](https://code.visualstudio.com/docs/devcontainers/containers)"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Code security best practices](/docs/en/security)"
+    },
+    {
+      "type": "li",
+      "text": "[Enterprise network configuration](/docs/en/network-config)"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

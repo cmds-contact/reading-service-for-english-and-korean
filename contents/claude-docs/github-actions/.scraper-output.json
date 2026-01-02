@@ -1,0 +1,804 @@
+{
+  "title": "Claude Code GitHub Actions",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Claude Code GitHub Actions"
+    },
+    {
+      "type": "p",
+      "text": "Learn about integrating Claude Code into your development workflow with Claude Code GitHub Actions"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code GitHub Actions is built on top of the [Claude Code\nSDK](https://docs.claude.com/en/docs/agent-sdk), which enables programmatic integration of\nClaude Code into your applications. You can use the SDK to build custom\nautomation workflows beyond GitHub Actions."
+    },
+    {
+      "type": "blockquote",
+      "text": "**Claude Opus 4.5 is now available.** Claude Code GitHub Actions default to Sonnet. To use Opus 4.5, configure the [model parameter](#breaking-changes-reference) to use `claude-opus-4-5-20251101`."
+    },
+    {
+      "type": "h2",
+      "text": "Why use Claude Code GitHub Actions?"
+    },
+    {
+      "type": "li",
+      "text": "**Instant PR creation**: Describe what you need, and Claude creates a complete PR with all necessary changes"
+    },
+    {
+      "type": "li",
+      "text": "**Automated code implementation**: Turn issues into working code with a single command"
+    },
+    {
+      "type": "li",
+      "text": "**Follows your standards**: Claude respects your `CLAUDE.md` guidelines and existing code patterns"
+    },
+    {
+      "type": "li",
+      "text": "**Simple setup**: Get started in minutes with our installer and API key"
+    },
+    {
+      "type": "li",
+      "text": "**Secure by default**: Your code stays on Github’s runners"
+    },
+    {
+      "type": "h2",
+      "text": "What can Claude do?"
+    },
+    {
+      "type": "h3",
+      "text": "Claude Code Action"
+    },
+    {
+      "type": "h2",
+      "text": "Setup"
+    },
+    {
+      "type": "h2",
+      "text": "Quick setup"
+    },
+    {
+      "type": "blockquote",
+      "text": "You must be a repository admin to install the GitHub app and add secrets\nThe GitHub app will request read & write permissions for Contents, Issues, and Pull requests\nThis quickstart method is only available for direct Claude API users. If\nyou’re using AWS Bedrock or Google Vertex AI, please see the [Using with AWS\nBedrock & Google Vertex AI](#using-with-aws-bedrock-%26-google-vertex-ai)\nsection."
+    },
+    {
+      "type": "li",
+      "text": "You must be a repository admin to install the GitHub app and add secrets"
+    },
+    {
+      "type": "li",
+      "text": "The GitHub app will request read & write permissions for Contents, Issues, and Pull requests"
+    },
+    {
+      "type": "li",
+      "text": "This quickstart method is only available for direct Claude API users. If\nyou’re using AWS Bedrock or Google Vertex AI, please see the [Using with AWS\nBedrock & Google Vertex AI](#using-with-aws-bedrock-%26-google-vertex-ai)\nsection."
+    },
+    {
+      "type": "h2",
+      "text": "Manual setup"
+    },
+    {
+      "type": "li",
+      "text": "**Install the Claude GitHub app** to your repository: [https://github.com/apps/claude](https://github.com/apps/claude)\nThe Claude GitHub app requires the following repository permissions:\n\n**Contents**: Read & write (to modify repository files)\n**Issues**: Read & write (to respond to issues)\n**Pull requests**: Read & write (to create PRs and push changes)\n\nFor more details on security and permissions, see the [security documentation](https://github.com/anthropics/claude-code-action/blob/main/docs/security.md)."
+    },
+    {
+      "type": "li",
+      "text": "**Contents**: Read & write (to modify repository files)"
+    },
+    {
+      "type": "li",
+      "text": "**Issues**: Read & write (to respond to issues)"
+    },
+    {
+      "type": "li",
+      "text": "**Pull requests**: Read & write (to create PRs and push changes)"
+    },
+    {
+      "type": "li",
+      "text": "**Add ANTHROPIC_API_KEY** to your repository secrets ([Learn how to use secrets in GitHub Actions](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions))"
+    },
+    {
+      "type": "li",
+      "text": "**Copy the workflow file** from [examples/claude.yml](https://github.com/anthropics/claude-code-action/blob/main/examples/claude.yml) into your repository’s `.github/workflows/`"
+    },
+    {
+      "type": "blockquote",
+      "text": "After completing either the quickstart or manual setup, test the action by tagging `@claude` in an issue or PR comment."
+    },
+    {
+      "type": "h2",
+      "text": "Upgrading from Beta"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code GitHub Actions v1.0 introduces breaking changes that require updating your workflow files in order to upgrade to v1.0 from the beta version."
+    },
+    {
+      "type": "h3",
+      "text": "Essential changes"
+    },
+    {
+      "type": "li",
+      "text": "**Update the action version**: Change `@beta` to `@v1`"
+    },
+    {
+      "type": "li",
+      "text": "**Remove mode configuration**: Delete `mode: \"tag\"` or `mode: \"agent\"` (now auto-detected)"
+    },
+    {
+      "type": "li",
+      "text": "**Update prompt inputs**: Replace `direct_prompt` with `prompt`"
+    },
+    {
+      "type": "li",
+      "text": "**Move CLI options**: Convert `max_turns`, `model`, `custom_instructions`, etc. to `claude_args`"
+    },
+    {
+      "type": "h3",
+      "text": "Breaking Changes Reference"
+    },
+    {
+      "type": "h3",
+      "text": "Before and After Example"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "- uses: anthropics/claude-code-action@beta\n  with:\n    mode: \"tag\"\n    direct_prompt: \"Review this PR for security issues\"\n    anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}\n    custom_instructions: \"Follow our coding standards\"\n    max_turns: \"10\"\n    model: \"claude-sonnet-4-5-20250929\""
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "- uses: anthropics/claude-code-action@v1\n  with:\n    prompt: \"Review this PR for security issues\"\n    anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}\n    claude_args: |\n      --system-prompt \"Follow our coding standards\"\n      --max-turns 10\n      --model claude-sonnet-4-5-20250929"
+    },
+    {
+      "type": "blockquote",
+      "text": "The action now automatically detects whether to run in interactive mode (responds to `@claude` mentions) or automation mode (runs immediately with a prompt) based on your configuration."
+    },
+    {
+      "type": "h2",
+      "text": "Example use cases"
+    },
+    {
+      "type": "h3",
+      "text": "Basic workflow"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "name: Claude Code\non:\n  issue_comment:\n    types: [created]\n  pull_request_review_comment:\n    types: [created]\njobs:\n  claude:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: anthropics/claude-code-action@v1\n        with:\n          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}\n          # Responds to @claude mentions in comments"
+    },
+    {
+      "type": "h3",
+      "text": "Using slash commands"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "name: Code Review\non:\n  pull_request:\n    types: [opened, synchronize]\njobs:\n  review:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: anthropics/claude-code-action@v1\n        with:\n          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}\n          prompt: \"/review\"\n          claude_args: \"--max-turns 5\""
+    },
+    {
+      "type": "h3",
+      "text": "Custom automation with prompts"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "name: Daily Report\non:\n  schedule:\n    - cron: \"0 9 * * *\"\njobs:\n  report:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: anthropics/claude-code-action@v1\n        with:\n          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}\n          prompt: \"Generate a summary of yesterday's commits and open issues\"\n          claude_args: \"--model claude-opus-4-5-20251101\""
+    },
+    {
+      "type": "h3",
+      "text": "Common use cases"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "@claude implement this feature based on the issue description\n@claude how should I implement user authentication for this endpoint?\n@claude fix the TypeError in the user dashboard component"
+    },
+    {
+      "type": "h2",
+      "text": "Best practices"
+    },
+    {
+      "type": "h3",
+      "text": "CLAUDE.md configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Security considerations"
+    },
+    {
+      "type": "blockquote",
+      "text": "Never commit API keys directly to your repository."
+    },
+    {
+      "type": "li",
+      "text": "Add your API key as a repository secret named `ANTHROPIC_API_KEY`"
+    },
+    {
+      "type": "li",
+      "text": "Reference it in workflows: `anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}`"
+    },
+    {
+      "type": "li",
+      "text": "Limit action permissions to only what’s necessary"
+    },
+    {
+      "type": "li",
+      "text": "Review Claude’s suggestions before merging"
+    },
+    {
+      "type": "h3",
+      "text": "Optimizing performance"
+    },
+    {
+      "type": "h3",
+      "text": "CI costs"
+    },
+    {
+      "type": "li",
+      "text": "Claude Code runs on GitHub-hosted runners, which consume your GitHub Actions minutes"
+    },
+    {
+      "type": "li",
+      "text": "See [GitHub’s billing documentation](https://docs.github.com/en/billing/managing-billing-for-your-products/managing-billing-for-github-actions/about-billing-for-github-actions) for detailed pricing and minute limits"
+    },
+    {
+      "type": "li",
+      "text": "Each Claude interaction consumes API tokens based on the length of prompts and responses"
+    },
+    {
+      "type": "li",
+      "text": "Token usage varies by task complexity and codebase size"
+    },
+    {
+      "type": "li",
+      "text": "See [Claude’s pricing page](https://claude.com/platform/api) for current token rates"
+    },
+    {
+      "type": "li",
+      "text": "Use specific `@claude` commands to reduce unnecessary API calls"
+    },
+    {
+      "type": "li",
+      "text": "Configure appropriate `--max-turns` in `claude_args` to prevent excessive iterations"
+    },
+    {
+      "type": "li",
+      "text": "Set workflow-level timeouts to avoid runaway jobs"
+    },
+    {
+      "type": "li",
+      "text": "Consider using GitHub’s concurrency controls to limit parallel runs"
+    },
+    {
+      "type": "h2",
+      "text": "Configuration examples"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "- uses: anthropics/claude-code-action@v1\n  with:\n    anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}\n    prompt: \"Your instructions here\" # Optional\n    claude_args: \"--max-turns 5\" # Optional CLI arguments"
+    },
+    {
+      "type": "li",
+      "text": "**Unified prompt interface** - Use `prompt` for all instructions"
+    },
+    {
+      "type": "li",
+      "text": "**Slash commands** - Pre-built prompts like `/review` or `/fix`"
+    },
+    {
+      "type": "li",
+      "text": "**CLI passthrough** - Any Claude Code CLI argument via `claude_args`"
+    },
+    {
+      "type": "li",
+      "text": "**Flexible triggers** - Works with any GitHub event"
+    },
+    {
+      "type": "blockquote",
+      "text": "When responding to issue or PR comments, Claude automatically responds to @claude mentions. For other events, use the `prompt` parameter to provide instructions."
+    },
+    {
+      "type": "h2",
+      "text": "Using with AWS Bedrock & Google Vertex AI"
+    },
+    {
+      "type": "h3",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "h4",
+      "text": "For Google Cloud Vertex AI:"
+    },
+    {
+      "type": "li",
+      "text": "A Google Cloud Project with Vertex AI enabled"
+    },
+    {
+      "type": "li",
+      "text": "Workload Identity Federation configured for GitHub Actions"
+    },
+    {
+      "type": "li",
+      "text": "A service account with the required permissions"
+    },
+    {
+      "type": "li",
+      "text": "A GitHub App (recommended) or use the default GITHUB_TOKEN"
+    },
+    {
+      "type": "h4",
+      "text": "For AWS Bedrock:"
+    },
+    {
+      "type": "li",
+      "text": "An AWS account with Amazon Bedrock enabled"
+    },
+    {
+      "type": "li",
+      "text": "GitHub OIDC Identity Provider configured in AWS"
+    },
+    {
+      "type": "li",
+      "text": "An IAM role with Bedrock permissions"
+    },
+    {
+      "type": "p",
+      "text": "Create a custom GitHub App (Recommended for 3P Providers)"
+    },
+    {
+      "type": "li",
+      "text": "Go to [https://github.com/settings/apps/new](https://github.com/settings/apps/new)"
+    },
+    {
+      "type": "li",
+      "text": "Fill in the basic information:\n\n**GitHub App name**: Choose a unique name (e.g., “YourOrg Claude Assistant”)\n**Homepage URL**: Your organization’s website or the repository URL"
+    },
+    {
+      "type": "li",
+      "text": "**GitHub App name**: Choose a unique name (e.g., “YourOrg Claude Assistant”)"
+    },
+    {
+      "type": "li",
+      "text": "**Homepage URL**: Your organization’s website or the repository URL"
+    },
+    {
+      "type": "li",
+      "text": "Configure the app settings:\n\n**Webhooks**: Uncheck “Active” (not needed for this integration)"
+    },
+    {
+      "type": "li",
+      "text": "**Webhooks**: Uncheck “Active” (not needed for this integration)"
+    },
+    {
+      "type": "li",
+      "text": "Set the required permissions:\n\n**Repository permissions**:\n\nContents: Read & Write\nIssues: Read & Write\nPull requests: Read & Write"
+    },
+    {
+      "type": "li",
+      "text": "**Repository permissions**:\n\nContents: Read & Write\nIssues: Read & Write\nPull requests: Read & Write"
+    },
+    {
+      "type": "li",
+      "text": "Contents: Read & Write"
+    },
+    {
+      "type": "li",
+      "text": "Issues: Read & Write"
+    },
+    {
+      "type": "li",
+      "text": "Pull requests: Read & Write"
+    },
+    {
+      "type": "li",
+      "text": "Click “Create GitHub App”"
+    },
+    {
+      "type": "li",
+      "text": "After creation, click “Generate a private key” and save the downloaded `.pem` file"
+    },
+    {
+      "type": "li",
+      "text": "Note your App ID from the app settings page"
+    },
+    {
+      "type": "li",
+      "text": "Install the app to your repository:\n\nFrom your app’s settings page, click “Install App” in the left sidebar\nSelect your account or organization\nChoose “Only select repositories” and select the specific repository\nClick “Install”"
+    },
+    {
+      "type": "li",
+      "text": "From your app’s settings page, click “Install App” in the left sidebar"
+    },
+    {
+      "type": "li",
+      "text": "Select your account or organization"
+    },
+    {
+      "type": "li",
+      "text": "Choose “Only select repositories” and select the specific repository"
+    },
+    {
+      "type": "li",
+      "text": "Click “Install”"
+    },
+    {
+      "type": "li",
+      "text": "Add the private key as a secret to your repository:\n\nGo to your repository’s Settings → Secrets and variables → Actions\nCreate a new secret named `APP_PRIVATE_KEY` with the contents of the `.pem` file"
+    },
+    {
+      "type": "li",
+      "text": "Go to your repository’s Settings → Secrets and variables → Actions"
+    },
+    {
+      "type": "li",
+      "text": "Create a new secret named `APP_PRIVATE_KEY` with the contents of the `.pem` file"
+    },
+    {
+      "type": "li",
+      "text": "Add the App ID as a secret:"
+    },
+    {
+      "type": "li",
+      "text": "Create a new secret named `APP_ID` with your GitHub App’s ID"
+    },
+    {
+      "type": "blockquote",
+      "text": "This app will be used with the [actions/create-github-app-token](https://github.com/actions/create-github-app-token) action to generate authentication tokens in your workflows."
+    },
+    {
+      "type": "li",
+      "text": "Install from: [https://github.com/apps/claude](https://github.com/apps/claude)"
+    },
+    {
+      "type": "li",
+      "text": "No additional configuration needed for authentication"
+    },
+    {
+      "type": "p",
+      "text": "Configure cloud provider authentication"
+    },
+    {
+      "type": "p",
+      "text": "AWS Bedrock"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Security Note**: Use repository-specific configurations and grant only the minimum required permissions."
+    },
+    {
+      "type": "li",
+      "text": "**Enable Amazon Bedrock**:\n\nRequest access to Claude models in Amazon Bedrock\nFor cross-region models, request access in all required regions"
+    },
+    {
+      "type": "li",
+      "text": "Request access to Claude models in Amazon Bedrock"
+    },
+    {
+      "type": "li",
+      "text": "For cross-region models, request access in all required regions"
+    },
+    {
+      "type": "li",
+      "text": "**Set up GitHub OIDC Identity Provider**:\n\nProvider URL: `https://token.actions.githubusercontent.com`\nAudience: `sts.amazonaws.com`"
+    },
+    {
+      "type": "li",
+      "text": "Provider URL: `https://token.actions.githubusercontent.com`"
+    },
+    {
+      "type": "li",
+      "text": "Audience: `sts.amazonaws.com`"
+    },
+    {
+      "type": "li",
+      "text": "**Create IAM Role for GitHub Actions**:\n\nTrusted entity type: Web identity\nIdentity provider: `token.actions.githubusercontent.com`\nPermissions: `AmazonBedrockFullAccess` policy\nConfigure trust policy for your specific repository"
+    },
+    {
+      "type": "li",
+      "text": "Trusted entity type: Web identity"
+    },
+    {
+      "type": "li",
+      "text": "Identity provider: `token.actions.githubusercontent.com`"
+    },
+    {
+      "type": "li",
+      "text": "Permissions: `AmazonBedrockFullAccess` policy"
+    },
+    {
+      "type": "li",
+      "text": "Configure trust policy for your specific repository"
+    },
+    {
+      "type": "li",
+      "text": "**AWS_ROLE_TO_ASSUME**: The ARN of the IAM role you created"
+    },
+    {
+      "type": "blockquote",
+      "text": "OIDC is more secure than using static AWS access keys because credentials are temporary and automatically rotated."
+    },
+    {
+      "type": "p",
+      "text": "Google Vertex AI"
+    },
+    {
+      "type": "li",
+      "text": "**Enable APIs** in your Google Cloud project:\n\nIAM Credentials API\nSecurity Token Service (STS) API\nVertex AI API"
+    },
+    {
+      "type": "li",
+      "text": "IAM Credentials API"
+    },
+    {
+      "type": "li",
+      "text": "Security Token Service (STS) API"
+    },
+    {
+      "type": "li",
+      "text": "Vertex AI API"
+    },
+    {
+      "type": "li",
+      "text": "**Create Workload Identity Federation resources**:\n\nCreate a Workload Identity Pool\nAdd a GitHub OIDC provider with:\n\nIssuer: `https://token.actions.githubusercontent.com`\nAttribute mappings for repository and owner\n**Security recommendation**: Use repository-specific attribute conditions"
+    },
+    {
+      "type": "li",
+      "text": "Create a Workload Identity Pool"
+    },
+    {
+      "type": "li",
+      "text": "Add a GitHub OIDC provider with:\n\nIssuer: `https://token.actions.githubusercontent.com`\nAttribute mappings for repository and owner\n**Security recommendation**: Use repository-specific attribute conditions"
+    },
+    {
+      "type": "li",
+      "text": "Issuer: `https://token.actions.githubusercontent.com`"
+    },
+    {
+      "type": "li",
+      "text": "Attribute mappings for repository and owner"
+    },
+    {
+      "type": "li",
+      "text": "**Security recommendation**: Use repository-specific attribute conditions"
+    },
+    {
+      "type": "li",
+      "text": "**Create a Service Account**:\n\nGrant only `Vertex AI User` role\n**Security recommendation**: Create a dedicated service account per repository"
+    },
+    {
+      "type": "li",
+      "text": "Grant only `Vertex AI User` role"
+    },
+    {
+      "type": "li",
+      "text": "**Security recommendation**: Create a dedicated service account per repository"
+    },
+    {
+      "type": "li",
+      "text": "**Configure IAM bindings**:\n\nAllow the Workload Identity Pool to impersonate the service account\n**Security recommendation**: Use repository-specific principal sets"
+    },
+    {
+      "type": "li",
+      "text": "Allow the Workload Identity Pool to impersonate the service account"
+    },
+    {
+      "type": "li",
+      "text": "**Security recommendation**: Use repository-specific principal sets"
+    },
+    {
+      "type": "li",
+      "text": "**GCP_WORKLOAD_IDENTITY_PROVIDER**: The full provider resource name"
+    },
+    {
+      "type": "li",
+      "text": "**GCP_SERVICE_ACCOUNT**: The service account email address"
+    },
+    {
+      "type": "blockquote",
+      "text": "Workload Identity Federation eliminates the need for downloadable service account keys, improving security."
+    },
+    {
+      "type": "p",
+      "text": "Add Required Secrets"
+    },
+    {
+      "type": "h4",
+      "text": "For Claude API (Direct):"
+    },
+    {
+      "type": "li",
+      "text": "**For API Authentication**:\n\n`ANTHROPIC_API_KEY`: Your Claude API key from [console.anthropic.com](https://console.anthropic.com)"
+    },
+    {
+      "type": "li",
+      "text": "`ANTHROPIC_API_KEY`: Your Claude API key from [console.anthropic.com](https://console.anthropic.com)"
+    },
+    {
+      "type": "li",
+      "text": "**For GitHub App (if using your own app)**:\n\n`APP_ID`: Your GitHub App’s ID\n`APP_PRIVATE_KEY`: The private key (.pem) content"
+    },
+    {
+      "type": "li",
+      "text": "`APP_ID`: Your GitHub App’s ID"
+    },
+    {
+      "type": "li",
+      "text": "`APP_PRIVATE_KEY`: The private key (.pem) content"
+    },
+    {
+      "type": "h4",
+      "text": "For Google Cloud Vertex AI"
+    },
+    {
+      "type": "li",
+      "text": "**For GCP Authentication**:\n\n`GCP_WORKLOAD_IDENTITY_PROVIDER`\n`GCP_SERVICE_ACCOUNT`"
+    },
+    {
+      "type": "li",
+      "text": "`GCP_WORKLOAD_IDENTITY_PROVIDER`"
+    },
+    {
+      "type": "li",
+      "text": "`GCP_SERVICE_ACCOUNT`"
+    },
+    {
+      "type": "h4",
+      "text": "For AWS Bedrock"
+    },
+    {
+      "type": "li",
+      "text": "**For AWS Authentication**:\n\n`AWS_ROLE_TO_ASSUME`"
+    },
+    {
+      "type": "li",
+      "text": "`AWS_ROLE_TO_ASSUME`"
+    },
+    {
+      "type": "p",
+      "text": "Create workflow files"
+    },
+    {
+      "type": "p",
+      "text": "AWS Bedrock workflow"
+    },
+    {
+      "type": "li",
+      "text": "AWS Bedrock access enabled with Claude model permissions"
+    },
+    {
+      "type": "li",
+      "text": "GitHub configured as an OIDC identity provider in AWS"
+    },
+    {
+      "type": "li",
+      "text": "IAM role with Bedrock permissions that trusts GitHub Actions"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "name: Claude PR Action\n\npermissions:\n  contents: write\n  pull-requests: write\n  issues: write\n  id-token: write\n\non:\n  issue_comment:\n    types: [created]\n  pull_request_review_comment:\n    types: [created]\n  issues:\n    types: [opened, assigned]\n\njobs:\n  claude-pr:\n    if: |\n      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||\n      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||\n      (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))\n    runs-on: ubuntu-latest\n    env:\n      AWS_REGION: us-west-2\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n\n      - name: Generate GitHub App token\n        id: app-token\n        uses: actions/create-github-app-token@v2\n        with:\n          app-id: ${{ secrets.APP_ID }}\n          private-key: ${{ secrets.APP_PRIVATE_KEY }}\n\n      - name: Configure AWS Credentials (OIDC)\n        uses: aws-actions/configure-aws-credentials@v4\n        with:\n          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}\n          aws-region: us-west-2\n\n      - uses: anthropics/claude-code-action@v1\n        with:\n          github_token: ${{ steps.app-token.outputs.token }}\n          use_bedrock: \"true\"\n          claude_args: '--model us.anthropic.claude-sonnet-4-5-20250929-v1:0 --max-turns 10'"
+    },
+    {
+      "type": "blockquote",
+      "text": "The model ID format for Bedrock includes the region prefix (e.g., `us.anthropic.claude...`) and version suffix."
+    },
+    {
+      "type": "p",
+      "text": "Google Vertex AI workflow"
+    },
+    {
+      "type": "li",
+      "text": "Vertex AI API enabled in your GCP project"
+    },
+    {
+      "type": "li",
+      "text": "Workload Identity Federation configured for GitHub"
+    },
+    {
+      "type": "li",
+      "text": "Service account with Vertex AI permissions"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "name: Claude PR Action\n\npermissions:\n  contents: write\n  pull-requests: write\n  issues: write\n  id-token: write\n\non:\n  issue_comment:\n    types: [created]\n  pull_request_review_comment:\n    types: [created]\n  issues:\n    types: [opened, assigned]\n\njobs:\n  claude-pr:\n    if: |\n      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||\n      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||\n      (github.event_name == 'issues' && contains(github.event.issue.body, '@claude'))\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout repository\n        uses: actions/checkout@v4\n\n      - name: Generate GitHub App token\n        id: app-token\n        uses: actions/create-github-app-token@v2\n        with:\n          app-id: ${{ secrets.APP_ID }}\n          private-key: ${{ secrets.APP_PRIVATE_KEY }}\n\n      - name: Authenticate to Google Cloud\n        id: auth\n        uses: google-github-actions/auth@v2\n        with:\n          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}\n          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}\n\n      - uses: anthropics/claude-code-action@v1\n        with:\n          github_token: ${{ steps.app-token.outputs.token }}\n          trigger_phrase: \"@claude\"\n          use_vertex: \"true\"\n          claude_args: '--model claude-sonnet-4@20250514 --max-turns 10'\n        env:\n          ANTHROPIC_VERTEX_PROJECT_ID: ${{ steps.auth.outputs.project_id }}\n          CLOUD_ML_REGION: us-east5\n          VERTEX_REGION_CLAUDE_3_7_SONNET: us-east5"
+    },
+    {
+      "type": "blockquote",
+      "text": "The project ID is automatically retrieved from the Google Cloud authentication step, so you don’t need to hardcode it."
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "h3",
+      "text": "Claude not responding to @claude commands"
+    },
+    {
+      "type": "h3",
+      "text": "CI not running on Claude’s commits"
+    },
+    {
+      "type": "h3",
+      "text": "Authentication errors"
+    },
+    {
+      "type": "h2",
+      "text": "Advanced configuration"
+    },
+    {
+      "type": "h3",
+      "text": "Action parameters"
+    },
+    {
+      "type": "h4",
+      "text": "Pass CLI arguments"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude_args: \"--max-turns 5 --model claude-sonnet-4-5-20250929 --mcp-config /path/to/config.json\""
+    },
+    {
+      "type": "li",
+      "text": "`--max-turns`: Maximum conversation turns (default: 10)"
+    },
+    {
+      "type": "li",
+      "text": "`--model`: Model to use (for example, `claude-sonnet-4-5-20250929`)"
+    },
+    {
+      "type": "li",
+      "text": "`--mcp-config`: Path to MCP configuration"
+    },
+    {
+      "type": "li",
+      "text": "`--allowed-tools`: Comma-separated list of allowed tools"
+    },
+    {
+      "type": "li",
+      "text": "`--debug`: Enable debug output"
+    },
+    {
+      "type": "h3",
+      "text": "Alternative integration methods"
+    },
+    {
+      "type": "li",
+      "text": "**Custom GitHub App**: For organizations needing branded usernames or custom authentication flows. Create your own GitHub App with required permissions (contents, issues, pull requests) and use the actions/create-github-app-token action to generate tokens in your workflows."
+    },
+    {
+      "type": "li",
+      "text": "**Manual GitHub Actions**: Direct workflow configuration for maximum flexibility"
+    },
+    {
+      "type": "li",
+      "text": "**MCP Configuration**: Dynamic loading of Model Context Protocol servers"
+    },
+    {
+      "type": "h3",
+      "text": "Customizing Claude’s behavior"
+    },
+    {
+      "type": "li",
+      "text": "**CLAUDE.md**: Define coding standards, review criteria, and project-specific rules in a `CLAUDE.md` file at the root of your repository. Claude will follow these guidelines when creating PRs and responding to requests. Check out our [Memory documentation](/docs/en/memory) for more details."
+    },
+    {
+      "type": "li",
+      "text": "**Custom prompts**: Use the `prompt` parameter in the workflow file to provide workflow-specific instructions. This allows you to customize Claude’s behavior for different workflows or tasks."
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

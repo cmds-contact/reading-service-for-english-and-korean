@@ -1,0 +1,24 @@
+id: claude-and-slack
+created: "2026-01-02"
+updated: "2026-01-02"
+channel: Claude Blog
+
+source:
+  url: https://claude.com/blog/claude-and-slack
+  published: "2025-10-01"
+
+category: Integrations
+tags:
+  - Slack
+  - Claude
+  - Integrations
+  - Productivity
+
+languages:
+  en:
+    title: "Claude and Slack"
+    type: original
+  ko:
+    title: "Claude와 Slack"
+    type: translation
+    translator: ai

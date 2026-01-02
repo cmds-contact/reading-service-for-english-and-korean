@@ -1,0 +1,16 @@
+id: hooks
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/hooks
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Hooks reference"
+    type: original
+  ko:
+    title: "Hooks 참조"
+    type: translation
+    translator: ai

@@ -1,0 +1,24 @@
+id: extending-claude-capabilities-with-skills-mcp-servers
+created: "2025-01-02"
+updated: "2025-01-02"
+channel: Claude Blog
+
+source:
+  url: https://claude.com/blog/extending-claude-capabilities-with-skills-mcp-servers
+  published: "2025-12-18"
+
+category: Agents
+tags:
+  - Skills
+  - MCP
+  - Claude
+  - Agents
+
+languages:
+  en:
+    title: "Extending Claude's capabilities with skills and MCP servers"
+    type: original
+  ko:
+    title: "스킬과 MCP 서버로 Claude의 기능 확장하기"
+    type: translation
+    translator: ai

@@ -1,0 +1,16 @@
+id: terminal-config
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/terminal-config
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Optimize your terminal setup"
+    type: original
+  ko:
+    title: "터미널 설정 최적화"
+    type: translation
+    translator: ai

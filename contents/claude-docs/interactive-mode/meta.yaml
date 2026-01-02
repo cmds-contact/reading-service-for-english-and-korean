@@ -1,0 +1,16 @@
+id: interactive-mode
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/interactive-mode
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Interactive mode"
+    type: original
+  ko:
+    title: "대화형 모드"
+    type: translation
+    translator: ai

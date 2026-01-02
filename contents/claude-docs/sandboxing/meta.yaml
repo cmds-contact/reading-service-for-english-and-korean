@@ -1,0 +1,16 @@
+id: sandboxing
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/sandboxing
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Sandboxing"
+    type: original
+  ko:
+    title: "샌드박싱"
+    type: translation
+    translator: ai

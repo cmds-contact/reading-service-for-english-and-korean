@@ -1,0 +1,197 @@
+{
+  "title": "Manage Claude's memory",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Manage Claude's memory"
+    },
+    {
+      "type": "p",
+      "text": "Learn how to manage Claude Code’s memory across sessions with different memory locations and best practices."
+    },
+    {
+      "type": "h2",
+      "text": "Determine memory type"
+    },
+    {
+      "type": "blockquote",
+      "text": "CLAUDE.local.md files are automatically added to .gitignore, making them ideal for private project-specific preferences that shouldn’t be checked into version control."
+    },
+    {
+      "type": "h2",
+      "text": "CLAUDE.md imports"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "See @README for project overview and @package.json for available npm commands for this project.\n\n# Additional Instructions\n- git workflow @docs/git-instructions.md"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Individual Preferences\n- @~/.claude/my-project-instructions.md"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "This code span will not be treated as an import: `@anthropic-ai/claude-code`"
+    },
+    {
+      "type": "h2",
+      "text": "How Claude looks up memories"
+    },
+    {
+      "type": "h2",
+      "text": "Directly edit memories with /memory"
+    },
+    {
+      "type": "h2",
+      "text": "Set up project memory"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> /init"
+    },
+    {
+      "type": "blockquote",
+      "text": "Tips:\nInclude frequently used commands (build, test, lint) to avoid repeated searches\nDocument code style preferences and naming conventions\nAdd important architectural patterns specific to your project\nCLAUDE.md memories can be used for both instructions shared with your team and for your individual preferences."
+    },
+    {
+      "type": "li",
+      "text": "Include frequently used commands (build, test, lint) to avoid repeated searches"
+    },
+    {
+      "type": "li",
+      "text": "Document code style preferences and naming conventions"
+    },
+    {
+      "type": "li",
+      "text": "Add important architectural patterns specific to your project"
+    },
+    {
+      "type": "li",
+      "text": "CLAUDE.md memories can be used for both instructions shared with your team and for your individual preferences."
+    },
+    {
+      "type": "h2",
+      "text": "Modular rules with .claude/rules/"
+    },
+    {
+      "type": "h3",
+      "text": "Basic structure"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "your-project/\n├── .claude/\n│   ├── CLAUDE.md           # Main project instructions\n│   └── rules/\n│       ├── code-style.md   # Code style guidelines\n│       ├── testing.md      # Testing conventions\n│       └── security.md     # Security requirements"
+    },
+    {
+      "type": "h3",
+      "text": "Path-specific rules"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\npaths: src/api/**/*.ts\n---\n\n# API Development Rules\n\n- All API endpoints must include input validation\n- Use the standard error response format\n- Include OpenAPI documentation comments"
+    },
+    {
+      "type": "h3",
+      "text": "Glob patterns"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\npaths: src/**/*.{ts,tsx}\n---\n\n# TypeScript/React Rules"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\npaths: {src,lib}/**/*.ts, tests/**/*.test.ts\n---"
+    },
+    {
+      "type": "h3",
+      "text": "Subdirectories"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": ".claude/rules/\n├── frontend/\n│   ├── react.md\n│   └── styles.md\n├── backend/\n│   ├── api.md\n│   └── database.md\n└── general.md"
+    },
+    {
+      "type": "h3",
+      "text": "Symlinks"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Symlink a shared rules directory\nln -s ~/shared-claude-rules .claude/rules/shared\n\n# Symlink individual rule files\nln -s ~/company-standards/security.md .claude/rules/security.md"
+    },
+    {
+      "type": "h3",
+      "text": "User-level rules"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "~/.claude/rules/\n├── preferences.md    # Your personal coding preferences\n└── workflows.md      # Your preferred workflows"
+    },
+    {
+      "type": "blockquote",
+      "text": "Best practices for `.claude/rules/`:\n**Keep rules focused**: Each file should cover one topic (e.g., `testing.md`, `api-design.md`)\n**Use descriptive filenames**: The filename should indicate what the rules cover\n**Use conditional rules sparingly**: Only add `paths` frontmatter when rules truly apply to specific file types\n**Organize with subdirectories**: Group related rules (e.g., `frontend/`, `backend/`)"
+    },
+    {
+      "type": "li",
+      "text": "**Keep rules focused**: Each file should cover one topic (e.g., `testing.md`, `api-design.md`)"
+    },
+    {
+      "type": "li",
+      "text": "**Use descriptive filenames**: The filename should indicate what the rules cover"
+    },
+    {
+      "type": "li",
+      "text": "**Use conditional rules sparingly**: Only add `paths` frontmatter when rules truly apply to specific file types"
+    },
+    {
+      "type": "li",
+      "text": "**Organize with subdirectories**: Group related rules (e.g., `frontend/`, `backend/`)"
+    },
+    {
+      "type": "h2",
+      "text": "Organization-level memory management"
+    },
+    {
+      "type": "li",
+      "text": "Create the enterprise memory file at the **Enterprise policy** location shown in the [memory types table above](#determine-memory-type)."
+    },
+    {
+      "type": "li",
+      "text": "Deploy via your configuration management system (MDM, Group Policy, Ansible, etc.) to ensure consistent distribution across all developer machines."
+    },
+    {
+      "type": "h2",
+      "text": "Memory best practices"
+    },
+    {
+      "type": "li",
+      "text": "**Be specific**: “Use 2-space indentation” is better than “Format code properly”."
+    },
+    {
+      "type": "li",
+      "text": "**Use structure to organize**: Format each individual memory as a bullet point and group related memories under descriptive markdown headings."
+    },
+    {
+      "type": "li",
+      "text": "**Review periodically**: Update memories as your project evolves to ensure Claude is always using the most up to date information and context."
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

@@ -1,50 +1,34 @@
-import Link from 'next/link'
-import { getAllContents } from '@/lib/content'
+import { getAllContents, getAllChannels } from '@/lib/content'
 import { Header } from '@/components/layout/Header'
+import { ArticleList } from '@/components/home/ArticleList'
+import { CategoryCards } from '@/components/home/CategoryCards'
 
 export default async function HomePage() {
   const contents = await getAllContents()
+  const channels = getAllChannels()
+
+  // 채널별 콘텐츠 수 계산
+  const docsCount = contents.filter((c) => c.channel === 'claude-docs').length
+  const blogCount = contents.filter((c) => c.channel === 'claude-blog').length
+  const otherCount = contents.filter(
+    (c) => c.channel !== 'claude-docs' && c.channel !== 'claude-blog'
+  ).length
 
   return (
     <>
       <Header />
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Articles</h1>
+        <h1 className="text-3xl font-bold mb-2">Reading Service</h1>
+        <p className="text-slate-600 dark:text-slate-400 mb-8">
+          영한 병렬 읽기 서비스 - English-Korean Parallel Reading
+        </p>
 
-        <div className="grid gap-4">
-          {contents.map((item) => (
-            <Link
-              key={item.slug}
-              href={`/read/${item.slug}`}
-              className="block p-6 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md transition-all"
-            >
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
-                <div className="flex-1">
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
-                    {item.meta.languages.en?.title}
-                  </h2>
-                  <p className="text-slate-600 dark:text-slate-400">
-                    {item.meta.languages.ko?.title}
-                  </p>
-                </div>
-                <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                  <span>{item.meta.created}</span>
-                  {item.meta.source?.company && (
-                    <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded">
-                      {item.meta.source.company}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {/* 카테고리 카드 */}
+        <CategoryCards docsCount={docsCount} blogCount={blogCount} otherCount={otherCount} />
 
-        {contents.length === 0 && (
-          <p className="text-center text-slate-500 dark:text-slate-400 py-12">
-            No articles found. Add content folders to the contents directory.
-          </p>
-        )}
+        {/* 최근 문서 목록 */}
+        <h2 className="text-xl font-semibold mb-4">All Articles</h2>
+        <ArticleList contents={contents} channels={channels} />
       </main>
     </>
   )

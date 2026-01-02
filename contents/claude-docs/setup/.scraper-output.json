@@ -1,0 +1,318 @@
+{
+  "title": "Set up Claude Code",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Set up Claude Code"
+    },
+    {
+      "type": "p",
+      "text": "Install, authenticate, and start using Claude Code on your development machine."
+    },
+    {
+      "type": "h2",
+      "text": "System requirements"
+    },
+    {
+      "type": "li",
+      "text": "**Operating Systems**: macOS 10.15+, Ubuntu 20.04+/Debian 10+, or Windows 10+ (with WSL 1, WSL 2, or Git for Windows)"
+    },
+    {
+      "type": "li",
+      "text": "**Hardware**: 4 GB+ RAM"
+    },
+    {
+      "type": "li",
+      "text": "**Software**: [Node.js 18+](https://nodejs.org/en/download) (only required for npm installation)"
+    },
+    {
+      "type": "li",
+      "text": "**Network**: Internet connection required for authentication and AI processing"
+    },
+    {
+      "type": "li",
+      "text": "**Shell**: Works best in Bash, Zsh or Fish"
+    },
+    {
+      "type": "li",
+      "text": "**Location**: [Anthropic supported countries](https://www.anthropic.com/supported-countries)"
+    },
+    {
+      "type": "h3",
+      "text": "Additional dependencies"
+    },
+    {
+      "type": "li",
+      "text": "**ripgrep**: Usually included with Claude Code. If search fails, see [search troubleshooting](/docs/en/troubleshooting#search-and-discovery-issues)."
+    },
+    {
+      "type": "h2",
+      "text": "Standard installation"
+    },
+    {
+      "type": "li",
+      "text": "Native Install (Recommended)"
+    },
+    {
+      "type": "li",
+      "text": "Homebrew"
+    },
+    {
+      "type": "li",
+      "text": "NPM"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "curl -fsSL https://claude.ai/install.sh | bash"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "irm https://claude.ai/install.ps1 | iex"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "brew install --cask claude-code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "npm install -g @anthropic-ai/claude-code"
+    },
+    {
+      "type": "blockquote",
+      "text": "Some users may be automatically migrated to an improved installation method."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cd your-awesome-project\nclaude"
+    },
+    {
+      "type": "li",
+      "text": "**Claude Console**: The default option. Connect through the Claude Console and complete the OAuth process. Requires active billing in the [Anthropic console](https://console.anthropic.com). A “Claude Code” workspace is automatically created for usage tracking and cost management. You can’t create API keys for the Claude Code workspace; it’s dedicated exclusively for Claude Code usage."
+    },
+    {
+      "type": "li",
+      "text": "**Claude App (with Pro or Max plan)**: Subscribe to Claude’s [Pro or Max plan](https://claude.com/pricing) for a unified subscription that includes both Claude Code and the web interface. Get more value at the same price point while managing your account in one place. Log in with your Claude.ai account. During launch, choose the option that matches your subscription type."
+    },
+    {
+      "type": "li",
+      "text": "**Enterprise platforms**: Configure Claude Code to use [Amazon Bedrock, Google Vertex AI, or Microsoft Foundry](/docs/en/third-party-integrations) for enterprise deployments with your existing cloud infrastructure."
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code securely stores your credentials. See [Credential Management](/docs/en/iam#credential-management) for details."
+    },
+    {
+      "type": "h2",
+      "text": "Windows setup"
+    },
+    {
+      "type": "li",
+      "text": "Both WSL 1 and WSL 2 are supported"
+    },
+    {
+      "type": "li",
+      "text": "Requires [Git for Windows](https://git-scm.com/downloads/win)"
+    },
+    {
+      "type": "li",
+      "text": "For portable Git installations, specify the path to your `bash.exe`:\nCopyAsk AI$env:CLAUDE_CODE_GIT_BASH_PATH=\"C:\\Program Files\\Git\\bin\\bash.exe\""
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "$env:CLAUDE_CODE_GIT_BASH_PATH=\"C:\\Program Files\\Git\\bin\\bash.exe\""
+    },
+    {
+      "type": "h2",
+      "text": "Alternative installation methods"
+    },
+    {
+      "type": "blockquote",
+      "text": "Run `claude doctor` after installation to check your installation type and version."
+    },
+    {
+      "type": "h3",
+      "text": "Native installation options"
+    },
+    {
+      "type": "li",
+      "text": "One self-contained executable"
+    },
+    {
+      "type": "li",
+      "text": "No Node.js dependency"
+    },
+    {
+      "type": "li",
+      "text": "Improved auto-updater stability"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Install stable version (default)\ncurl -fsSL https://claude.ai/install.sh | bash\n\n# Install latest version\ncurl -fsSL https://claude.ai/install.sh | bash -s latest\n\n# Install specific version number\ncurl -fsSL https://claude.ai/install.sh | bash -s 1.0.58"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Alpine Linux and other musl/uClibc-based distributions**: The native build requires `libgcc`, `libstdc++`, and `ripgrep`. For Alpine: `apk add libgcc libstdc++ ripgrep`. Set `USE_BUILTIN_RIPGREP=0`."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Install stable version (default)\nirm https://claude.ai/install.ps1 | iex\n\n# Install latest version\n& ([scriptblock]::Create((irm https://claude.ai/install.ps1))) latest\n\n# Install specific version number\n& ([scriptblock]::Create((irm https://claude.ai/install.ps1))) 1.0.58"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "REM Install stable version (default)\ncurl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd\n\nREM Install latest version\ncurl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd latest && del install.cmd\n\nREM Install specific version number\ncurl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd 1.0.58 && del install.cmd"
+    },
+    {
+      "type": "blockquote",
+      "text": "Make sure that you remove any outdated aliases or symlinks before installing."
+    },
+    {
+      "type": "li",
+      "text": "SHA256 checksums for all platforms are published in the release manifests, currently located at `https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/{VERSION}/manifest.json` (example: replace `{VERSION}` with `2.0.30`)"
+    },
+    {
+      "type": "li",
+      "text": "Signed binaries are distributed for the following platforms:\n\nmacOS: Signed by “Anthropic PBC” and notarized by Apple\nWindows: Signed by “Anthropic, PBC”"
+    },
+    {
+      "type": "li",
+      "text": "macOS: Signed by “Anthropic PBC” and notarized by Apple"
+    },
+    {
+      "type": "li",
+      "text": "Windows: Signed by “Anthropic, PBC”"
+    },
+    {
+      "type": "h3",
+      "text": "NPM installation"
+    },
+    {
+      "type": "blockquote",
+      "text": "Do NOT use `sudo npm install -g` as this can lead to permission issues and security risks.\nIf you encounter permission errors, see [configure Claude Code](/docs/en/troubleshooting#linux-permission-issues) for recommended solutions."
+    },
+    {
+      "type": "h2",
+      "text": "Running on AWS or GCP"
+    },
+    {
+      "type": "h2",
+      "text": "Update Claude Code"
+    },
+    {
+      "type": "h3",
+      "text": "Auto updates"
+    },
+    {
+      "type": "li",
+      "text": "**Update checks**: Performed on startup and periodically while running"
+    },
+    {
+      "type": "li",
+      "text": "**Update process**: Downloads and installs automatically in the background"
+    },
+    {
+      "type": "li",
+      "text": "**Notifications**: You’ll see a notification when updates are installed"
+    },
+    {
+      "type": "li",
+      "text": "**Applying updates**: Updates take effect the next time you start Claude Code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "export DISABLE_AUTOUPDATER=1"
+    },
+    {
+      "type": "h3",
+      "text": "Update manually"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude update"
+    },
+    {
+      "type": "h2",
+      "text": "Uninstall Claude Code"
+    },
+    {
+      "type": "h3",
+      "text": "Native installation"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "rm -f ~/.local/bin/claude\nrm -rf ~/.claude-code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "Remove-Item -Path \"$env:LOCALAPPDATA\\Programs\\claude-code\" -Recurse -Force\nRemove-Item -Path \"$env:LOCALAPPDATA\\Microsoft\\WindowsApps\\claude.exe\" -Force"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "rmdir /s /q \"%LOCALAPPDATA%\\Programs\\claude-code\"\ndel \"%LOCALAPPDATA%\\Microsoft\\WindowsApps\\claude.exe\""
+    },
+    {
+      "type": "h3",
+      "text": "Homebrew installation"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "brew uninstall --cask claude-code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "npm uninstall -g @anthropic-ai/claude-code"
+    },
+    {
+      "type": "h3",
+      "text": "Clean up configuration files (optional)"
+    },
+    {
+      "type": "blockquote",
+      "text": "Removing configuration files will delete all your settings, allowed tools, MCP server configurations, and session history."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Remove user settings and state\nrm -rf ~/.claude\nrm ~/.claude.json\n\n# Remove project-specific settings (run from your project directory)\nrm -rf .claude\nrm -f .mcp.json"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Remove user settings and state\nRemove-Item -Path \"$env:USERPROFILE\\.claude\" -Recurse -Force\nRemove-Item -Path \"$env:USERPROFILE\\.claude.json\" -Force\n\n# Remove project-specific settings (run from your project directory)\nRemove-Item -Path \".claude\" -Recurse -Force\nRemove-Item -Path \".mcp.json\" -Force"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "REM Remove user settings and state\nrmdir /s /q \"%USERPROFILE%\\.claude\"\ndel \"%USERPROFILE%\\.claude.json\"\n\nREM Remove project-specific settings (run from your project directory)\nrmdir /s /q \".claude\"\ndel \".mcp.json\""
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

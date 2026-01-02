@@ -1,0 +1,24 @@
+id: integrations
+created: "2026-01-02"
+updated: "2026-01-02"
+channel: Claude Blog
+
+source:
+  url: https://claude.com/blog/integrations
+  published: "2025-05-01"
+
+category: Product
+tags:
+  - Integrations
+  - MCP
+  - Claude
+  - Research
+
+languages:
+  en:
+    title: "Claude can now connect to your world"
+    type: original
+  ko:
+    title: "Claude가 이제 여러분의 세상과 연결됩니다"
+    type: translation
+    translator: ai

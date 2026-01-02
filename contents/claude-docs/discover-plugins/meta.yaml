@@ -1,0 +1,16 @@
+id: discover-plugins
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/discover-plugins
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Discover and install prebuilt plugins through marketplaces"
+    type: original
+  ko:
+    title: "마켓플레이스를 통해 미리 빌드된 플러그인 탐색 및 설치"
+    type: translation
+    translator: ai

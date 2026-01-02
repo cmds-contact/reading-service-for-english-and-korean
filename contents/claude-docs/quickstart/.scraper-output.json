@@ -1,0 +1,386 @@
+{
+  "title": "Quickstart",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Quickstart"
+    },
+    {
+      "type": "p",
+      "text": "Welcome to Claude Code!"
+    },
+    {
+      "type": "h2",
+      "text": "Before you begin"
+    },
+    {
+      "type": "li",
+      "text": "A terminal or command prompt open"
+    },
+    {
+      "type": "li",
+      "text": "A code project to work with"
+    },
+    {
+      "type": "li",
+      "text": "A [Claude.ai](https://claude.ai) (recommended) or [Claude Console](https://console.anthropic.com/) account"
+    },
+    {
+      "type": "h2",
+      "text": "Step 1: Install Claude Code"
+    },
+    {
+      "type": "li",
+      "text": "Native Install (Recommended)"
+    },
+    {
+      "type": "li",
+      "text": "Homebrew"
+    },
+    {
+      "type": "li",
+      "text": "NPM"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "curl -fsSL https://claude.ai/install.sh | bash"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "irm https://claude.ai/install.ps1 | iex"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "brew install --cask claude-code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "npm install -g @anthropic-ai/claude-code"
+    },
+    {
+      "type": "h2",
+      "text": "Step 2: Log in to your account"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude\n# You'll be prompted to log in on first use"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/login\n# Follow the prompts to log in with your account"
+    },
+    {
+      "type": "li",
+      "text": "[Claude.ai](https://claude.ai) (subscription plans - recommended)"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Console](https://console.anthropic.com/) (API access with pre-paid credits)"
+    },
+    {
+      "type": "blockquote",
+      "text": "When you first authenticate Claude Code with your Claude Console account, a workspace called “Claude Code” is automatically created for you. This workspace provides centralized cost tracking and management for all Claude Code usage in your organization."
+    },
+    {
+      "type": "blockquote",
+      "text": "You can have both account types under the same email address. If you need to log in again or switch accounts, use the `/login` command within Claude Code."
+    },
+    {
+      "type": "h2",
+      "text": "Step 3: Start your first session"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "cd /path/to/your/project\nclaude"
+    },
+    {
+      "type": "blockquote",
+      "text": "After logging in (Step 2), your credentials are stored on your system. Learn more in [Credential Management](/docs/en/iam#credential-management)."
+    },
+    {
+      "type": "h2",
+      "text": "Step 4: Ask your first question"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> what does this project do?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> what technologies does this project use?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> where is the main entry point?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> explain the folder structure"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> what can Claude Code do?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> how do I use slash commands in Claude Code?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> can Claude Code work with Docker?"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code reads your files as needed - you don’t have to manually add context. Claude also has access to its own documentation and can answer questions about its features and capabilities."
+    },
+    {
+      "type": "h2",
+      "text": "Step 5: Make your first code change"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> add a hello world function to the main file"
+    },
+    {
+      "type": "li",
+      "text": "Find the appropriate file"
+    },
+    {
+      "type": "li",
+      "text": "Show you the proposed changes"
+    },
+    {
+      "type": "li",
+      "text": "Ask for your approval"
+    },
+    {
+      "type": "li",
+      "text": "Make the edit"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code always asks for permission before modifying files. You can approve individual changes or enable “Accept all” mode for a session."
+    },
+    {
+      "type": "h2",
+      "text": "Step 6: Use Git with Claude Code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> what files have I changed?"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> commit my changes with a descriptive message"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> create a new branch called feature/quickstart"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> show me the last 5 commits"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> help me resolve merge conflicts"
+    },
+    {
+      "type": "h2",
+      "text": "Step 7: Fix a bug or add a feature"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> add input validation to the user registration form"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> there's a bug where users can submit empty forms - fix it"
+    },
+    {
+      "type": "li",
+      "text": "Locate the relevant code"
+    },
+    {
+      "type": "li",
+      "text": "Understand the context"
+    },
+    {
+      "type": "li",
+      "text": "Implement a solution"
+    },
+    {
+      "type": "li",
+      "text": "Run tests if available"
+    },
+    {
+      "type": "h2",
+      "text": "Step 8: Test out other common workflows"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> refactor the authentication module to use async/await instead of callbacks"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> write unit tests for the calculator functions"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> update the README with installation instructions"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> review my changes and suggest improvements"
+    },
+    {
+      "type": "blockquote",
+      "text": "**Remember**: Claude Code is your AI pair programmer. Talk to it like you would a helpful colleague - describe what you want to achieve, and it will help you get there."
+    },
+    {
+      "type": "h2",
+      "text": "Essential commands"
+    },
+    {
+      "type": "h2",
+      "text": "Pro tips for beginners"
+    },
+    {
+      "type": "p",
+      "text": "Be specific with your requests"
+    },
+    {
+      "type": "p",
+      "text": "Use step-by-step instructions"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> 1. create a new database table for user profiles"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> 2. create an API endpoint to get and update user profiles"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> 3. build a webpage that allows users to see and edit their information"
+    },
+    {
+      "type": "p",
+      "text": "Let Claude explore first"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> analyze the database schema"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> build a dashboard showing products that are most frequently returned by our UK customers"
+    },
+    {
+      "type": "p",
+      "text": "Save time with shortcuts"
+    },
+    {
+      "type": "li",
+      "text": "Press `?` to see all available keyboard shortcuts"
+    },
+    {
+      "type": "li",
+      "text": "Use Tab for command completion"
+    },
+    {
+      "type": "li",
+      "text": "Press ↑ for command history"
+    },
+    {
+      "type": "li",
+      "text": "Type `/` to see all slash commands"
+    },
+    {
+      "type": "h2",
+      "text": "What’s next?"
+    },
+    {
+      "type": "h2",
+      "text": "Common workflows"
+    },
+    {
+      "type": "h2",
+      "text": "CLI reference"
+    },
+    {
+      "type": "h2",
+      "text": "Configuration"
+    },
+    {
+      "type": "h2",
+      "text": "Claude Code on the web"
+    },
+    {
+      "type": "h2",
+      "text": "About Claude Code"
+    },
+    {
+      "type": "h2",
+      "text": "Getting help"
+    },
+    {
+      "type": "li",
+      "text": "**In Claude Code**: Type `/help` or ask “how do I…”"
+    },
+    {
+      "type": "li",
+      "text": "**Documentation**: You’re here! Browse other guides"
+    },
+    {
+      "type": "li",
+      "text": "**Community**: Join our [Discord](https://www.anthropic.com/discord) for tips and support"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

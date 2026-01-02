@@ -1,0 +1,16 @@
+id: quickstart
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/quickstart
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Quickstart"
+    type: original
+  ko:
+    title: "빠른 시작"
+    type: translation
+    translator: ai

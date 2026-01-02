@@ -1,0 +1,505 @@
+{
+  "title": "Slash commands",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Slash commands"
+    },
+    {
+      "type": "p",
+      "text": "Control Claude’s behavior during an interactive session with slash commands."
+    },
+    {
+      "type": "h2",
+      "text": "Built-in slash commands"
+    },
+    {
+      "type": "h2",
+      "text": "Custom slash commands"
+    },
+    {
+      "type": "h3",
+      "text": "Syntax"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/<command-name> [arguments]"
+    },
+    {
+      "type": "h4",
+      "text": "Parameters"
+    },
+    {
+      "type": "h3",
+      "text": "Command types"
+    },
+    {
+      "type": "h4",
+      "text": "Project commands"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Create a project command\nmkdir -p .claude/commands\necho \"Analyze this code for performance issues and suggest optimizations:\" > .claude/commands/optimize.md"
+    },
+    {
+      "type": "h4",
+      "text": "Personal commands"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Create a personal command\nmkdir -p ~/.claude/commands\necho \"Review this code for security vulnerabilities:\" > ~/.claude/commands/security-review.md"
+    },
+    {
+      "type": "h3",
+      "text": "Features"
+    },
+    {
+      "type": "h4",
+      "text": "Namespacing"
+    },
+    {
+      "type": "li",
+      "text": "`.claude/commands/frontend/component.md` creates `/component` with description “(project:frontend)”"
+    },
+    {
+      "type": "li",
+      "text": "`~/.claude/commands/component.md` creates `/component` with description “(user)”"
+    },
+    {
+      "type": "h4",
+      "text": "Arguments"
+    },
+    {
+      "type": "h5",
+      "text": "All arguments with $ARGUMENTS"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Command definition\necho 'Fix issue #$ARGUMENTS following our coding standards' > .claude/commands/fix-issue.md\n\n# Usage\n> /fix-issue 123 high-priority\n# $ARGUMENTS becomes: \"123 high-priority\""
+    },
+    {
+      "type": "h5",
+      "text": "Individual arguments with $1, $2, etc."
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Command definition  \necho 'Review PR #$1 with priority $2 and assign to $3' > .claude/commands/review-pr.md\n\n# Usage\n> /review-pr 456 high alice\n# $1 becomes \"456\", $2 becomes \"high\", $3 becomes \"alice\""
+    },
+    {
+      "type": "li",
+      "text": "Access arguments individually in different parts of your command"
+    },
+    {
+      "type": "li",
+      "text": "Provide defaults for missing arguments"
+    },
+    {
+      "type": "li",
+      "text": "Build more structured commands with specific parameter roles"
+    },
+    {
+      "type": "h4",
+      "text": "Bash command execution"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\nallowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)\ndescription: Create a git commit\n---\n\n## Context\n\n- Current git status: !`git status`\n- Current git diff (staged and unstaged changes): !`git diff HEAD`\n- Current branch: !`git branch --show-current`\n- Recent commits: !`git log --oneline -10`\n\n## Your task\n\nBased on the above changes, create a single git commit."
+    },
+    {
+      "type": "h4",
+      "text": "File references"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Reference a specific file\n\nReview the implementation in @src/utils/helpers.js\n\n# Reference multiple files\n\nCompare @src/old-version.js with @src/new-version.js"
+    },
+    {
+      "type": "h4",
+      "text": "Thinking mode"
+    },
+    {
+      "type": "h3",
+      "text": "Frontmatter"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\nallowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)\nargument-hint: [message]\ndescription: Create a git commit\nmodel: claude-3-5-haiku-20241022\n---\n\nCreate a git commit with message: $ARGUMENTS"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\nargument-hint: [pr-number] [priority] [assignee]\ndescription: Review pull request\n---\n\nReview PR #$1 with priority $2 and assign to $3.\nFocus on security, performance, and code style."
+    },
+    {
+      "type": "h2",
+      "text": "Plugin commands"
+    },
+    {
+      "type": "h3",
+      "text": "How plugin commands work"
+    },
+    {
+      "type": "li",
+      "text": "**Namespaced**: Commands can use the format `/plugin-name:command-name` to avoid conflicts (plugin prefix is optional unless there are name collisions)"
+    },
+    {
+      "type": "li",
+      "text": "**Automatically available**: Once a plugin is installed and enabled, its commands appear in `/help`"
+    },
+    {
+      "type": "li",
+      "text": "**Fully integrated**: Support all command features (arguments, frontmatter, bash execution, file references)"
+    },
+    {
+      "type": "h3",
+      "text": "Plugin command structure"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\ndescription: Brief description of what the command does\n---\n\n# Command Name\n\nDetailed instructions for Claude on how to execute this command.\nInclude specific guidance on parameters, expected outcomes, and any special considerations."
+    },
+    {
+      "type": "li",
+      "text": "**Arguments**: Use placeholders like `{arg1}` in command descriptions"
+    },
+    {
+      "type": "li",
+      "text": "**Subdirectories**: Organize commands in subdirectories for namespacing"
+    },
+    {
+      "type": "li",
+      "text": "**Bash integration**: Commands can execute shell scripts and programs"
+    },
+    {
+      "type": "li",
+      "text": "**File references**: Commands can reference and modify project files"
+    },
+    {
+      "type": "h3",
+      "text": "Invocation patterns"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/command-name"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/plugin-name:command-name"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/command-name arg1 arg2"
+    },
+    {
+      "type": "h2",
+      "text": "MCP slash commands"
+    },
+    {
+      "type": "h3",
+      "text": "Command format"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/mcp__<server-name>__<prompt-name> [arguments]"
+    },
+    {
+      "type": "h4",
+      "text": "Dynamic discovery"
+    },
+    {
+      "type": "li",
+      "text": "An MCP server is connected and active"
+    },
+    {
+      "type": "li",
+      "text": "The server exposes prompts through the MCP protocol"
+    },
+    {
+      "type": "li",
+      "text": "The prompts are successfully retrieved during connection"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Without arguments\n> /mcp__github__list_prs\n\n# With arguments\n> /mcp__github__pr_review 456\n> /mcp__jira__create_issue \"Bug title\" high"
+    },
+    {
+      "type": "h4",
+      "text": "Naming conventions"
+    },
+    {
+      "type": "li",
+      "text": "Spaces and special characters become underscores"
+    },
+    {
+      "type": "li",
+      "text": "Names are lowercase for consistency"
+    },
+    {
+      "type": "h3",
+      "text": "Managing MCP connections"
+    },
+    {
+      "type": "li",
+      "text": "View all configured MCP servers"
+    },
+    {
+      "type": "li",
+      "text": "Check connection status"
+    },
+    {
+      "type": "li",
+      "text": "Authenticate with OAuth-enabled servers"
+    },
+    {
+      "type": "li",
+      "text": "Clear authentication tokens"
+    },
+    {
+      "type": "li",
+      "text": "View available tools and prompts from each server"
+    },
+    {
+      "type": "h3",
+      "text": "MCP permissions and wildcards"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__github` (approves all GitHub tools)"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__github__*` (wildcard syntax, also approves all GitHub tools)"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__github__get_issue`"
+    },
+    {
+      "type": "li",
+      "text": "`mcp__github__list_issues`"
+    },
+    {
+      "type": "h2",
+      "text": "SlashCommand tool"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "> Run /write-unit-test when you are about to start writing tests."
+    },
+    {
+      "type": "h3",
+      "text": "SlashCommand tool supported commands"
+    },
+    {
+      "type": "li",
+      "text": "Are user-defined. Built-in commands like `/compact` and `/init` are *not* supported."
+    },
+    {
+      "type": "li",
+      "text": "Have the `description` frontmatter field populated. The description is used in the context."
+    },
+    {
+      "type": "h3",
+      "text": "Disable SlashCommand tool"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "/permissions\n# Add to deny rules: SlashCommand"
+    },
+    {
+      "type": "h3",
+      "text": "Disable specific commands only"
+    },
+    {
+      "type": "h3",
+      "text": "SlashCommand permission rules"
+    },
+    {
+      "type": "li",
+      "text": "**Exact match**: `SlashCommand:/commit` (allows only `/commit` with no arguments)"
+    },
+    {
+      "type": "li",
+      "text": "**Prefix match**: `SlashCommand:/review-pr:*` (allows `/review-pr` with any arguments)"
+    },
+    {
+      "type": "h3",
+      "text": "Character budget limit"
+    },
+    {
+      "type": "li",
+      "text": "**Default limit**: 15,000 characters"
+    },
+    {
+      "type": "li",
+      "text": "**Custom limit**: Set via `SLASH_COMMAND_TOOL_CHAR_BUDGET` environment variable"
+    },
+    {
+      "type": "h2",
+      "text": "Skills vs slash commands"
+    },
+    {
+      "type": "h3",
+      "text": "Use slash commands for"
+    },
+    {
+      "type": "li",
+      "text": "Simple prompt snippets you use often"
+    },
+    {
+      "type": "li",
+      "text": "Quick reminders or templates"
+    },
+    {
+      "type": "li",
+      "text": "Frequently used instructions that fit in one file"
+    },
+    {
+      "type": "li",
+      "text": "`/review` → “Review this code for bugs and suggest improvements”"
+    },
+    {
+      "type": "li",
+      "text": "`/explain` → “Explain this code in simple terms”"
+    },
+    {
+      "type": "li",
+      "text": "`/optimize` → “Analyze this code for performance issues”"
+    },
+    {
+      "type": "h3",
+      "text": "Use Skills for"
+    },
+    {
+      "type": "li",
+      "text": "Complex workflows with multiple steps"
+    },
+    {
+      "type": "li",
+      "text": "Capabilities requiring scripts or utilities"
+    },
+    {
+      "type": "li",
+      "text": "Knowledge organized across multiple files"
+    },
+    {
+      "type": "li",
+      "text": "Team workflows you want to standardize"
+    },
+    {
+      "type": "li",
+      "text": "PDF processing Skill with form-filling scripts and validation"
+    },
+    {
+      "type": "li",
+      "text": "Data analysis Skill with reference docs for different data types"
+    },
+    {
+      "type": "li",
+      "text": "Documentation Skill with style guides and templates"
+    },
+    {
+      "type": "h3",
+      "text": "Key differences"
+    },
+    {
+      "type": "h3",
+      "text": "Example comparison"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# .claude/commands/review.md\nReview this code for:\n- Security vulnerabilities\n- Performance issues\n- Code style violations"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": ".claude/skills/code-review/\n├── SKILL.md (overview and workflows)\n├── SECURITY.md (security checklist)\n├── PERFORMANCE.md (performance patterns)\n├── STYLE.md (style guide reference)\n└── scripts/\n    └── run-linters.sh"
+    },
+    {
+      "type": "h3",
+      "text": "When to use each"
+    },
+    {
+      "type": "li",
+      "text": "You invoke the same prompt repeatedly"
+    },
+    {
+      "type": "li",
+      "text": "The prompt fits in a single file"
+    },
+    {
+      "type": "li",
+      "text": "You want explicit control over when it runs"
+    },
+    {
+      "type": "li",
+      "text": "Claude should discover the capability automatically"
+    },
+    {
+      "type": "li",
+      "text": "Multiple files or scripts are needed"
+    },
+    {
+      "type": "li",
+      "text": "Complex workflows with validation steps"
+    },
+    {
+      "type": "li",
+      "text": "Team needs standardized, detailed guidance"
+    },
+    {
+      "type": "h2",
+      "text": "See also"
+    },
+    {
+      "type": "li",
+      "text": "[Plugins](/docs/en/plugins) - Extend Claude Code with custom commands through plugins"
+    },
+    {
+      "type": "li",
+      "text": "[Identity and Access Management](/docs/en/iam) - Complete guide to permissions, including MCP tool permissions"
+    },
+    {
+      "type": "li",
+      "text": "[Interactive mode](/docs/en/interactive-mode) - Shortcuts, input modes, and interactive features"
+    },
+    {
+      "type": "li",
+      "text": "[CLI reference](/docs/en/cli-reference) - Command-line flags and options"
+    },
+    {
+      "type": "li",
+      "text": "[Settings](/docs/en/settings) - Configuration options"
+    },
+    {
+      "type": "li",
+      "text": "[Memory management](/docs/en/memory) - Managing Claude’s memory across sessions"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "title": "Checkpointing",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Checkpointing"
+    },
+    {
+      "type": "p",
+      "text": "Automatically track and rewind Claude’s edits to quickly recover from unwanted changes."
+    },
+    {
+      "type": "h2",
+      "text": "How checkpoints work"
+    },
+    {
+      "type": "h3",
+      "text": "Automatic tracking"
+    },
+    {
+      "type": "li",
+      "text": "Every user prompt creates a new checkpoint"
+    },
+    {
+      "type": "li",
+      "text": "Checkpoints persist across sessions, so you can access them in resumed conversations"
+    },
+    {
+      "type": "li",
+      "text": "Automatically cleaned up along with sessions after 30 days (configurable)"
+    },
+    {
+      "type": "h3",
+      "text": "Rewinding changes"
+    },
+    {
+      "type": "li",
+      "text": "**Conversation only**: Rewind to a user message while keeping code changes"
+    },
+    {
+      "type": "li",
+      "text": "**Code only**: Revert file changes while keeping the conversation"
+    },
+    {
+      "type": "li",
+      "text": "**Both code and conversation**: Restore both to a prior point in the session"
+    },
+    {
+      "type": "h2",
+      "text": "Common use cases"
+    },
+    {
+      "type": "li",
+      "text": "**Exploring alternatives**: Try different implementation approaches without losing your starting point"
+    },
+    {
+      "type": "li",
+      "text": "**Recovering from mistakes**: Quickly undo changes that introduced bugs or broke functionality"
+    },
+    {
+      "type": "li",
+      "text": "**Iterating on features**: Experiment with variations knowing you can revert to working states"
+    },
+    {
+      "type": "h2",
+      "text": "Limitations"
+    },
+    {
+      "type": "h3",
+      "text": "Bash command changes not tracked"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "rm file.txt\nmv old.txt new.txt\ncp source.txt dest.txt"
+    },
+    {
+      "type": "h3",
+      "text": "External changes not tracked"
+    },
+    {
+      "type": "h3",
+      "text": "Not a replacement for version control"
+    },
+    {
+      "type": "li",
+      "text": "Continue using version control (ex. Git) for commits, branches, and long-term history"
+    },
+    {
+      "type": "li",
+      "text": "Checkpoints complement but don’t replace proper version control"
+    },
+    {
+      "type": "li",
+      "text": "Think of checkpoints as “local undo” and Git as “permanent history”"
+    },
+    {
+      "type": "h2",
+      "text": "See also"
+    },
+    {
+      "type": "li",
+      "text": "[Interactive mode](/docs/en/interactive-mode) - Keyboard shortcuts and session controls"
+    },
+    {
+      "type": "li",
+      "text": "[Slash commands](/docs/en/slash-commands) - Accessing checkpoints using `/rewind`"
+    },
+    {
+      "type": "li",
+      "text": "[CLI reference](/docs/en/cli-reference) - Command-line options"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "title": "Interactive mode",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Interactive mode"
+    },
+    {
+      "type": "p",
+      "text": "Complete reference for keyboard shortcuts, input modes, and interactive features in Claude Code sessions."
+    },
+    {
+      "type": "h2",
+      "text": "Keyboard shortcuts"
+    },
+    {
+      "type": "blockquote",
+      "text": "Keyboard shortcuts may vary by platform and terminal. Press `?` to see available shortcuts for your environment. For example, Option key combinations on macOS may require configuring your terminal to use Option as a meta/escape key."
+    },
+    {
+      "type": "h3",
+      "text": "General controls"
+    },
+    {
+      "type": "h3",
+      "text": "Multiline input"
+    },
+    {
+      "type": "blockquote",
+      "text": "Configure your preferred line break behavior in terminal settings. Run `/terminal-setup` to install Shift+Enter binding for iTerm2 and VS Code terminals."
+    },
+    {
+      "type": "h3",
+      "text": "Quick commands"
+    },
+    {
+      "type": "h2",
+      "text": "Vim editor mode"
+    },
+    {
+      "type": "h3",
+      "text": "Mode switching"
+    },
+    {
+      "type": "h3",
+      "text": "Navigation (NORMAL mode)"
+    },
+    {
+      "type": "h3",
+      "text": "Editing (NORMAL mode)"
+    },
+    {
+      "type": "h2",
+      "text": "Command history"
+    },
+    {
+      "type": "li",
+      "text": "History is stored per working directory"
+    },
+    {
+      "type": "li",
+      "text": "Cleared with `/clear` command"
+    },
+    {
+      "type": "li",
+      "text": "Use Up/Down arrows to navigate (see keyboard shortcuts above)"
+    },
+    {
+      "type": "li",
+      "text": "**Note**: History expansion (`!`) is disabled by default"
+    },
+    {
+      "type": "h3",
+      "text": "Reverse search with Ctrl+R"
+    },
+    {
+      "type": "li",
+      "text": "**Start search**: Press `Ctrl+R` to activate reverse history search"
+    },
+    {
+      "type": "li",
+      "text": "**Type query**: Enter text to search for in previous commands - the search term will be highlighted in matching results"
+    },
+    {
+      "type": "li",
+      "text": "**Navigate matches**: Press `Ctrl+R` again to cycle through older matches"
+    },
+    {
+      "type": "li",
+      "text": "**Accept match**:\n\nPress `Tab` or `Esc` to accept the current match and continue editing\nPress `Enter` to accept and execute the command immediately"
+    },
+    {
+      "type": "li",
+      "text": "Press `Tab` or `Esc` to accept the current match and continue editing"
+    },
+    {
+      "type": "li",
+      "text": "Press `Enter` to accept and execute the command immediately"
+    },
+    {
+      "type": "li",
+      "text": "**Cancel search**:\n\nPress `Ctrl+C` to cancel and restore your original input\nPress `Backspace` on empty search to cancel"
+    },
+    {
+      "type": "li",
+      "text": "Press `Ctrl+C` to cancel and restore your original input"
+    },
+    {
+      "type": "li",
+      "text": "Press `Backspace` on empty search to cancel"
+    },
+    {
+      "type": "h2",
+      "text": "Background bash commands"
+    },
+    {
+      "type": "h3",
+      "text": "How backgrounding works"
+    },
+    {
+      "type": "li",
+      "text": "Prompt Claude Code to run a command in the background"
+    },
+    {
+      "type": "li",
+      "text": "Press Ctrl+B to move a regular Bash tool invocation to the background. (Tmux users must press Ctrl+B twice due to tmux’s prefix key.)"
+    },
+    {
+      "type": "li",
+      "text": "Output is buffered and Claude can retrieve it using the BashOutput tool"
+    },
+    {
+      "type": "li",
+      "text": "Background tasks have unique IDs for tracking and output retrieval"
+    },
+    {
+      "type": "li",
+      "text": "Background tasks are automatically cleaned up when Claude Code exits"
+    },
+    {
+      "type": "li",
+      "text": "Build tools (webpack, vite, make)"
+    },
+    {
+      "type": "li",
+      "text": "Package managers (npm, yarn, pnpm)"
+    },
+    {
+      "type": "li",
+      "text": "Test runners (jest, pytest)"
+    },
+    {
+      "type": "li",
+      "text": "Development servers"
+    },
+    {
+      "type": "li",
+      "text": "Long-running processes (docker, terraform)"
+    },
+    {
+      "type": "h3",
+      "text": "Bash mode with ! prefix"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "! npm test\n! git status\n! ls -la"
+    },
+    {
+      "type": "li",
+      "text": "Adds the command and its output to the conversation context"
+    },
+    {
+      "type": "li",
+      "text": "Shows real-time progress and output"
+    },
+    {
+      "type": "li",
+      "text": "Supports the same `Ctrl+B` backgrounding for long-running commands"
+    },
+    {
+      "type": "li",
+      "text": "Does not require Claude to interpret or approve the command"
+    },
+    {
+      "type": "h2",
+      "text": "See also"
+    },
+    {
+      "type": "li",
+      "text": "[Slash commands](/docs/en/slash-commands) - Interactive session commands"
+    },
+    {
+      "type": "li",
+      "text": "[Checkpointing](/docs/en/checkpointing) - Rewind Claude’s edits and restore previous states"
+    },
+    {
+      "type": "li",
+      "text": "[CLI reference](/docs/en/cli-reference) - Command-line flags and options"
+    },
+    {
+      "type": "li",
+      "text": "[Settings](/docs/en/settings) - Configuration options"
+    },
+    {
+      "type": "li",
+      "text": "[Memory management](/docs/en/memory) - Managing CLAUDE.md files"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+id: security
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/security
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Security"
+    type: original
+  ko:
+    title: "보안"
+    type: translation
+    translator: ai

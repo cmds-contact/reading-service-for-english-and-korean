@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "description": "Google Blog Scraper 알려진 문제 패턴 DB - Self-Improving Agent",
+  "lastUpdated": "2026-01-02",
+  "issues": [
+    {
+      "id": "google-custom-youtube",
+      "type": "YOUTUBE_CUSTOM_ELEMENT",
+      "pattern": "uni-youtube-player-hero 또는 video-id 속성",
+      "addedDate": "2026-01-02",
+      "status": "resolved",
+      "fix": {
+        "file": "scrape-google-blog.js",
+        "action": "custom_element_selector",
+        "description": "Google 커스텀 YouTube 플레이어 선택자 추가"
+      }
+    },
+    {
+      "id": "thumbnail-resize",
+      "type": "IMAGE_SIZE",
+      "pattern": "width-100 썸네일을 width-1000으로 변환",
+      "addedDate": "2026-01-02",
+      "status": "resolved",
+      "fix": {
+        "file": "scrape-google-blog.js",
+        "action": "url_replace",
+        "description": "썸네일 URL을 고해상도로 변환"
+      }
+    }
+  ],
+  "siteStructureHistory": [
+    {
+      "date": "2026-01-02",
+      "structure": "article > 본문 또는 main > 본문",
+      "notes": "표준 구조"
+    }
+  ],
+  "knownPatterns": {
+    "youtube": {
+      "customElements": ["uni-youtube-player-hero"],
+      "attributes": ["video-id", "thumbnail-alt"],
+      "iframePatterns": ["youtube.com/embed/"]
+    },
+    "images": {
+      "excludePatterns": ["icon", "logo", "avatar"],
+      "resizePatterns": [
+        {"from": "width-100", "to": "width-1000"}
+      ]
+    }
+  }
+}

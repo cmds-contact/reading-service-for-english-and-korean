@@ -1,0 +1,276 @@
+{
+  "title": "Use Claude Code with Chrome (beta)",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Use Claude Code with Chrome (beta)"
+    },
+    {
+      "type": "p",
+      "text": "Connect Claude Code to your browser to test web apps, debug with console logs, and automate browser tasks."
+    },
+    {
+      "type": "blockquote",
+      "text": "Chrome integration is in beta and currently works with Google Chrome only. It is not yet supported on Brave, Arc, or other Chromium-based browsers. WSL (Windows Subsystem for Linux) is also not supported."
+    },
+    {
+      "type": "h2",
+      "text": "What the integration enables"
+    },
+    {
+      "type": "li",
+      "text": "**Live debugging**: Claude reads console errors and DOM state directly, then fixes the code that caused them"
+    },
+    {
+      "type": "li",
+      "text": "**Design verification**: Build a UI from a Figma mock, then have Claude open it in the browser and verify it matches"
+    },
+    {
+      "type": "li",
+      "text": "**Web app testing**: Test form validation, check for visual regressions, or verify user flows work correctly"
+    },
+    {
+      "type": "li",
+      "text": "**Authenticated web apps**: Interact with Google Docs, Gmail, Notion, or any app you’re logged into without needing API connectors"
+    },
+    {
+      "type": "li",
+      "text": "**Data extraction**: Pull structured information from web pages and save it locally"
+    },
+    {
+      "type": "li",
+      "text": "**Task automation**: Automate repetitive browser tasks like data entry, form filling, or multi-site workflows"
+    },
+    {
+      "type": "li",
+      "text": "**Session recording**: Record browser interactions as GIFs to document or share what happened"
+    },
+    {
+      "type": "h2",
+      "text": "Prerequisites"
+    },
+    {
+      "type": "li",
+      "text": "[Google Chrome](https://www.google.com/chrome/) browser"
+    },
+    {
+      "type": "li",
+      "text": "[Claude in Chrome extension](https://chromewebstore.google.com/detail/claude/fcoeoabgfenejglbffodgkkbkcdhcgfn) version 1.0.36 or higher"
+    },
+    {
+      "type": "li",
+      "text": "[Claude Code CLI](/docs/en/quickstart#step-1:-install-claude-code) version 2.0.73 or higher"
+    },
+    {
+      "type": "li",
+      "text": "A paid Claude plan (Pro, Team, or Enterprise)"
+    },
+    {
+      "type": "h2",
+      "text": "How the integration works"
+    },
+    {
+      "type": "blockquote",
+      "text": "The Chrome integration requires a visible browser window. When Claude performs browser actions, you’ll see Chrome open and navigate in real time. There’s no headless mode since the integration relies on your actual browser session with its login state."
+    },
+    {
+      "type": "h2",
+      "text": "Set up the integration"
+    },
+    {
+      "type": "p",
+      "text": "Update Claude Code"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude update"
+    },
+    {
+      "type": "p",
+      "text": "Start Claude Code with Chrome enabled"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --chrome"
+    },
+    {
+      "type": "p",
+      "text": "Verify the connection"
+    },
+    {
+      "type": "h2",
+      "text": "Try it out"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "Go to code.claude.com/docs, click on the search box,\ntype \"hooks\", and tell me what results appear"
+    },
+    {
+      "type": "h2",
+      "text": "Example workflows"
+    },
+    {
+      "type": "h3",
+      "text": "Test a local web application"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "I just updated the login form validation. Can you open localhost:3000,\ntry submitting the form with invalid data, and check if the error\nmessages appear correctly?"
+    },
+    {
+      "type": "h3",
+      "text": "Debug with console logs"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "Open the dashboard page and check the console for any errors when\nthe page loads."
+    },
+    {
+      "type": "h3",
+      "text": "Automate form filling"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "I have a spreadsheet of customer contacts in contacts.csv. For each row,\ngo to our CRM at crm.example.com, click \"Add Contact\", and fill in the\nname, email, and phone fields."
+    },
+    {
+      "type": "h3",
+      "text": "Draft content in Google Docs"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "Draft a project update based on our recent commits and add it to my\nGoogle Doc at docs.google.com/document/d/abc123"
+    },
+    {
+      "type": "h3",
+      "text": "Extract data from web pages"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "Go to the product listings page and extract the name, price, and\navailability for each item. Save the results as a CSV file."
+    },
+    {
+      "type": "h3",
+      "text": "Run multi-site workflows"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "Check my calendar for meetings tomorrow, then for each meeting with\nan external attendee, look up their company on LinkedIn and add a\nnote about what they do."
+    },
+    {
+      "type": "h3",
+      "text": "Record a demo GIF"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "Record a GIF showing how to complete the checkout flow, from adding\nan item to the cart through to the confirmation page."
+    },
+    {
+      "type": "h2",
+      "text": "Best practices"
+    },
+    {
+      "type": "li",
+      "text": "**Modal dialogs can interrupt the flow**: JavaScript alerts, confirms, and prompts block browser events and prevent Claude from receiving commands. If a dialog appears, dismiss it manually and tell Claude to continue."
+    },
+    {
+      "type": "li",
+      "text": "**Use fresh tabs**: Claude creates new tabs for each session. If a tab becomes unresponsive, ask Claude to create a new one."
+    },
+    {
+      "type": "li",
+      "text": "**Filter console output**: Console logs can be verbose. When debugging, tell Claude what patterns to look for rather than asking for all console output."
+    },
+    {
+      "type": "h2",
+      "text": "Troubleshooting"
+    },
+    {
+      "type": "h3",
+      "text": "Extension not detected"
+    },
+    {
+      "type": "li",
+      "text": "Verify the Chrome extension (version 1.0.36 or higher) is installed"
+    },
+    {
+      "type": "li",
+      "text": "Verify Claude Code is version 2.0.73 or higher by running `claude --version`"
+    },
+    {
+      "type": "li",
+      "text": "Check that Chrome is running"
+    },
+    {
+      "type": "li",
+      "text": "Run `/chrome` and select “Reconnect extension” to re-establish the connection"
+    },
+    {
+      "type": "li",
+      "text": "If the issue persists, restart both Claude Code and Chrome"
+    },
+    {
+      "type": "h3",
+      "text": "Browser not responding"
+    },
+    {
+      "type": "li",
+      "text": "Check if a modal dialog (alert, confirm, prompt) is blocking the page"
+    },
+    {
+      "type": "li",
+      "text": "Ask Claude to create a new tab and try again"
+    },
+    {
+      "type": "li",
+      "text": "Restart the Chrome extension by disabling and re-enabling it"
+    },
+    {
+      "type": "h3",
+      "text": "First-time setup"
+    },
+    {
+      "type": "h2",
+      "text": "Enable by default"
+    },
+    {
+      "type": "blockquote",
+      "text": "Enabling Chrome by default increases context usage since browser tools are always loaded. If you notice increased context consumption, disable this setting and use `--chrome` only when needed."
+    },
+    {
+      "type": "h2",
+      "text": "See also"
+    },
+    {
+      "type": "li",
+      "text": "[CLI reference](/docs/en/cli-reference) - Command-line flags including `--chrome`"
+    },
+    {
+      "type": "li",
+      "text": "[Common workflows](/docs/en/common-workflows) - More ways to use Claude Code"
+    },
+    {
+      "type": "li",
+      "text": "[Getting started with Claude for Chrome](https://support.anthropic.com/en/articles/12012173-getting-started-with-claude-for-chrome) - Full documentation for the Chrome extension, including shortcuts, scheduling, and permissions"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

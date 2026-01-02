@@ -1,0 +1,16 @@
+id: sub-agents
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/sub-agents
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Subagents"
+    type: original
+  ko:
+    title: "Subagent"
+    type: translation
+    translator: ai

@@ -1,0 +1,1195 @@
+{
+  "title": "Claude Code on the web",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Claude Code on the web"
+    },
+    {
+      "type": "p",
+      "text": "Run Claude Code tasks asynchronously on secure cloud infrastructure"
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude Code on the web is currently in research preview."
+    },
+    {
+      "type": "h2",
+      "text": "What is Claude Code on the web?"
+    },
+    {
+      "type": "li",
+      "text": "**Answering questions**: Ask about code architecture and how features are implemented"
+    },
+    {
+      "type": "li",
+      "text": "**Bug fixes and routine tasks**: Well-defined tasks that don’t require frequent steering"
+    },
+    {
+      "type": "li",
+      "text": "**Parallel work**: Tackle multiple bug fixes in parallel"
+    },
+    {
+      "type": "li",
+      "text": "**Repositories not on your local machine**: Work on code you don’t have checked out locally"
+    },
+    {
+      "type": "li",
+      "text": "**Backend changes**: Where Claude Code can write tests and then write code to pass those tests"
+    },
+    {
+      "type": "li",
+      "text": "**On the go**: Kick off tasks while commuting or away from laptop"
+    },
+    {
+      "type": "li",
+      "text": "**Monitoring**: Watch the trajectory and steer the agent’s work"
+    },
+    {
+      "type": "h2",
+      "text": "Who can use Claude Code on the web?"
+    },
+    {
+      "type": "li",
+      "text": "**Pro users**"
+    },
+    {
+      "type": "li",
+      "text": "**Max users**"
+    },
+    {
+      "type": "li",
+      "text": "**Team premium seat users**"
+    },
+    {
+      "type": "li",
+      "text": "**Enterprise premium seat users**"
+    },
+    {
+      "type": "h2",
+      "text": "Getting started"
+    },
+    {
+      "type": "li",
+      "text": "Visit [claude.ai/code](https://claude.ai/code)"
+    },
+    {
+      "type": "li",
+      "text": "Connect your GitHub account"
+    },
+    {
+      "type": "li",
+      "text": "Install the Claude GitHub app in your repositories"
+    },
+    {
+      "type": "li",
+      "text": "Select your default environment"
+    },
+    {
+      "type": "li",
+      "text": "Submit your coding task"
+    },
+    {
+      "type": "li",
+      "text": "Review changes and create a pull request in GitHub"
+    },
+    {
+      "type": "h2",
+      "text": "How it works"
+    },
+    {
+      "type": "li",
+      "text": "**Repository cloning**: Your repository is cloned to an Anthropic-managed virtual machine"
+    },
+    {
+      "type": "li",
+      "text": "**Environment setup**: Claude prepares a secure cloud environment with your code"
+    },
+    {
+      "type": "li",
+      "text": "**Network configuration**: Internet access is configured based on your settings"
+    },
+    {
+      "type": "li",
+      "text": "**Task execution**: Claude analyzes code, makes changes, runs tests, and checks its work"
+    },
+    {
+      "type": "li",
+      "text": "**Completion**: You’re notified when finished and can create a PR with the changes"
+    },
+    {
+      "type": "li",
+      "text": "**Results**: Changes are pushed to a branch, ready for pull request creation"
+    },
+    {
+      "type": "h2",
+      "text": "Moving tasks between web and terminal"
+    },
+    {
+      "type": "h3",
+      "text": "From web to terminal"
+    },
+    {
+      "type": "li",
+      "text": "Click the “Open in CLI” button"
+    },
+    {
+      "type": "li",
+      "text": "Paste and run the command in your terminal in a checkout of the repo"
+    },
+    {
+      "type": "li",
+      "text": "Any existing local changes will be stashed, and the remote session will be loaded"
+    },
+    {
+      "type": "li",
+      "text": "Continue working locally"
+    },
+    {
+      "type": "h2",
+      "text": "Cloud environment"
+    },
+    {
+      "type": "h3",
+      "text": "Default image"
+    },
+    {
+      "type": "li",
+      "text": "Popular programming languages and runtimes"
+    },
+    {
+      "type": "li",
+      "text": "Common build tools and package managers"
+    },
+    {
+      "type": "li",
+      "text": "Testing frameworks and linters"
+    },
+    {
+      "type": "h4",
+      "text": "Checking available tools"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "check-tools"
+    },
+    {
+      "type": "li",
+      "text": "Programming languages and their versions"
+    },
+    {
+      "type": "li",
+      "text": "Available package managers"
+    },
+    {
+      "type": "li",
+      "text": "Installed development tools"
+    },
+    {
+      "type": "h4",
+      "text": "Language-specific setups"
+    },
+    {
+      "type": "li",
+      "text": "**Python**: Python 3.x with pip, poetry, and common scientific libraries"
+    },
+    {
+      "type": "li",
+      "text": "**Node.js**: Latest LTS versions with npm, yarn, pnpm, and bun"
+    },
+    {
+      "type": "li",
+      "text": "**Ruby**: Versions 3.1.6, 3.2.6, 3.3.6 (default: 3.3.6) with gem, bundler, and rbenv for version management"
+    },
+    {
+      "type": "li",
+      "text": "**PHP**: Version 8.4.14"
+    },
+    {
+      "type": "li",
+      "text": "**Java**: OpenJDK with Maven and Gradle"
+    },
+    {
+      "type": "li",
+      "text": "**Go**: Latest stable version with module support"
+    },
+    {
+      "type": "li",
+      "text": "**Rust**: Rust toolchain with cargo"
+    },
+    {
+      "type": "li",
+      "text": "**C++**: GCC and Clang compilers"
+    },
+    {
+      "type": "h4",
+      "text": "Databases"
+    },
+    {
+      "type": "li",
+      "text": "**PostgreSQL**: Version 16"
+    },
+    {
+      "type": "li",
+      "text": "**Redis**: Version 7.0"
+    },
+    {
+      "type": "h3",
+      "text": "Environment configuration"
+    },
+    {
+      "type": "li",
+      "text": "**Environment preparation**: We clone your repository and run any configured Claude hooks for initialization. The repo will be cloned with the default branch on your GitHub repo. If you would like to check out a specific branch, you can specify that in the prompt."
+    },
+    {
+      "type": "li",
+      "text": "**Network configuration**: We configure internet access for the agent. Internet access is limited by default, but you can configure the environment to have no internet or full internet access based on your needs."
+    },
+    {
+      "type": "li",
+      "text": "**Claude Code execution**: Claude Code runs to complete your task, writing code, running tests, and checking its work. You can guide and steer Claude throughout the session via the web interface. Claude respects context you’ve defined in your `CLAUDE.md`."
+    },
+    {
+      "type": "li",
+      "text": "**Outcome**: When Claude completes its work, it will push the branch to remote. You will be able to create a PR for the branch."
+    },
+    {
+      "type": "blockquote",
+      "text": "Claude operates entirely through the terminal and CLI tools available in the environment. It uses the pre-installed tools in the universal image and any additional tools you install through hooks or dependency management."
+    },
+    {
+      "type": "blockquote",
+      "text": "Environment variables must be specified as key-value pairs, in `.env` format. For example:CopyAsk AIAPI_KEY=your_api_key\nDEBUG=true"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "API_KEY=your_api_key\nDEBUG=true"
+    },
+    {
+      "type": "h3",
+      "text": "Dependency management"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"SessionStart\": [\n      {\n        \"matcher\": \"startup\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"\\\"$CLAUDE_PROJECT_DIR\\\"/scripts/install_pkgs.sh\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\nnpm install\npip install -r requirements.txt\nexit 0"
+    },
+    {
+      "type": "h4",
+      "text": "Local vs remote execution"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "#!/bin/bash\n\n# Example: Only run in remote environments\nif [ \"$CLAUDE_CODE_REMOTE\" != \"true\" ]; then\n  exit 0\nfi\n\nnpm install\npip install -r requirements.txt"
+    },
+    {
+      "type": "h4",
+      "text": "Persisting environment variables"
+    },
+    {
+      "type": "h2",
+      "text": "Network access and security"
+    },
+    {
+      "type": "h3",
+      "text": "Network policy"
+    },
+    {
+      "type": "h4",
+      "text": "GitHub proxy"
+    },
+    {
+      "type": "li",
+      "text": "Manages GitHub authentication securely - the git client uses a scoped credential inside the sandbox, which the proxy verifies and translates to your actual GitHub authentication token"
+    },
+    {
+      "type": "li",
+      "text": "Restricts git push operations to the current working branch for safety"
+    },
+    {
+      "type": "li",
+      "text": "Enables seamless cloning, fetching, and PR operations while maintaining security boundaries"
+    },
+    {
+      "type": "h4",
+      "text": "Security proxy"
+    },
+    {
+      "type": "li",
+      "text": "Protection against malicious requests"
+    },
+    {
+      "type": "li",
+      "text": "Rate limiting and abuse prevention"
+    },
+    {
+      "type": "li",
+      "text": "Content filtering for enhanced security"
+    },
+    {
+      "type": "h3",
+      "text": "Access levels"
+    },
+    {
+      "type": "h3",
+      "text": "Default allowed domains"
+    },
+    {
+      "type": "h4",
+      "text": "Anthropic Services"
+    },
+    {
+      "type": "li",
+      "text": "api.anthropic.com"
+    },
+    {
+      "type": "li",
+      "text": "statsig.anthropic.com"
+    },
+    {
+      "type": "li",
+      "text": "claude.ai"
+    },
+    {
+      "type": "h4",
+      "text": "Version Control"
+    },
+    {
+      "type": "li",
+      "text": "github.com"
+    },
+    {
+      "type": "li",
+      "text": "[www.github.com](http://www.github.com)"
+    },
+    {
+      "type": "li",
+      "text": "api.github.com"
+    },
+    {
+      "type": "li",
+      "text": "raw.githubusercontent.com"
+    },
+    {
+      "type": "li",
+      "text": "objects.githubusercontent.com"
+    },
+    {
+      "type": "li",
+      "text": "codeload.github.com"
+    },
+    {
+      "type": "li",
+      "text": "avatars.githubusercontent.com"
+    },
+    {
+      "type": "li",
+      "text": "camo.githubusercontent.com"
+    },
+    {
+      "type": "li",
+      "text": "gist.github.com"
+    },
+    {
+      "type": "li",
+      "text": "gitlab.com"
+    },
+    {
+      "type": "li",
+      "text": "[www.gitlab.com](http://www.gitlab.com)"
+    },
+    {
+      "type": "li",
+      "text": "registry.gitlab.com"
+    },
+    {
+      "type": "li",
+      "text": "bitbucket.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.bitbucket.org](http://www.bitbucket.org)"
+    },
+    {
+      "type": "li",
+      "text": "api.bitbucket.org"
+    },
+    {
+      "type": "h4",
+      "text": "Container Registries"
+    },
+    {
+      "type": "li",
+      "text": "registry-1.docker.io"
+    },
+    {
+      "type": "li",
+      "text": "auth.docker.io"
+    },
+    {
+      "type": "li",
+      "text": "index.docker.io"
+    },
+    {
+      "type": "li",
+      "text": "hub.docker.com"
+    },
+    {
+      "type": "li",
+      "text": "[www.docker.com](http://www.docker.com)"
+    },
+    {
+      "type": "li",
+      "text": "production.cloudflare.docker.com"
+    },
+    {
+      "type": "li",
+      "text": "download.docker.com"
+    },
+    {
+      "type": "li",
+      "text": "*.gcr.io"
+    },
+    {
+      "type": "li",
+      "text": "ghcr.io"
+    },
+    {
+      "type": "li",
+      "text": "mcr.microsoft.com"
+    },
+    {
+      "type": "li",
+      "text": "*.data.mcr.microsoft.com"
+    },
+    {
+      "type": "h4",
+      "text": "Cloud Platforms"
+    },
+    {
+      "type": "li",
+      "text": "cloud.google.com"
+    },
+    {
+      "type": "li",
+      "text": "accounts.google.com"
+    },
+    {
+      "type": "li",
+      "text": "gcloud.google.com"
+    },
+    {
+      "type": "li",
+      "text": "*.googleapis.com"
+    },
+    {
+      "type": "li",
+      "text": "storage.googleapis.com"
+    },
+    {
+      "type": "li",
+      "text": "compute.googleapis.com"
+    },
+    {
+      "type": "li",
+      "text": "container.googleapis.com"
+    },
+    {
+      "type": "li",
+      "text": "azure.com"
+    },
+    {
+      "type": "li",
+      "text": "portal.azure.com"
+    },
+    {
+      "type": "li",
+      "text": "microsoft.com"
+    },
+    {
+      "type": "li",
+      "text": "[www.microsoft.com](http://www.microsoft.com)"
+    },
+    {
+      "type": "li",
+      "text": "*.microsoftonline.com"
+    },
+    {
+      "type": "li",
+      "text": "packages.microsoft.com"
+    },
+    {
+      "type": "li",
+      "text": "dotnet.microsoft.com"
+    },
+    {
+      "type": "li",
+      "text": "dot.net"
+    },
+    {
+      "type": "li",
+      "text": "visualstudio.com"
+    },
+    {
+      "type": "li",
+      "text": "dev.azure.com"
+    },
+    {
+      "type": "li",
+      "text": "oracle.com"
+    },
+    {
+      "type": "li",
+      "text": "[www.oracle.com](http://www.oracle.com)"
+    },
+    {
+      "type": "li",
+      "text": "java.com"
+    },
+    {
+      "type": "li",
+      "text": "[www.java.com](http://www.java.com)"
+    },
+    {
+      "type": "li",
+      "text": "java.net"
+    },
+    {
+      "type": "li",
+      "text": "[www.java.net](http://www.java.net)"
+    },
+    {
+      "type": "li",
+      "text": "download.oracle.com"
+    },
+    {
+      "type": "li",
+      "text": "yum.oracle.com"
+    },
+    {
+      "type": "h4",
+      "text": "Package Managers - JavaScript/Node"
+    },
+    {
+      "type": "li",
+      "text": "registry.npmjs.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.npmjs.com](http://www.npmjs.com)"
+    },
+    {
+      "type": "li",
+      "text": "[www.npmjs.org](http://www.npmjs.org)"
+    },
+    {
+      "type": "li",
+      "text": "npmjs.com"
+    },
+    {
+      "type": "li",
+      "text": "npmjs.org"
+    },
+    {
+      "type": "li",
+      "text": "yarnpkg.com"
+    },
+    {
+      "type": "li",
+      "text": "registry.yarnpkg.com"
+    },
+    {
+      "type": "h4",
+      "text": "Package Managers - Python"
+    },
+    {
+      "type": "li",
+      "text": "pypi.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.pypi.org](http://www.pypi.org)"
+    },
+    {
+      "type": "li",
+      "text": "files.pythonhosted.org"
+    },
+    {
+      "type": "li",
+      "text": "pythonhosted.org"
+    },
+    {
+      "type": "li",
+      "text": "test.pypi.org"
+    },
+    {
+      "type": "li",
+      "text": "pypi.python.org"
+    },
+    {
+      "type": "li",
+      "text": "pypa.io"
+    },
+    {
+      "type": "li",
+      "text": "[www.pypa.io](http://www.pypa.io)"
+    },
+    {
+      "type": "h4",
+      "text": "Package Managers - Ruby"
+    },
+    {
+      "type": "li",
+      "text": "rubygems.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.rubygems.org](http://www.rubygems.org)"
+    },
+    {
+      "type": "li",
+      "text": "api.rubygems.org"
+    },
+    {
+      "type": "li",
+      "text": "index.rubygems.org"
+    },
+    {
+      "type": "li",
+      "text": "ruby-lang.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.ruby-lang.org](http://www.ruby-lang.org)"
+    },
+    {
+      "type": "li",
+      "text": "rubyforge.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.rubyforge.org](http://www.rubyforge.org)"
+    },
+    {
+      "type": "li",
+      "text": "rubyonrails.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.rubyonrails.org](http://www.rubyonrails.org)"
+    },
+    {
+      "type": "li",
+      "text": "rvm.io"
+    },
+    {
+      "type": "li",
+      "text": "get.rvm.io"
+    },
+    {
+      "type": "h4",
+      "text": "Package Managers - Rust"
+    },
+    {
+      "type": "li",
+      "text": "crates.io"
+    },
+    {
+      "type": "li",
+      "text": "[www.crates.io](http://www.crates.io)"
+    },
+    {
+      "type": "li",
+      "text": "static.crates.io"
+    },
+    {
+      "type": "li",
+      "text": "rustup.rs"
+    },
+    {
+      "type": "li",
+      "text": "static.rust-lang.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.rust-lang.org](http://www.rust-lang.org)"
+    },
+    {
+      "type": "h4",
+      "text": "Package Managers - Go"
+    },
+    {
+      "type": "li",
+      "text": "proxy.golang.org"
+    },
+    {
+      "type": "li",
+      "text": "sum.golang.org"
+    },
+    {
+      "type": "li",
+      "text": "index.golang.org"
+    },
+    {
+      "type": "li",
+      "text": "golang.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.golang.org](http://www.golang.org)"
+    },
+    {
+      "type": "li",
+      "text": "goproxy.io"
+    },
+    {
+      "type": "li",
+      "text": "pkg.go.dev"
+    },
+    {
+      "type": "h4",
+      "text": "Package Managers - JVM"
+    },
+    {
+      "type": "li",
+      "text": "maven.org"
+    },
+    {
+      "type": "li",
+      "text": "repo.maven.org"
+    },
+    {
+      "type": "li",
+      "text": "central.maven.org"
+    },
+    {
+      "type": "li",
+      "text": "repo1.maven.org"
+    },
+    {
+      "type": "li",
+      "text": "jcenter.bintray.com"
+    },
+    {
+      "type": "li",
+      "text": "gradle.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.gradle.org](http://www.gradle.org)"
+    },
+    {
+      "type": "li",
+      "text": "services.gradle.org"
+    },
+    {
+      "type": "li",
+      "text": "spring.io"
+    },
+    {
+      "type": "li",
+      "text": "repo.spring.io"
+    },
+    {
+      "type": "h4",
+      "text": "Package Managers - Other Languages"
+    },
+    {
+      "type": "li",
+      "text": "packagist.org (PHP Composer)"
+    },
+    {
+      "type": "li",
+      "text": "[www.packagist.org](http://www.packagist.org)"
+    },
+    {
+      "type": "li",
+      "text": "repo.packagist.org"
+    },
+    {
+      "type": "li",
+      "text": "nuget.org (.NET NuGet)"
+    },
+    {
+      "type": "li",
+      "text": "[www.nuget.org](http://www.nuget.org)"
+    },
+    {
+      "type": "li",
+      "text": "api.nuget.org"
+    },
+    {
+      "type": "li",
+      "text": "pub.dev (Dart/Flutter)"
+    },
+    {
+      "type": "li",
+      "text": "api.pub.dev"
+    },
+    {
+      "type": "li",
+      "text": "hex.pm (Elixir/Erlang)"
+    },
+    {
+      "type": "li",
+      "text": "[www.hex.pm](http://www.hex.pm)"
+    },
+    {
+      "type": "li",
+      "text": "cpan.org (Perl CPAN)"
+    },
+    {
+      "type": "li",
+      "text": "[www.cpan.org](http://www.cpan.org)"
+    },
+    {
+      "type": "li",
+      "text": "metacpan.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.metacpan.org](http://www.metacpan.org)"
+    },
+    {
+      "type": "li",
+      "text": "api.metacpan.org"
+    },
+    {
+      "type": "li",
+      "text": "cocoapods.org (iOS/macOS)"
+    },
+    {
+      "type": "li",
+      "text": "[www.cocoapods.org](http://www.cocoapods.org)"
+    },
+    {
+      "type": "li",
+      "text": "cdn.cocoapods.org"
+    },
+    {
+      "type": "li",
+      "text": "haskell.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.haskell.org](http://www.haskell.org)"
+    },
+    {
+      "type": "li",
+      "text": "hackage.haskell.org"
+    },
+    {
+      "type": "li",
+      "text": "swift.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.swift.org](http://www.swift.org)"
+    },
+    {
+      "type": "h4",
+      "text": "Linux Distributions"
+    },
+    {
+      "type": "li",
+      "text": "archive.ubuntu.com"
+    },
+    {
+      "type": "li",
+      "text": "security.ubuntu.com"
+    },
+    {
+      "type": "li",
+      "text": "ubuntu.com"
+    },
+    {
+      "type": "li",
+      "text": "[www.ubuntu.com](http://www.ubuntu.com)"
+    },
+    {
+      "type": "li",
+      "text": "*.ubuntu.com"
+    },
+    {
+      "type": "li",
+      "text": "ppa.launchpad.net"
+    },
+    {
+      "type": "li",
+      "text": "launchpad.net"
+    },
+    {
+      "type": "li",
+      "text": "[www.launchpad.net](http://www.launchpad.net)"
+    },
+    {
+      "type": "h4",
+      "text": "Development Tools & Platforms"
+    },
+    {
+      "type": "li",
+      "text": "dl.k8s.io (Kubernetes)"
+    },
+    {
+      "type": "li",
+      "text": "pkgs.k8s.io"
+    },
+    {
+      "type": "li",
+      "text": "k8s.io"
+    },
+    {
+      "type": "li",
+      "text": "[www.k8s.io](http://www.k8s.io)"
+    },
+    {
+      "type": "li",
+      "text": "releases.hashicorp.com (HashiCorp)"
+    },
+    {
+      "type": "li",
+      "text": "apt.releases.hashicorp.com"
+    },
+    {
+      "type": "li",
+      "text": "rpm.releases.hashicorp.com"
+    },
+    {
+      "type": "li",
+      "text": "archive.releases.hashicorp.com"
+    },
+    {
+      "type": "li",
+      "text": "hashicorp.com"
+    },
+    {
+      "type": "li",
+      "text": "[www.hashicorp.com](http://www.hashicorp.com)"
+    },
+    {
+      "type": "li",
+      "text": "repo.anaconda.com (Anaconda/Conda)"
+    },
+    {
+      "type": "li",
+      "text": "conda.anaconda.org"
+    },
+    {
+      "type": "li",
+      "text": "anaconda.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.anaconda.com](http://www.anaconda.com)"
+    },
+    {
+      "type": "li",
+      "text": "anaconda.com"
+    },
+    {
+      "type": "li",
+      "text": "continuum.io"
+    },
+    {
+      "type": "li",
+      "text": "apache.org (Apache)"
+    },
+    {
+      "type": "li",
+      "text": "[www.apache.org](http://www.apache.org)"
+    },
+    {
+      "type": "li",
+      "text": "archive.apache.org"
+    },
+    {
+      "type": "li",
+      "text": "downloads.apache.org"
+    },
+    {
+      "type": "li",
+      "text": "eclipse.org (Eclipse)"
+    },
+    {
+      "type": "li",
+      "text": "[www.eclipse.org](http://www.eclipse.org)"
+    },
+    {
+      "type": "li",
+      "text": "download.eclipse.org"
+    },
+    {
+      "type": "li",
+      "text": "nodejs.org (Node.js)"
+    },
+    {
+      "type": "li",
+      "text": "[www.nodejs.org](http://www.nodejs.org)"
+    },
+    {
+      "type": "h4",
+      "text": "Cloud Services & Monitoring"
+    },
+    {
+      "type": "li",
+      "text": "statsig.com"
+    },
+    {
+      "type": "li",
+      "text": "[www.statsig.com](http://www.statsig.com)"
+    },
+    {
+      "type": "li",
+      "text": "api.statsig.com"
+    },
+    {
+      "type": "li",
+      "text": "*.sentry.io"
+    },
+    {
+      "type": "h4",
+      "text": "Content Delivery & Mirrors"
+    },
+    {
+      "type": "li",
+      "text": "*.sourceforge.net"
+    },
+    {
+      "type": "li",
+      "text": "packagecloud.io"
+    },
+    {
+      "type": "li",
+      "text": "*.packagecloud.io"
+    },
+    {
+      "type": "h4",
+      "text": "Schema & Configuration"
+    },
+    {
+      "type": "li",
+      "text": "json-schema.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.json-schema.org](http://www.json-schema.org)"
+    },
+    {
+      "type": "li",
+      "text": "json.schemastore.org"
+    },
+    {
+      "type": "li",
+      "text": "[www.schemastore.org](http://www.schemastore.org)"
+    },
+    {
+      "type": "blockquote",
+      "text": "Domains marked with `*` indicate wildcard subdomain matching. For example, `*.gcr.io` allows access to any subdomain of `gcr.io`."
+    },
+    {
+      "type": "h3",
+      "text": "Security best practices for customized network access"
+    },
+    {
+      "type": "li",
+      "text": "**Principle of least privilege**: Only enable the minimum network access required"
+    },
+    {
+      "type": "li",
+      "text": "**Audit regularly**: Review allowed domains periodically"
+    },
+    {
+      "type": "li",
+      "text": "**Use HTTPS**: Always prefer HTTPS endpoints over HTTP"
+    },
+    {
+      "type": "h2",
+      "text": "Security and isolation"
+    },
+    {
+      "type": "li",
+      "text": "**Isolated virtual machines**: Each session runs in an isolated, Anthropic-managed VM"
+    },
+    {
+      "type": "li",
+      "text": "**Network access controls**: Network access is limited by default, and can be disabled"
+    },
+    {
+      "type": "blockquote",
+      "text": "When running with network access disabled, Claude Code is allowed to communicate with the Anthropic API which may still allow data to exit the isolated Claude Code VM."
+    },
+    {
+      "type": "li",
+      "text": "**Credential protection**: Sensitive credentials (such as git credentials or signing keys) are never inside the sandbox with Claude Code. Authentication is handled through a secure proxy using scoped credentials"
+    },
+    {
+      "type": "li",
+      "text": "**Secure analysis**: Code is analyzed and modified within isolated VMs before creating PRs"
+    },
+    {
+      "type": "h2",
+      "text": "Pricing and rate limits"
+    },
+    {
+      "type": "h2",
+      "text": "Limitations"
+    },
+    {
+      "type": "li",
+      "text": "**Repository authentication**: You can only move sessions from web to local when you are authenticated to the same account"
+    },
+    {
+      "type": "li",
+      "text": "**Platform restrictions**: Claude Code on the web only works with code hosted in GitHub. GitLab and other non-GitHub repositories cannot be used with cloud sessions"
+    },
+    {
+      "type": "h2",
+      "text": "Best practices"
+    },
+    {
+      "type": "li",
+      "text": "**Use Claude Code hooks**: Configure [SessionStart hooks](/docs/en/hooks#sessionstart) to automate environment setup and dependency installation."
+    },
+    {
+      "type": "li",
+      "text": "**Document requirements**: Clearly specify dependencies and commands in your `CLAUDE.md` file. If you have an `AGENTS.md` file, you can source it in your `CLAUDE.md` using `@AGENTS.md` to maintain a single source of truth."
+    },
+    {
+      "type": "h2",
+      "text": "Related resources"
+    },
+    {
+      "type": "li",
+      "text": "[Hooks configuration](/docs/en/hooks)"
+    },
+    {
+      "type": "li",
+      "text": "[Settings reference](/docs/en/settings)"
+    },
+    {
+      "type": "li",
+      "text": "[Security](/docs/en/security)"
+    },
+    {
+      "type": "li",
+      "text": "[Data usage](/docs/en/data-usage)"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}

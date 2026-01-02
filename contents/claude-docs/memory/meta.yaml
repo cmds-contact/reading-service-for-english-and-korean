@@ -1,0 +1,16 @@
+id: memory
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/memory
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Manage Claude's memory"
+    type: original
+  ko:
+    title: "Claude의 메모리 관리"
+    type: translation
+    translator: ai

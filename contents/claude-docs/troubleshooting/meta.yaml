@@ -1,0 +1,16 @@
+id: troubleshooting
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/troubleshooting
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Troubleshooting"
+    type: original
+  ko:
+    title: "문제 해결"
+    type: translation
+    translator: ai

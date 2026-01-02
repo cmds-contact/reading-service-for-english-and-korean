@@ -1,0 +1,16 @@
+id: google-vertex-ai
+created: "2026-01-02"
+channel: Claude Docs
+
+source:
+  url: https://code.claude.com/docs/en/google-vertex-ai
+  published: "2026-01-02"
+
+languages:
+  en:
+    title: "Claude Code on Google Vertex AI"
+    type: original
+  ko:
+    title: "Google Vertex AI에서 Claude Code 사용하기"
+    type: translation
+    translator: ai

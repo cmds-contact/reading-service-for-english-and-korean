@@ -1,0 +1,628 @@
+{
+  "title": "Plugins reference",
+  "date": "",
+  "content": [
+    {
+      "type": "p",
+      "text": "English"
+    },
+    {
+      "type": "h1",
+      "text": "Plugins reference"
+    },
+    {
+      "type": "p",
+      "text": "Complete technical reference for Claude Code plugin system, including schemas, CLI commands, and component specifications."
+    },
+    {
+      "type": "blockquote",
+      "text": "Looking to install plugins? See [Discover and install plugins](/docs/en/discover-plugins). For creating plugins, see [Plugins](/docs/en/plugins). For distributing plugins, see [Plugin marketplaces](/docs/en/plugin-marketplaces)."
+    },
+    {
+      "type": "h2",
+      "text": "Plugin components reference"
+    },
+    {
+      "type": "h3",
+      "text": "Commands"
+    },
+    {
+      "type": "h3",
+      "text": "Agents"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "---\ndescription: What this agent specializes in\ncapabilities: [\"task1\", \"task2\", \"task3\"]\n---\n\n# Agent Name\n\nDetailed description of the agent's role, expertise, and when Claude should invoke it.\n\n## Capabilities\n- Specific task the agent excels at\n- Another specialized capability\n- When to use this agent vs others\n\n## Context and examples\nProvide examples of when this agent should be used and what kinds of problems it solves."
+    },
+    {
+      "type": "li",
+      "text": "Agents appear in the `/agents` interface"
+    },
+    {
+      "type": "li",
+      "text": "Claude can invoke agents automatically based on task context"
+    },
+    {
+      "type": "li",
+      "text": "Agents can be invoked manually by users"
+    },
+    {
+      "type": "li",
+      "text": "Plugin agents work alongside built-in Claude agents"
+    },
+    {
+      "type": "h3",
+      "text": "Skills"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "skills/\n├── pdf-processor/\n│   ├── SKILL.md\n│   ├── reference.md (optional)\n│   └── scripts/ (optional)\n└── code-reviewer/\n    └── SKILL.md"
+    },
+    {
+      "type": "li",
+      "text": "Plugin Skills are automatically discovered when the plugin is installed"
+    },
+    {
+      "type": "li",
+      "text": "Claude autonomously invokes Skills based on matching task context"
+    },
+    {
+      "type": "li",
+      "text": "Skills can include supporting files alongside SKILL.md"
+    },
+    {
+      "type": "li",
+      "text": "[Use Skills in Claude Code](/docs/en/skills)"
+    },
+    {
+      "type": "li",
+      "text": "[Agent Skills overview](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview#skill-structure)"
+    },
+    {
+      "type": "h3",
+      "text": "Hooks"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"Write|Edit\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"${CLAUDE_PLUGIN_ROOT}/scripts/format-code.sh\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "li",
+      "text": "`PreToolUse`: Before Claude uses any tool"
+    },
+    {
+      "type": "li",
+      "text": "`PostToolUse`: After Claude successfully uses any tool"
+    },
+    {
+      "type": "li",
+      "text": "`PostToolUseFailure`: After Claude tool execution fails"
+    },
+    {
+      "type": "li",
+      "text": "`PermissionRequest`: When a permission dialog is shown"
+    },
+    {
+      "type": "li",
+      "text": "`UserPromptSubmit`: When user submits a prompt"
+    },
+    {
+      "type": "li",
+      "text": "`Notification`: When Claude Code sends notifications"
+    },
+    {
+      "type": "li",
+      "text": "`Stop`: When Claude attempts to stop"
+    },
+    {
+      "type": "li",
+      "text": "`SubagentStart`: When a subagent is started"
+    },
+    {
+      "type": "li",
+      "text": "`SubagentStop`: When a subagent attempts to stop"
+    },
+    {
+      "type": "li",
+      "text": "`SessionStart`: At the beginning of sessions"
+    },
+    {
+      "type": "li",
+      "text": "`SessionEnd`: At the end of sessions"
+    },
+    {
+      "type": "li",
+      "text": "`PreCompact`: Before conversation history is compacted"
+    },
+    {
+      "type": "li",
+      "text": "`command`: Execute shell commands or scripts"
+    },
+    {
+      "type": "li",
+      "text": "`prompt`: Evaluate a prompt with an LLM (uses `$ARGUMENTS` placeholder for context)"
+    },
+    {
+      "type": "li",
+      "text": "`agent`: Run an agentic verifier with tools for complex verification tasks"
+    },
+    {
+      "type": "h3",
+      "text": "MCP servers"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"mcpServers\": {\n    \"plugin-database\": {\n      \"command\": \"${CLAUDE_PLUGIN_ROOT}/servers/db-server\",\n      \"args\": [\"--config\", \"${CLAUDE_PLUGIN_ROOT}/config.json\"],\n      \"env\": {\n        \"DB_PATH\": \"${CLAUDE_PLUGIN_ROOT}/data\"\n      }\n    },\n    \"plugin-api-client\": {\n      \"command\": \"npx\",\n      \"args\": [\"@company/mcp-server\", \"--plugin-mode\"],\n      \"cwd\": \"${CLAUDE_PLUGIN_ROOT}\"\n    }\n  }\n}"
+    },
+    {
+      "type": "li",
+      "text": "Plugin MCP servers start automatically when the plugin is enabled"
+    },
+    {
+      "type": "li",
+      "text": "Servers appear as standard MCP tools in Claude’s toolkit"
+    },
+    {
+      "type": "li",
+      "text": "Server capabilities integrate seamlessly with Claude’s existing tools"
+    },
+    {
+      "type": "li",
+      "text": "Plugin servers can be configured independently of user MCP servers"
+    },
+    {
+      "type": "h3",
+      "text": "LSP servers"
+    },
+    {
+      "type": "blockquote",
+      "text": "Looking to use LSP plugins? Install them from the official marketplace—search for “lsp” in the `/plugin` Discover tab. This section documents how to create LSP plugins for languages not covered by the official marketplace."
+    },
+    {
+      "type": "li",
+      "text": "**Instant diagnostics**: Claude sees errors and warnings immediately after each edit"
+    },
+    {
+      "type": "li",
+      "text": "**Code navigation**: go to definition, find references, and hover information"
+    },
+    {
+      "type": "li",
+      "text": "**Language awareness**: type information and documentation for code symbols"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"go\": {\n    \"command\": \"gopls\",\n    \"args\": [\"serve\"],\n    \"extensionToLanguage\": {\n      \".go\": \"go\"\n    }\n  }\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"my-plugin\",\n  \"lspServers\": {\n    \"go\": {\n      \"command\": \"gopls\",\n      \"args\": [\"serve\"],\n      \"extensionToLanguage\": {\n        \".go\": \"go\"\n      }\n    }\n  }\n}"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "\"loggingConfig\": {\n  \"args\": [\"--log-level\", \"4\"],\n  \"env\": {\n    \"TSS_LOG\": \"-level verbose -file ${CLAUDE_PLUGIN_LSP_LOG_FILE}\"\n  }\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "**You must install the language server binary separately.** LSP plugins configure how Claude Code connects to a language server, but they don’t include the server itself. If you see `Executable not found in $PATH` in the `/plugin` Errors tab, install the required binary for your language."
+    },
+    {
+      "type": "h2",
+      "text": "Plugin installation scopes"
+    },
+    {
+      "type": "h2",
+      "text": "Plugin manifest schema"
+    },
+    {
+      "type": "h3",
+      "text": "Complete schema"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"plugin-name\",\n  \"version\": \"1.2.0\",\n  \"description\": \"Brief plugin description\",\n  \"author\": {\n    \"name\": \"Author Name\",\n    \"email\": \"author@example.com\",\n    \"url\": \"https://github.com/author\"\n  },\n  \"homepage\": \"https://docs.example.com/plugin\",\n  \"repository\": \"https://github.com/author/plugin\",\n  \"license\": \"MIT\",\n  \"keywords\": [\"keyword1\", \"keyword2\"],\n  \"commands\": [\"./custom/commands/special.md\"],\n  \"agents\": \"./custom/agents/\",\n  \"skills\": \"./custom/skills/\",\n  \"hooks\": \"./config/hooks.json\",\n  \"mcpServers\": \"./mcp-config.json\",\n  \"outputStyles\": \"./styles/\",\n  \"lspServers\": \"./.lsp.json\"\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Required fields"
+    },
+    {
+      "type": "h3",
+      "text": "Metadata fields"
+    },
+    {
+      "type": "h3",
+      "text": "Component path fields"
+    },
+    {
+      "type": "h3",
+      "text": "Path behavior rules"
+    },
+    {
+      "type": "li",
+      "text": "If `commands/` exists, it’s loaded in addition to custom command paths"
+    },
+    {
+      "type": "li",
+      "text": "All paths must be relative to plugin root and start with `./`"
+    },
+    {
+      "type": "li",
+      "text": "Commands from custom paths use the same naming and namespacing rules"
+    },
+    {
+      "type": "li",
+      "text": "Multiple paths can be specified as arrays for flexibility"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"commands\": [\n    \"./specialized/deploy.md\",\n    \"./utilities/batch-process.md\"\n  ],\n  \"agents\": [\n    \"./custom-agents/reviewer.md\",\n    \"./custom-agents/tester.md\"\n  ]\n}"
+    },
+    {
+      "type": "h3",
+      "text": "Environment variables"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"hooks\": {\n    \"PostToolUse\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"${CLAUDE_PLUGIN_ROOT}/scripts/process.sh\"\n          }\n        ]\n      }\n    ]\n  }\n}"
+    },
+    {
+      "type": "h2",
+      "text": "Plugin caching and file resolution"
+    },
+    {
+      "type": "h3",
+      "text": "How plugin caching works"
+    },
+    {
+      "type": "li",
+      "text": "**For marketplace plugins with relative paths**: The path specified in the `source` field is copied recursively. For example, if your marketplace entry specifies `\"source\": \"./plugins/my-plugin\"`, the entire `./plugins` directory is copied."
+    },
+    {
+      "type": "li",
+      "text": "For plugins with `.claude-plugin/plugin.json`: The implicit root directory (the directory containing `.claude-plugin/plugin.json`) is copied recursively."
+    },
+    {
+      "type": "h3",
+      "text": "Path traversal limitations"
+    },
+    {
+      "type": "h3",
+      "text": "Working with external dependencies"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Inside your plugin directory\nln -s /path/to/shared-utils ./shared-utils"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"my-plugin\",\n  \"source\": \"./\",\n  \"description\": \"Plugin that needs root-level access\",\n  \"commands\": [\"./plugins/my-plugin/commands/\"],\n  \"agents\": [\"./plugins/my-plugin/agents/\"],\n  \"strict\": false\n}"
+    },
+    {
+      "type": "blockquote",
+      "text": "Symlinks that point to locations outside the plugin’s logical root are followed during copying. This provides flexibility while maintaining the security benefits of the caching system."
+    },
+    {
+      "type": "h2",
+      "text": "Plugin directory structure"
+    },
+    {
+      "type": "h3",
+      "text": "Standard plugin layout"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "enterprise-plugin/\n├── .claude-plugin/           # Metadata directory\n│   └── plugin.json          # Required: plugin manifest\n├── commands/                 # Default command location\n│   ├── status.md\n│   └── logs.md\n├── agents/                   # Default agent location\n│   ├── security-reviewer.md\n│   ├── performance-tester.md\n│   └── compliance-checker.md\n├── skills/                   # Agent Skills\n│   ├── code-reviewer/\n│   │   └── SKILL.md\n│   └── pdf-processor/\n│       ├── SKILL.md\n│       └── scripts/\n├── hooks/                    # Hook configurations\n│   ├── hooks.json           # Main hook config\n│   └── security-hooks.json  # Additional hooks\n├── .mcp.json                # MCP server definitions\n├── .lsp.json                # LSP server configurations\n├── scripts/                 # Hook and utility scripts\n│   ├── security-scan.sh\n│   ├── format-code.py\n│   └── deploy.js\n├── LICENSE                  # License file\n└── CHANGELOG.md             # Version history"
+    },
+    {
+      "type": "blockquote",
+      "text": "The `.claude-plugin/` directory contains the `plugin.json` file. All other directories (commands/, agents/, skills/, hooks/) must be at the plugin root, not inside `.claude-plugin/`."
+    },
+    {
+      "type": "h3",
+      "text": "File locations reference"
+    },
+    {
+      "type": "h2",
+      "text": "CLI commands reference"
+    },
+    {
+      "type": "h3",
+      "text": "plugin install"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude plugin install <plugin> [options]"
+    },
+    {
+      "type": "li",
+      "text": "`<plugin>`: Plugin name or `plugin-name@marketplace-name` for a specific marketplace"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "# Install to user scope (default)\nclaude plugin install formatter@my-marketplace\n\n# Install to project scope (shared with team)\nclaude plugin install formatter@my-marketplace --scope project\n\n# Install to local scope (gitignored)\nclaude plugin install formatter@my-marketplace --scope local"
+    },
+    {
+      "type": "h3",
+      "text": "plugin uninstall"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude plugin uninstall <plugin> [options]"
+    },
+    {
+      "type": "li",
+      "text": "`<plugin>`: Plugin name or `plugin-name@marketplace-name`"
+    },
+    {
+      "type": "h3",
+      "text": "plugin enable"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude plugin enable <plugin> [options]"
+    },
+    {
+      "type": "h3",
+      "text": "plugin disable"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude plugin disable <plugin> [options]"
+    },
+    {
+      "type": "h3",
+      "text": "plugin update"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude plugin update <plugin> [options]"
+    },
+    {
+      "type": "h2",
+      "text": "Debugging and development tools"
+    },
+    {
+      "type": "h3",
+      "text": "Debugging commands"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "claude --debug"
+    },
+    {
+      "type": "li",
+      "text": "Which plugins are being loaded"
+    },
+    {
+      "type": "li",
+      "text": "Any errors in plugin manifests"
+    },
+    {
+      "type": "li",
+      "text": "Command, agent, and hook registration"
+    },
+    {
+      "type": "li",
+      "text": "MCP server initialization"
+    },
+    {
+      "type": "h3",
+      "text": "Common issues"
+    },
+    {
+      "type": "h3",
+      "text": "Example error messages"
+    },
+    {
+      "type": "li",
+      "text": "`Invalid JSON syntax: Unexpected token } in JSON at position 142`: check for missing commas, extra commas, or unquoted strings"
+    },
+    {
+      "type": "li",
+      "text": "`Plugin has an invalid manifest file at .claude-plugin/plugin.json. Validation errors: name: Required`: a required field is missing"
+    },
+    {
+      "type": "li",
+      "text": "`Plugin has a corrupt manifest file at .claude-plugin/plugin.json. JSON parse error: ...`: JSON syntax error"
+    },
+    {
+      "type": "li",
+      "text": "`Warning: No commands found in plugin my-plugin custom directory: ./cmds. Expected .md files or SKILL.md in subdirectories.`: command path exists but contains no valid command files"
+    },
+    {
+      "type": "li",
+      "text": "`Plugin directory not found at path: ./plugins/my-plugin. Check that the marketplace entry has the correct path.`: the `source` path in marketplace.json points to a non-existent directory"
+    },
+    {
+      "type": "li",
+      "text": "`Plugin my-plugin has conflicting manifests: both plugin.json and marketplace entry specify components.`: remove duplicate component definitions or set `strict: true` in marketplace entry"
+    },
+    {
+      "type": "h3",
+      "text": "Hook troubleshooting"
+    },
+    {
+      "type": "li",
+      "text": "Check the script is executable: `chmod +x ./scripts/your-script.sh`"
+    },
+    {
+      "type": "li",
+      "text": "Verify the shebang line: First line should be `#!/bin/bash` or `#!/usr/bin/env bash`"
+    },
+    {
+      "type": "li",
+      "text": "Check the path uses `${CLAUDE_PLUGIN_ROOT}`: `\"command\": \"${CLAUDE_PLUGIN_ROOT}/scripts/your-script.sh\"`"
+    },
+    {
+      "type": "li",
+      "text": "Test the script manually: `./scripts/your-script.sh`"
+    },
+    {
+      "type": "li",
+      "text": "Verify the event name is correct (case-sensitive): `PostToolUse`, not `postToolUse`"
+    },
+    {
+      "type": "li",
+      "text": "Check the matcher pattern matches your tools: `\"matcher\": \"Write|Edit\"` for file operations"
+    },
+    {
+      "type": "li",
+      "text": "Confirm the hook type is valid: `command`, `prompt`, or `agent`"
+    },
+    {
+      "type": "h3",
+      "text": "MCP server troubleshooting"
+    },
+    {
+      "type": "li",
+      "text": "Check the command exists and is executable"
+    },
+    {
+      "type": "li",
+      "text": "Verify all paths use `${CLAUDE_PLUGIN_ROOT}` variable"
+    },
+    {
+      "type": "li",
+      "text": "Check the MCP server logs: `claude --debug` shows initialization errors"
+    },
+    {
+      "type": "li",
+      "text": "Test the server manually outside of Claude Code"
+    },
+    {
+      "type": "li",
+      "text": "Ensure the server is properly configured in `.mcp.json` or `plugin.json`"
+    },
+    {
+      "type": "li",
+      "text": "Verify the server implements the MCP protocol correctly"
+    },
+    {
+      "type": "li",
+      "text": "Check for connection timeouts in debug output"
+    },
+    {
+      "type": "h3",
+      "text": "Directory structure mistakes"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "my-plugin/\n├── .claude-plugin/\n│   └── plugin.json      ← Only manifest here\n├── commands/            ← At root level\n├── agents/              ← At root level\n└── hooks/               ← At root level"
+    },
+    {
+      "type": "li",
+      "text": "Run `claude --debug` and look for “loading plugin” messages"
+    },
+    {
+      "type": "li",
+      "text": "Check that each component directory is listed in the debug output"
+    },
+    {
+      "type": "li",
+      "text": "Verify file permissions allow reading the plugin files"
+    },
+    {
+      "type": "h2",
+      "text": "Distribution and versioning reference"
+    },
+    {
+      "type": "h3",
+      "text": "Version management"
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "{\n  \"name\": \"my-plugin\",\n  \"version\": \"2.1.0\"\n}"
+    },
+    {
+      "type": "li",
+      "text": "**MAJOR**: Breaking changes (incompatible API changes)"
+    },
+    {
+      "type": "li",
+      "text": "**MINOR**: New features (backward-compatible additions)"
+    },
+    {
+      "type": "li",
+      "text": "**PATCH**: Bug fixes (backward-compatible fixes)"
+    },
+    {
+      "type": "li",
+      "text": "Start at `1.0.0` for your first stable release"
+    },
+    {
+      "type": "li",
+      "text": "Update the version in `plugin.json` before distributing changes"
+    },
+    {
+      "type": "li",
+      "text": "Document changes in a `CHANGELOG.md` file"
+    },
+    {
+      "type": "li",
+      "text": "Use pre-release versions like `2.0.0-beta.1` for testing"
+    },
+    {
+      "type": "h2",
+      "text": "See also"
+    },
+    {
+      "type": "li",
+      "text": "[Plugins](/docs/en/plugins) - Tutorials and practical usage"
+    },
+    {
+      "type": "li",
+      "text": "[Plugin marketplaces](/docs/en/plugin-marketplaces) - Creating and managing marketplaces"
+    },
+    {
+      "type": "li",
+      "text": "[Slash commands](/docs/en/slash-commands) - Command development details"
+    },
+    {
+      "type": "li",
+      "text": "[Subagents](/docs/en/sub-agents) - Agent configuration and capabilities"
+    },
+    {
+      "type": "li",
+      "text": "[Agent Skills](/docs/en/skills) - Extend Claude’s capabilities"
+    },
+    {
+      "type": "li",
+      "text": "[Hooks](/docs/en/hooks) - Event handling and automation"
+    },
+    {
+      "type": "li",
+      "text": "[MCP](/docs/en/mcp) - External tool integration"
+    },
+    {
+      "type": "li",
+      "text": "[Settings](/docs/en/settings) - Configuration options for plugins"
+    },
+    {
+      "type": "p",
+      "text": "Was this page helpful?"
+    }
+  ]
+}
