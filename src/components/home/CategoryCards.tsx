@@ -60,7 +60,7 @@ export function CategoryCards({ docsCount, blogCount, otherCount }: CategoryCard
         title="Claude Blog"
         titleKo="Claude 블로그"
         description="Anthropic 블로그 포스트 번역"
-        href="/read/claude-blog/building-skills-for-claude-code"
+        href="/blog"
         icon={<Newspaper size={24} />}
         count={blogCount}
       />
